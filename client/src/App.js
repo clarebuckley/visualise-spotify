@@ -55,9 +55,6 @@ class App extends Component {
           <button onClick={() => this.getNowPlaying()}>
             Check Now Playing
           </button>
-          <button onClick={spotifyWebApi.pause()}>
-            Pause
-          </button>
         </div>
       );
     }else{
