@@ -1,14 +1,26 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Spotify from 'spotify-web-api-js';
+
+const spotifyWebApi = new Spotify();
 
 class App extends Component {
-
-  constructor() {
+  constructor(){
     super();
     const params = this.getHashParams();
+    this.state = {
+      loggedIn: params.access_token ? true : false,
+      nowPlaying: {
+        name: 'Not Checked',
+        artists: 'Dunno',
+        image: ''
+      }
+    }
+    if(params.access_token){
+      spotifyWebApi.setAccessToken(params.access_token);
+    }
   }
-
   getHashParams() {
     var hashParams = {};
     var e, r = /([^&;=]+)=?([^&;]*)/g,
@@ -19,14 +31,45 @@ class App extends Component {
     return hashParams;
   }
 
+  getNowPlaying(){
+    spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
+      this.setState({
+        nowPlaying: {
+          name: response.item.name,
+          artists: response.item.artists[0].name,
+          image: response.item.album.images[0].url
+        }
+      })
+    })
+  }
+
   render(){
-    return (
-      <div className="App">
-        <a href='http://localhost:8888'>
-          <button>Login With Spotify</button>
+    if(this.state.loggedIn){
+      return (
+        <div className="App">
+          <div>Now Playing: { this.state.nowPlaying.name } </div>
+          <div>By: { this.state.nowPlaying.artists } </div>
+          <div>
+            <img src={ this.state.nowPlaying.image } style={{width: 100}}/>
+          </div>
+          <button onClick={() => this.getNowPlaying()}>
+            Check Now Playing
+          </button>
+          <button onClick={spotifyWebApi.pause()}>
+            Pause
+          </button>
+        </div>
+      );
+    }else{
+      return (
+        <div className="App">
+          <a href="http://localhost:8888">
+            <button>Login With Spotify</button>
           </a>
-      </div>
-    );
+        </div>
+      );
+    }
+
   }
 }
 
