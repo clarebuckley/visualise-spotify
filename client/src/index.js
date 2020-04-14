@@ -6,13 +6,6 @@ import TopTracks from './components/TopTracks';
 import NowPlaying from './components/NowPlaying';
 import * as serviceWorker from './serviceWorker';
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-
 ReactDOM.render(<App/>,document.getElementById('root'));
 ReactDOM.render(<TopTracks/>,document.getElementById('top-tracks'));
 ReactDOM.render(<NowPlaying/>,document.getElementById('now-playing'));
