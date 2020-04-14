@@ -12,7 +12,7 @@ class TopTracks extends Component {
     this.state = {
       loggedIn: params.access_token ? true : false,
       topTracks: {
-        name: 'Not Checked',
+        tracks: 'Not Checked',
         artists: 'Dunno',
       }
     }
@@ -31,10 +31,14 @@ class TopTracks extends Component {
   }
 
   getTopTracks(){
-    spotifyWebApi.getMyTopTracks().then((response) => {
+    var tracks = []
+    spotifyWebApi.getMyTopTracks({limit : 10, time_range: 'medium_term'}).then((response) => {
+      for (var i = 0; i < response.items.length-1; i++) {
+        tracks.push(response.items[i].name)
+      }
       this.setState({
         topTracks: {
-          name: response.items.name,
+          tracks: tracks,
           artists: 'Dunno Still',
         }
       })
@@ -45,7 +49,7 @@ class TopTracks extends Component {
     if(this.state.loggedIn){
       return (
         <div className="App">
-          <div>Top Song: { this.state.topTracks.name } </div>
+          <div>Top Song: { this.state.topTracks.tracks } </div>
           <div>By: { this.state.topTracks.artists } </div>
           <div>
             <img src={ this.state.topTracks.image } style={{width: 100}}/>
