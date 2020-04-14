@@ -60,7 +60,7 @@ class App extends Component {
     }else{
       return (
         <div className="App">
-          <a href="http://localhost:8888">
+          <a href="http://localhost:8888/login"> 
             <button>Login With Spotify</button>
           </a>
         </div>
