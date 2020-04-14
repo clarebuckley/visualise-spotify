@@ -30,6 +30,8 @@ class TopTracks extends Component {
     return hashParams;
   }
 
+  //Grabs the 10 most popular songs and pushes them into an array.
+  // The 'tracks' state is then updated to add this new array.
   getTopTracks(){
     var tracks = []
     spotifyWebApi.getMyTopTracks({limit : 10, time_range: 'medium_term'}).then((response) => {
