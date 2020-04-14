@@ -14,6 +14,7 @@ class TopTracks extends Component {
     }
 
 
+
     getTopTracks(spotifyWebApi) {
         spotifyWebApi.getMyTopTracks().then((response) => {
             this.setState({
