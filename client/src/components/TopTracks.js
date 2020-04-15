@@ -5,10 +5,8 @@ class TopTracks extends Component {
   constructor(){
     super();
     this.state = {
-      topTracks: {
-        tracks: 'Not Checked',
-        artists: 'Dunno',
-      }
+      topTracks: [],
+      focusedSong: '',
     }
 
   }
@@ -18,29 +16,42 @@ class TopTracks extends Component {
   getTopTracks(spotifyWebApi){
     var tracks = []
     spotifyWebApi.getMyTopTracks({limit : 10, time_range: 'medium_term'}).then((response) => {
-      for (var i = 0; i < response.items.length-1; i++) {
-        tracks.push(response.items[i].name)
-      }
+      tracks = response.items;
       this.setState({
-        topTracks: {
-          tracks: tracks,
-          artists: 'Dunno Still',
-        }
+        topTracks: tracks,
       })
     })
   }
 
+  getFocusedSong(){
+
+  }
+
   render(){
+    this.getTopTracks(this.props.spotifyWebApi);
+    //console.debug(topTracksArray);
     return (
       <div className="App">
-      <div>Top Song: { this.state.topTracks.tracks } </div>
-      <div>By: { this.state.topTracks.artists } </div>
-      <div>
-      <img src={ this.state.topTracks.image } style={{width: 100}}/>
-      </div>
-      <button onClick={() => this.getTopTracks(this.props.spotifyWebApi)}>
-      Check Top Song
-      </button>
+        <div><b>Top Songs:</b></div>
+        <div className="row">
+          <div className="list-group col-lg-3">
+            {this.state.topTracks.map((track) => (
+              <a href="#" className="list-group-item list-group-item-action" key={track.id}>{track.name}</a>
+            ))}
+          </div>
+          <div className="col-lg-9">
+            {this.state.topTracks.map((track) => (
+              <div key={track.id} className="row">
+                <div className="col-lg-4">
+                  <img src={track.album.images[0].url} style={{ width: 250 }}/>
+                </div>
+                <div className="col-lg-8">
+                  <h3>{track.name}</h3>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
