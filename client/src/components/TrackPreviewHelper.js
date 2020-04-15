@@ -8,11 +8,7 @@ export function playOrPausePreview(songPreviewId) {
     }
 }
 
-export function selectSong(track_index) {
-    this.setState({
-        focusedSong: track_index,
-    })
-}
+
 
 export function autoplaySong() {
     var song_preview = this.ref.song;
