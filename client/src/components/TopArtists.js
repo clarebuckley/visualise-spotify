@@ -5,45 +5,52 @@ class TopArtists extends Component {
     constructor() {
         super();
         this.state = {
-            topArtists: []
+            topArtists: [],
+            topArtistsTracks: []
         }
+        this.test = [];
     }
 
     componentDidMount() {
-        this.getTopArtists();
-    }
-
-    getTopArtists = () => {
-        this.props.spotifyWebApi.getMyTopArtists({ limit: 10 })
-            .then((response) => {
-                var artists = response.items;
-                this.getAllArtistsTopTracks(artists)
-                    .then((updatedArtists) => {
-                        this.setState({
-                            topArtists: updatedArtists
-                        })
-                        console.log(this.state.topArtists[0]);
-                    })
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-    }
-
-    getAllArtistsTopTracks = (artists) => {
-        return new Promise(resolve => {
-            for (let artist of artists) {
-                this.getSingleArtistTopTrack(artist.id)
-                    .then((topTrack) => {
-                        artist.topTrack = topTrack;
-                    })
-            }
-            return resolve(artists);
+        //Need to get top artists before finding the top track for each artist
+        this.getTopArtists(10).then((artists) => {
+            this.setTopTracksForAllArtists(artists)
+            console.log(this.state);
         })
     }
 
+    //Get x top artists for this user
+    getTopArtists = (numOfTopArtists) => {
+        return new Promise(resolve => {
+            this.props.spotifyWebApi.getMyTopArtists({ limit: numOfTopArtists })
+                .then((response) => {
+                    this.setState({
+                        topArtists: response.items
+                    })
+                    return resolve(response.items);
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
+        })
+    }
 
+    //Set the state to show top tracks for all top artists
+    setTopTracksForAllArtists = (artists) => {
+        var promises = [];
+        for (let artist of artists) {
+            promises.push(this.getSingleArtistTopTrack(artist.id))
+        }
+        Promise.all(promises).then((topTracks) => {
+            this.setState({
+                topArtistsTracks: topTracks
+            })
+            console.log(topTracks);
+        })
 
+    }
+
+    //Get the top track for a single artist
     getSingleArtistTopTrack = async (artistId) => {
         return new Promise(resolve => {
             //need to get rid of "GB" string TODO
@@ -68,14 +75,14 @@ class TopArtists extends Component {
                             <li className="result">
                                 <img src={result.images[2].url} height="80px" alt="album art" />
                                 <p>{result.name}</p>
-                              
                             </li>
                         ))}
                     </div>
                 }
-                
+
             </div>
         );
+
     }
 }
 

@@ -12,7 +12,6 @@ app.use(express.static(__dirname + '/public'))
     .use(cors())
     .use(cookieParser());
 
-
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
