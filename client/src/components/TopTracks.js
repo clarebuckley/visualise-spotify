@@ -9,15 +9,6 @@ class TopTracks extends Component {
       focusedSong: '',
     }
 
-<<<<<<< HEAD
-    render() {
-        return (
-            <div className="App">
-                <div>Top Song: {this.state.topTracks.name} </div>
-                <div>By: {this.state.topTracks.artists} </div>
-                <div>
-                    <img src={this.state.topTracks.image} alt="" style={{ width: 100 }} />
-=======
   }
 
   //Grabs the 10 most popular songs and pushes them into an array.
@@ -53,7 +44,6 @@ class TopTracks extends Component {
               <div key={track.id} className="row">
                 <div className="col-lg-4">
                   <img src={track.album.images[0].url} style={{ width: 250 }} alt=""/>
->>>>>>> Thavi
                 </div>
                 <div className="col-lg-8">
                   <h3>{track.name}</h3>
