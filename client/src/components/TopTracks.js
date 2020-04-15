@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { playOrPausePreview, autoplaySong } from './TrackPreviewHelper.js';
 
 class TopTracks extends Component {
   constructor(){
@@ -21,29 +21,12 @@ class TopTracks extends Component {
         topTracks: tracks,
       })
     })
-  }
-
-  playOrPausePreview(){
-    var song_preview = document.getElementById('song-preview');
-    song_preview.volume = 0.1;
-    if(song_preview.paused){
-      song_preview.play();
-    }else{
-      song_preview.pause();
     }
-  }
 
-  selectSong(track_index){
+  selectSong(track_index) {
     this.setState({
-      focusedSong: track_index,
+        focusedSong: track_index,
     })
-  }
-
-  autoplaySong(){
-      var song_preview = this.ref.song;
-      song_preview.volume = 0.1;
-      song_preview.play();
-      console.log('hi');
   }
 
   render(){
@@ -70,7 +53,7 @@ class TopTracks extends Component {
                   <audio ref="song" id="song-preview">
                     <source src={track.preview_url} type="audio/ogg"/>
                   </audio>
-                  <button onClick={() => this.playOrPausePreview()}>
+                      <button onClick={() => playOrPausePreview('song-preview')}>
                       Play/Pause Preview
                   </button>
                 </div>
