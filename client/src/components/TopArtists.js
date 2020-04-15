@@ -75,7 +75,7 @@ class TopArtists extends Component {
                     <div className="resultsContainer">
                         {this.state.topArtists.map((result, index) => (
                             <li className="result">
-                                <img src={result.images[2].url} height="80px" alt="album art" />
+                                <img src={result.images[0].url} height="80px" alt="album art" />
                                 <p>{result.name}</p>
                             </li>
                         ))}
