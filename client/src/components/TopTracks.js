@@ -43,7 +43,7 @@ class TopTracks extends Component {
             {this.state.topTracks.map((track) => (
               <div key={track.id} className="row">
                 <div className="col-lg-4">
-                  <img src={track.album.images[0].url} style={{ width: 250 }}/>
+                  <img src={track.album.images[0].url} style={{ width: 250 }} alt=""/>
                 </div>
                 <div className="col-lg-8">
                   <h3>{track.name}</h3>
