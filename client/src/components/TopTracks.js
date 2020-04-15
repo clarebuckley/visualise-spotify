@@ -31,7 +31,7 @@ class TopTracks extends Component {
     this.getTopTracks(this.props.spotifyWebApi);
     return (
       <div className="App">
-        <div><b>Top Songs:</b></div>
+        <div><b>Top Songs of The Last 6 Months:</b></div>
         <div className="row">
           <div className="list-group col-sm-3">
             {this.state.topTracks.map((track) => (
