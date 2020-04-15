@@ -15,6 +15,7 @@ class TopArtists extends Component {
         //Need to get top artists before finding the top track for each artist
         this.getTopArtists(10).then((artists) => {
             this.setTopTracksForAllArtists(artists)
+            console.log("State after both requests have been made:");
             console.log(this.state);
         })
     }
@@ -45,6 +46,7 @@ class TopArtists extends Component {
             this.setState({
                 topArtistsTracks: topTracks
             })
+            console.log("Top tracks fetched from api:");
             console.log(topTracks);
         })
 
