@@ -6,17 +6,25 @@ class TopArtists extends Component {
         super();
         this.state = {
             topArtists: [],
-            topArtistsTracks: []
+            topArtistsTracks: [],
+            promiseIsResolved: false
         }
-        this.test = [];
     }
 
     componentDidMount() {
         //Need to get top artists before finding the top track for each artist
         this.getTopArtists(10).then((artists) => {
-            this.setTopTracksForAllArtists(artists)
-            console.log("State after both requests have been made:");
-            console.log(this.state);
+            this.getTopTracksForAllArtists(artists).then((topTracks) => {
+                this.setState({
+                    topArtistsTracks: topTracks
+                }, () => {
+                    console.log("State after both requests have been made:");
+                    console.log(this.state);
+                    this.setState({ promiseIsResolved: true })
+                });
+            })
+
+
         })
     }
 
@@ -36,20 +44,24 @@ class TopArtists extends Component {
         })
     }
 
-    //Set the state to show top tracks for all top artists
-    setTopTracksForAllArtists = (artists) => {
-        var promises = [];
-        for (let artist of artists) {
-            promises.push(this.getSingleArtistTopTrack(artist.id))
-        }
-        Promise.all(promises).then((topTracks) => {
-            this.setState({
-                topArtistsTracks: topTracks
-            })
-            console.log("Top tracks fetched from api:");
-            console.log(topTracks);
-        })
+    //Get the state to show top tracks for all top artists
+    getTopTracksForAllArtists = (artists) => {
+        return new Promise(resolve => {
+            var promises = [];
+            for (let artist of artists) {
+                promises.push(this.getSingleArtistTopTrack(artist.id))
+            }
+            Promise.all(promises).then((topTracks) => {
+                return resolve(topTracks);
+                //        this.setState({
+                //            topArtistsTracks: topTracks
+                //        })
+                //        console.log("Top tracks fetched from api:");
+                //        console.log(topTracks);
 
+            })
+        })
+        
     }
 
     //Get the top track for a single artist
@@ -68,19 +80,21 @@ class TopArtists extends Component {
 
 
     render() {
+        if (!this.state.promiseIsResolved) { return null }
         return (
             <div className="TopArtists">
                 <div className="header">Your top artists</div>
-                {this.state && this.state.topArtists &&
+
                     <div className="resultsContainer">
                         {this.state.topArtists.map((result, index) => (
                             <li className="result">
                                 <img src={result.images[0].url} height="80px" alt="album art" />
-                                <p>{result.name}</p>
+                            <p>{result.name}</p>
+                            <p>{this.state.topArtistsTracks[0].name}</p>
                             </li>
-                        ))}
+                    ))}
                     </div>
-                }
+
 
             </div>
         );
