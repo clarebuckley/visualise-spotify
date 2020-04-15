@@ -30,9 +30,9 @@ class App extends Component {
         } else {
             return (
                 <div className="App" >
-                    <TopTracks spotifyWebApi={spotifyWebApi} />
                     <NowPlaying spotifyWebApi={spotifyWebApi} />
                     <TopArtists spotifyWebApi={spotifyWebApi} />
+                    <TopTracks spotifyWebApi={spotifyWebApi} />
                 </div >
             )
         }
