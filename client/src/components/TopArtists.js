@@ -77,11 +77,11 @@ class TopArtists extends Component {
                             <div className="albumArtContainer">
                                 <img className="albumArt" src={result.images[0].url} alt="album art" />
                                 <div className="middleOfAlbumArt">
-                                    <img className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview') }} src="https://image.flaticon.com/icons/svg/27/27185.svg"/>
+                                    <img className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview'+ index) }} src="https://image.flaticon.com/icons/svg/27/27185.svg"/>
                                 </div>
                             </div>
                             <p>{result.name}</p>
-                            <audio ref="song" id="artist-top-song-preview">
+                            <audio ref="song" id={"artist-top-song-preview" + index }>
                                 <source src={this.state.topArtistsTracks[index].preview_url} type="audio/ogg" />
                             </audio>
                         </li>
