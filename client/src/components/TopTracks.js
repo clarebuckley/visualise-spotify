@@ -29,24 +29,28 @@ class TopTracks extends Component {
 
   render(){
     this.getTopTracks(this.props.spotifyWebApi);
-    //console.debug(topTracksArray);
     return (
       <div className="App">
         <div><b>Top Songs:</b></div>
         <div className="row">
-          <div className="list-group col-lg-3">
+          <div className="list-group col-sm-3">
             {this.state.topTracks.map((track) => (
               <a href="#" className="list-group-item list-group-item-action" key={track.id}>{track.name}</a>
             ))}
           </div>
-          <div className="col-lg-9">
-            {this.state.topTracks.map((track) => (
+          <div className="col-sm-9">
+            {this.state.topTracks.slice(0,1).map((track) => (
               <div key={track.id} className="row">
-                <div className="col-lg-4">
+                <div className="col-sm-4">
                   <img src={track.album.images[0].url} style={{ width: 250 }} alt=""/>
                 </div>
-                <div className="col-lg-8">
+                <div className="col-sm-8">
                   <h3>{track.name}</h3>
+                  <h5>By: {track.artists[0].name}</h5>
+                  <h5>Album: {track.album.name}</h5>
+                  <audio controls>
+                    <source src={track.preview_url} type="audio/mpeg"/>
+                  </audio>
                 </div>
               </div>
             ))}
