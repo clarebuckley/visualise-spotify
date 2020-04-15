@@ -32,7 +32,7 @@ class TopTracks extends Component {
                 <div>Top Song: {this.state.topTracks.name} </div>
                 <div>By: {this.state.topTracks.artists} </div>
                 <div>
-                    <img src={this.state.topTracks.image} style={{ width: 100 }} />
+                    <img src={this.state.topTracks.image} alt="" style={{ width: 100 }} />
                 </div>
                 <button onClick={() => this.getTopTracks(this.props.spotifyWebApi)}>
                     Check Top Song

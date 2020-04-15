@@ -31,7 +31,7 @@ class NowPlaying extends Component {
                 <div>Now Playing: {this.state.nowPlaying.name} </div>
                 <div>By: {this.state.nowPlaying.artists} </div>
                 <div>
-                    <img src={this.state.nowPlaying.image} style={{ width: 100 }} />
+                    <img src={this.state.nowPlaying.image} alt="" style={{ width: 100 }} />
                 </div>
                 <button onClick={() => this.getNowPlaying(this.props.spotifyWebApi)}>
                     Check Now Playing
