@@ -3,6 +3,7 @@ import Spotify from 'spotify-web-api-js';
 import Login from './components/Login';
 import TopTracks from './components/TopTracks';
 import NowPlaying from './components/NowPlaying';
+import TopArtists from './components/TopArtists';
 import getHashParams from "./hash.js";
 const spotifyWebApi = new Spotify();
 
@@ -31,6 +32,7 @@ class App extends Component {
                 <div className="App" >
                     <TopTracks spotifyWebApi={spotifyWebApi} />
                     <NowPlaying spotifyWebApi={spotifyWebApi} />
+                    <TopArtists spotifyWebApi={spotifyWebApi} />
                 </div >
             )
         }
