@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './TopArtists.css';
+import { playOrPausePreview } from './TrackPreviewHelper.js';
 
 class TopArtists extends Component {
     constructor() {
@@ -48,7 +49,7 @@ class TopArtists extends Component {
                 return resolve(topTracks);
             })
         })
-        
+
     }
 
     //Get the top track for a single artist
@@ -70,20 +71,30 @@ class TopArtists extends Component {
         return (
             <div className="TopArtists">
                 <div className="header">Your top artists</div>
-                    <div className="resultsContainer">
-                        {this.state.topArtists.map((result, index) => (
-                            <li className="result">
-                            <img onClick="this.playOrPausePreview()" src={result.images[0].url} height="80px" alt="album art" />
+                <div className="resultsContainer">
+                    {this.state.topArtists.map((result, index) => (
+                        <li className="result">
+                            <div className="albumArtContainer">
+                                <img className="albumArt" src={result.images[0].url} alt="album art" />
+                                <div className="middleOfAlbumArt">
+                                    <img className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview') }} src="https://image.flaticon.com/icons/svg/27/27185.svg"/>
+                                </div>
+                            </div>
                             <p>{result.name}</p>
                             <audio ref="song" id="artist-top-song-preview">
                                 <source src={this.state.topArtistsTracks[index].preview_url} type="audio/ogg" />
                             </audio>
-                            </li>
+                        </li>
                     ))}
-                    </div>
+                </div>
             </div>
         );
     }
 }
 
-export default TopArtists;
+
+  
+
+  
+  
+  export default TopArtists;

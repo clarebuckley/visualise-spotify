@@ -33,3 +33,41 @@
     .result{
         display: flex;
     }
+
+
+.albumArtContainer{
+        height: 100px;
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 150px;
+}
+
+.albumArt {
+    height: 100px;
+    opacity: 1;
+    position: absolute;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+
+.middleOfAlbumArt {
+    transition: .5s ease;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.albumArtContainer:hover .albumArt {
+    opacity: 0.3;
+}
+
+.albumArtContainer:hover .middleOfAlbumArt {
+    opacity: 1;
+}
+
+.startStop {
+    height: 100px;
+    position: absolute;
+}
