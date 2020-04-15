@@ -13,18 +13,14 @@ class TopArtists extends Component {
 
     componentDidMount() {
         //Need to get top artists before finding the top track for each artist
-        this.getTopArtists(10).then((artists) => {
-            this.getTopTracksForAllArtists(artists).then((topTracks) => {
+        this.getTopArtists(10).then((topArtists) => {
+            this.getTopTracksForAllArtists(topArtists).then((topTracks) => {
                 this.setState({
-                    topArtistsTracks: topTracks
-                }, () => {
-                    console.log("State after both requests have been made:");
-                    console.log(this.state);
-                    this.setState({ promiseIsResolved: true })
+                    topArtists: topArtists,
+                    topArtistsTracks: topTracks,
+                    promiseIsResolved: true
                 });
             })
-
-
         })
     }
 
@@ -33,9 +29,6 @@ class TopArtists extends Component {
         return new Promise(resolve => {
             this.props.spotifyWebApi.getMyTopArtists({ limit: numOfTopArtists })
                 .then((response) => {
-                    this.setState({
-                        topArtists: response.items
-                    })
                     return resolve(response.items);
                 })
                 .catch((err) => {
@@ -53,12 +46,6 @@ class TopArtists extends Component {
             }
             Promise.all(promises).then((topTracks) => {
                 return resolve(topTracks);
-                //        this.setState({
-                //            topArtistsTracks: topTracks
-                //        })
-                //        console.log("Top tracks fetched from api:");
-                //        console.log(topTracks);
-
             })
         })
         
@@ -67,7 +54,7 @@ class TopArtists extends Component {
     //Get the top track for a single artist
     getSingleArtistTopTrack = async (artistId) => {
         return new Promise(resolve => {
-            //need to get rid of "GB" string TODO
+            //TODO: need to get rid of "GB" string
             this.props.spotifyWebApi.getArtistTopTracks(artistId, "GB", { limit: 1 })
                 .then((response) => {
                     return resolve(response.tracks[0]);
@@ -75,7 +62,6 @@ class TopArtists extends Component {
                     console.error(err);
                 })
         })
-
     }
 
 
@@ -84,21 +70,17 @@ class TopArtists extends Component {
         return (
             <div className="TopArtists">
                 <div className="header">Your top artists</div>
-
                     <div className="resultsContainer">
                         {this.state.topArtists.map((result, index) => (
                             <li className="result">
                                 <img src={result.images[0].url} height="80px" alt="album art" />
                             <p>{result.name}</p>
-                            <p>{this.state.topArtistsTracks[0].name}</p>
+                            <p>{this.state.topArtistsTracks[index].name}</p>
                             </li>
                     ))}
                     </div>
-
-
             </div>
         );
-
     }
 }
 
