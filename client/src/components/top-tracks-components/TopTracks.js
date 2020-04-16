@@ -17,7 +17,7 @@ class TopTracks extends Component {
   //The 'tracks' state is then updated to add this new array.
   getTopTracks(spotifyWebApi){
     var tracks = []
-    spotifyWebApi.getMyTopTracks({limit : 10, time_range: 'short_term'}).then((response) => {
+    spotifyWebApi.getMyTopTracks({limit : 10, time_range: 'medium_term'}).then((response) => {
       tracks = response.items;
       this.setState({
         topTracks: tracks,
