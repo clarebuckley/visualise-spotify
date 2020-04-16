@@ -18,3 +18,16 @@ h1 {
     color:white;
 
 }
+
+.tabs {
+    background-color: rgba(144, 91, 109, 0.8);
+    color: white;
+}
+
+.tabs a {
+    color: white;
+}
+
+.tabs a:hover {
+    color: white;
+}
