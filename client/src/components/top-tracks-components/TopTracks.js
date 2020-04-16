@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './TopTracks.css';
 import {Spring} from 'react-spring/renderprops';
-import { playOrPausePreview, autoplaySong } from '../TrackPreviewHelper.js';
+import { playOrPausePreview, autoplaySong, muteSong } from '../TrackPreviewHelper.js';
 
 class TopTracks extends Component {
   constructor(){
@@ -17,7 +17,7 @@ class TopTracks extends Component {
   //The 'tracks' state is then updated to add this new array.
   getTopTracks(spotifyWebApi){
     var tracks = []
-    spotifyWebApi.getMyTopTracks({limit : 10, time_range: 'medium_term'}).then((response) => {
+    spotifyWebApi.getMyTopTracks({limit : 10, time_range: 'short_term'}).then((response) => {
       tracks = response.items;
       this.setState({
         topTracks: tracks,
@@ -39,7 +39,7 @@ class TopTracks extends Component {
         <div className="row">
           <div className="list-group col-md-3 topSongList">
             {this.state.topTracks.map((track) => (
-              <button onClick={() => this.selectSong(this.state.topTracks.indexOf(track))} className="list-group-item list-group-item-action" key={track.id}>{track.name}</button>
+              <button onClick={() => this.selectSong(this.state.topTracks.indexOf(track))} className="list-group-item list-group-item-action list-group-item-dark" key={track.id}>{track.name}</button>
             ))}
           </div>
           <div className="col-sm-9">
@@ -64,11 +64,11 @@ class TopTracks extends Component {
                       <h3>{track.name}</h3>
                       <h5>By: {track.artists[0].name}</h5>
                       <h5>Album: {track.album.name}</h5>
-                      <audio ref="song" id="song-preview">
+                      <audio id="song-preview" onCanPlay={() => autoplaySong('song-preview')}>
                         <source src={track.preview_url} type="audio/ogg"/>
                       </audio>
-                      <button onClick={() => playOrPausePreview('song-preview')}>
-                        Play/Pause Preview
+                      <button onClick={() => muteSong('song-preview')}>
+                        Mute
                       </button>
                     </div>
                   )}
