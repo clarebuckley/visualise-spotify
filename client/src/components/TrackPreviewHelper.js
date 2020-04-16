@@ -18,7 +18,11 @@ export function playOrPausePreview(songPreviewId) {
 
 export function autoplaySong(songPreviewId) {
     var song_preview = document.getElementById(songPreviewId);
+    var audioElements = document.getElementsByTagName("audio");
     song_preview.volume = 0.3;
+    for (let audio of audioElements) {
+        audio.pause();
+    }
     song_preview.play();
 }
 
