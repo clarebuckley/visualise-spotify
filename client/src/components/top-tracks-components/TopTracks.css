@@ -1,3 +1,18 @@
-.topSongList {
-    color: BLACK;
+.btn-make-dark {
+  color: #212529;
+  background-color: #7cc;
+  border-color: #5bc2c2
+}
+
+.song-card{
+    background-color: #1db954;
+    padding: 10px;
+    color: white;
+    border: 1px solid black;
+    margin-bottom: 2px;
+    margin-left: 15px;
+}
+
+.song-card-text {
+    margin-left: 5px;
 }
