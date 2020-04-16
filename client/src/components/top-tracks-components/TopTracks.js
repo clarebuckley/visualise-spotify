@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './TopTracks.css';
-import Component1 from './Component1'
 import {Spring} from 'react-spring/renderprops';
 import { playOrPausePreview, autoplaySong } from '../TrackPreviewHelper.js';
 
