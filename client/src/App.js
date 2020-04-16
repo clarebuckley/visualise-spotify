@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import Spotify from 'spotify-web-api-js';
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab';
+
 import Login from './components/Login';
 import TopTracks from './components/TopTracks';
 import NowPlaying from './components/NowPlaying';
 import TopArtists from './components/TopArtists';
 import getHashParams from "./hash.js";
+
 const spotifyWebApi = new Spotify();
 
 class App extends Component {
@@ -30,18 +34,21 @@ class App extends Component {
         } else {
             return (
                 <div className="App" >
-                    <div>
-                        <NowPlaying spotifyWebApi={spotifyWebApi} />
-                        <br />
-                    </div>
-                    <div>
-                        <TopArtists spotifyWebApi={spotifyWebApi} />
-                        <br /><br /><br />
-                    </div>
-                    <div>
-                        <TopTracks spotifyWebApi={spotifyWebApi} />
-                        <br /><br /><br />
-                    </div>
+                    <Tabs defaultActiveKey="home" id="main-app-tabs">
+                        <Tab eventKey="home" title="Welcome!">
+                            <p>Hi USER-NAME, this is an introduction to the app!</p>
+                        </Tab>
+                        <Tab eventKey="nowPlaying" title="Now Playing">
+                            <NowPlaying spotifyWebApi={spotifyWebApi} />
+                        </Tab>
+                        <Tab eventKey="topArtists" title="Top Artists">
+                            <TopArtists spotifyWebApi={spotifyWebApi} />
+                        </Tab>
+                        <Tab eventKey="topTracks" title="Top Tracks">
+                            <TopTracks spotifyWebApi={spotifyWebApi} />
+                        </Tab>
+                    </Tabs>
+
                     <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
                 </div >
             )
