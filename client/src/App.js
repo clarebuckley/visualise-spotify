@@ -8,6 +8,7 @@ import Login from './components/Login';
 import TopTracks from './components/TopTracks';
 import NowPlaying from './components/NowPlaying';
 import TopArtists from './components/TopArtists';
+import Welcome from './components/Welcome';
 import getHashParams from "./hash.js";
 
 const spotifyWebApi = new Spotify();
@@ -38,7 +39,7 @@ class App extends Component {
                     <h1> Visualise spotify </h1>
                     <Tabs defaultActiveKey="home" id="main-app-tabs">
                         <Tab eventKey="home" title="Welcome!">
-                            <p>Hi USER-NAME, this is an introduction to the app!</p>
+                            <Welcome spotifyWebApi={spotifyWebApi}></Welcome>
                         </Tab>
                         <Tab eventKey="nowPlaying" title="Now Playing">
                             <NowPlaying spotifyWebApi={spotifyWebApi} />
