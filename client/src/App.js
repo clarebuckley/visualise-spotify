@@ -3,6 +3,7 @@ import Spotify from 'spotify-web-api-js';
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab';
 
+import './App.css';
 import Login from './components/Login';
 import TopTracks from './components/TopTracks';
 import NowPlaying from './components/NowPlaying';
@@ -34,6 +35,7 @@ class App extends Component {
         } else {
             return (
                 <div className="App" >
+                    <h1> Visualise spotify </h1>
                     <Tabs defaultActiveKey="home" id="main-app-tabs">
                         <Tab eventKey="home" title="Welcome!">
                             <p>Hi USER-NAME, this is an introduction to the app!</p>
@@ -48,7 +50,7 @@ class App extends Component {
                             <TopTracks spotifyWebApi={spotifyWebApi} />
                         </Tab>
                     </Tabs>
-
+                    
                     <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
                 </div >
             )
