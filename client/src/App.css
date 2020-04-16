@@ -1,8 +1,8 @@
 h1 {
-    background-color: #1db954;
-    padding: 10px;
+    background-color: rgba(144, 91, 109, 0.4);
     color: white;
-    border-bottom: 10px solid black;
+    border-bottom: 10px solid rgb(144, 91, 109);
+    text-align: right;
 }
 
 .App{
