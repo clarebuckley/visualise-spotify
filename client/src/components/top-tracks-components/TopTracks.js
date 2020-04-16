@@ -35,13 +35,22 @@ class TopTracks extends Component {
     this.getTopTracks(this.props.spotifyWebApi);
     return (
       <div className="App">
-        <div><b>Top Songs of The Last 6 Months:</b></div>
+        <div><b>Your Top 10 Songs of The Last 6 Months:</b></div>
         <div className="row">
           <div className="list-group col-md-3 topSongList">
             {this.state.topTracks.map((track) => (
-              <button onClick={() => this.selectSong(this.state.topTracks.indexOf(track))} className="list-group-item list-group-item-action list-group-item-dark" key={track.id}>{track.name}</button>
+              // <button onClick={() => this.selectSong(this.state.topTracks.indexOf(track))} className="list-group-item list-group-item-action list-group-item-primary" key={track.id}>
+              //   {<img className="img-responsive" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
+              //   {track.name}
+              // </button>
+              <button onClick={() => this.selectSong(this.state.topTracks.indexOf(track))} className="song-card" key={track.id}>
+                {<img className="img-responsive float-left" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
+                <p className="song-card-text vertical-center">{track.name}</p>
+              </button>
             ))}
+
           </div>
+
           <div className="col-sm-9">
             {this.state.topTracks.slice(this.state.focusedSong,this.state.focusedSong+1).map((track) => (
               <div key={track.id} className="row">
