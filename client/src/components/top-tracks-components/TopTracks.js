@@ -50,24 +50,29 @@ class TopTracks extends Component {
                   to={{ opacity:1, marginTop: 0 }}
                 >
                   { props => (
-                    <div >
-                      <div style={props} className="col-lg-4">
-                        <img className="img-responsive" src={track.album.images[0].url} style={{ width: 250 }} alt=""/>
-                        </div>
+                    <div style={props} className="col-lg-4">
+                      <img className="img-responsive" src={track.album.images[0].url} style={{ width: 250 }} alt=""/>
                     </div>
                   )}
                 </Spring>
-                <div className="col-lg-8">
-                  <h3>{track.name}</h3>
-                  <h5>By: {track.artists[0].name}</h5>
-                  <h5>Album: {track.album.name}</h5>
-                  <audio ref="song" id="song-preview">
-                    <source src={track.preview_url} type="audio/ogg"/>
-                  </audio>
-                  <button onClick={() => playOrPausePreview('song-preview')}>
-                    Play/Pause Preview
-                  </button>
-                </div>
+                <Spring
+                  from={{ opacity:0 }}
+                  to={{ opacity:1 }}
+                >
+                  { props => (
+                    <div style={props} className="col-lg-8">
+                      <h3>{track.name}</h3>
+                      <h5>By: {track.artists[0].name}</h5>
+                      <h5>Album: {track.album.name}</h5>
+                      <audio ref="song" id="song-preview">
+                        <source src={track.preview_url} type="audio/ogg"/>
+                      </audio>
+                      <button onClick={() => playOrPausePreview('song-preview')}>
+                        Play/Pause Preview
+                      </button>
+                    </div>
+                  )}
+                </Spring>
               </div>
             ))}
           </div>
