@@ -1,6 +1,6 @@
 .loginLink {
     flex-grow: 2;
-    background-color: #42ad74;
+    background-color: rgb(144, 91, 109);
     color: white;
     padding: 30px;
     text-align: center;
@@ -8,7 +8,7 @@
 }
 
     .loginLink:hover {
-        background-color: #328056;
+        background-color: rgb(111, 70, 84);;
         cursor: pointer;
         color: white;
         text-decoration: none;
@@ -22,4 +22,6 @@
     justify-content: center;
     height: 500px;
 }
+
+
 
