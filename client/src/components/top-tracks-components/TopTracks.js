@@ -39,11 +39,7 @@ class TopTracks extends Component {
         <div className="row">
           <div className="list-group col-md-3 topSongList">
             {this.state.topTracks.map((track) => (
-              // <button onClick={() => this.selectSong(this.state.topTracks.indexOf(track))} className="list-group-item list-group-item-action list-group-item-primary" key={track.id}>
-              //   {<img className="img-responsive" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
-              //   {track.name}
-              // </button>
-              <button onClick={() => this.selectSong(this.state.topTracks.indexOf(track))} className="song-card" key={track.id}>
+              <button onClick={() => { this.selectSong(this.state.topTracks.indexOf(track)); playOrPausePreview('song-preview');}} className="song-card" key={track.id}>
                 {<img className="img-responsive float-left" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
                 <p className="song-card-text vertical-center">{track.name}</p>
               </button>
@@ -73,7 +69,7 @@ class TopTracks extends Component {
                       <h3>{track.name}</h3>
                       <h5>By: {track.artists[0].name}</h5>
                       <h5>Album: {track.album.name}</h5>
-                      <audio id="song-preview" onCanPlay={() => autoplaySong('song-preview')}>
+                      <audio id="song-preview">
                         <source src={track.preview_url} type="audio/ogg"/>
                       </audio>
                       <button onClick={() => muteSong('song-preview')}>
