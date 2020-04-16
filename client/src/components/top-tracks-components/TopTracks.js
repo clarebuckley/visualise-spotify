@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { playOrPausePreview, autoplaySong } from './TrackPreviewHelper.js';
+import './TopTracks.css';
+import Component1 from './Component1'
+import {Spring} from 'react-spring/renderprops';
+import { playOrPausePreview, autoplaySong } from '../TrackPreviewHelper.js';
 
 class TopTracks extends Component {
   constructor(){
@@ -35,7 +38,7 @@ class TopTracks extends Component {
       <div className="App">
         <div><b>Top Songs of The Last 6 Months:</b></div>
         <div className="row">
-          <div className="list-group col-md-3">
+          <div className="list-group col-md-3 topSongList">
             {this.state.topTracks.map((track) => (
               <button onClick={() => this.selectSong(this.state.topTracks.indexOf(track))} className="list-group-item list-group-item-action" key={track.id}>{track.name}</button>
             ))}
@@ -43,9 +46,18 @@ class TopTracks extends Component {
           <div className="col-sm-9">
             {this.state.topTracks.slice(this.state.focusedSong,this.state.focusedSong+1).map((track) => (
               <div key={track.id} className="row">
-                <div className="col-lg-4">
-                  <img className="img-responsive" src={track.album.images[0].url} style={{ width: 250 }} alt=""/>
-                </div>
+                <Spring
+                  from={{ opacity:0, marginTop: -500 }}
+                  to={{ opacity:1, marginTop: 0 }}
+                >
+                  { props => (
+                    <div >
+                      <div style={props} className="col-lg-4">
+                        <img className="img-responsive" src={track.album.images[0].url} style={{ width: 250 }} alt=""/>
+                        </div>
+                    </div>
+                  )}
+                </Spring>
                 <div className="col-lg-8">
                   <h3>{track.name}</h3>
                   <h5>By: {track.artists[0].name}</h5>
@@ -53,8 +65,8 @@ class TopTracks extends Component {
                   <audio ref="song" id="song-preview">
                     <source src={track.preview_url} type="audio/ogg"/>
                   </audio>
-                      <button onClick={() => playOrPausePreview('song-preview')}>
-                      Play/Pause Preview
+                  <button onClick={() => playOrPausePreview('song-preview')}>
+                    Play/Pause Preview
                   </button>
                 </div>
               </div>

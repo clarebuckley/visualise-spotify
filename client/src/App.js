@@ -5,7 +5,7 @@ import Tab from 'react-bootstrap/Tab';
 
 import './App.css';
 import Login from './components/Login';
-import TopTracks from './components/TopTracks';
+import TopTracks from './components/top-tracks-components/TopTracks';
 import NowPlaying from './components/NowPlaying';
 import TopArtists from './components/TopArtists';
 import getHashParams from "./hash.js";
