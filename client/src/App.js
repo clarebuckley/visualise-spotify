@@ -36,7 +36,6 @@ class App extends Component {
         } else {
             return (
                 <div className="App" >
-                    <h1> Visualise spotify </h1>
                     <Tabs defaultActiveKey="home" id="main-app-tabs" className="tabs">
                         <Tab eventKey="home" title="Welcome!">
                             <Welcome spotifyWebApi={spotifyWebApi}></Welcome>

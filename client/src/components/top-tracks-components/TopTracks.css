@@ -4,16 +4,92 @@
   border-color: #5bc2c2
 }
 
+.header {
+    background-color: rgba(144, 91, 109, 0.8);
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.margin-top{
+  margin-top: 20px;
+}
+
+.margin-bottom{
+  margin-bottom: 20px;
+}
+
 .song-card{
-    background-color: #1db954;
+    background-color: rgba(184, 107, 88, 0.5);
     padding: 10px;
     color: white;
-    border: 1px solid black;
+    border: 1px solid rgba(144, 91, 109, 0.8);
     margin-bottom: 2px;
     margin-left: 15px;
+}
+
+.song-card:hover {
+  background-color: rgba(184, 107, 88, 0.8);
+}
+
+.song-card:active {
+  background-color: rgba(184, 107, 88, 1.0);
 }
 
 .song-card-text {
     margin-left: 5px;
     padding-top: 10px;
+}
+
+.album-art{
+  display: block;
+  width: 250px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  background: rgb(0, 0, 0);
+  background: rgba(184, 107, 88, 0.7); /* Black see-through */
+  color: #f1f1f1;
+  width: 250px;
+  transition: .5s ease;
+  opacity:0;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.overlay:hover {
+  opacity: 1;
+}
+
+.song-text-container{
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: WHITE;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  margin-bottom: 15px;
+  height: 250px;
+}
+
+.btn-custom{
+  background-color: rgba(144, 91, 109, 0.8);
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin-left: 15px;
+}
+.dropdown-text{
+  color: white;
+  font-size: 20px;
 }
