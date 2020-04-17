@@ -1,5 +1,5 @@
 .header {
-    background-color: rgba(144, 91, 109, 0.8);
+    background-color: rgba(144, 91, 109, 0.9);
     text-align: center;
     color: white;
     font-size: 20px;
@@ -14,10 +14,10 @@
 .mainContent{
     height: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: initial
 }
 
-
+/* LIST OF TOP ARTISTS -----------------------------------------*/
 .resultsContainer {
     color: white;
     font-size: 16px;
@@ -25,7 +25,6 @@
     overflow: auto;
     height: inherit;
     width: 40%;
-    
 }
 
     .resultsContainer li {
@@ -35,6 +34,7 @@
         height: auto;
         padding: 10px;
         text-transform: capitalize;
+        
     }
         .resultsContainer li:nth-child(even) {
             background-color: rgba(238, 153, 132, 0.5);
@@ -86,9 +86,33 @@
     position: absolute;
 }
 
+
+/* RIGHT HAND COLUMN -----------------------------------------*/
+.detailsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.artistDetails {
+    height: 80%;
+    width: 80%;
+    background-color: rgba(144, 91, 109, 0.6);
+    align-self: center;
+    color: white;
+    padding: 50px;
+}
+
+
 #time-range-dropdown {
     background-color: rgb(144, 91, 109);
     color: white;
     padding: 5px;
     text-align: center;
+    border: none;
+}
+
+.timeRangeDropdown {
+    align-self: flex-end;
 }

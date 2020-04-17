@@ -86,6 +86,7 @@ class TopArtists extends Component {
     }
 
     updateTimeRange = (selectedTimeRange) => {
+        console.log(selectedTimeRange);
         this.setState({
             timeRange: selectedTimeRange,
             dataHasLoaded: false
@@ -103,7 +104,7 @@ class TopArtists extends Component {
                 <div className="mainContent">
                     <div className="resultsContainer">
                         {this.state.topArtists.map((result, index) => (
-                            <li className="result">
+                            <li className="result" id={index}>
                                 <div className="albumArtContainer">
                                     <img className="albumArt" src={result.images[0].url} alt="album art" />
                                     <div className="middleOfAlbumArt">
@@ -117,12 +118,15 @@ class TopArtists extends Component {
                             </li>
                         ))}
                     </div>
-                    <div >
-                        <DropdownButton title="Change time range" id="time-range-dropdown">
+                    <div className="detailsContainer">
+                        <DropdownButton className="timeRangeDropdown" title="Change time range" id="time-range-dropdown">
                             <Dropdown.Item onClick={() => { this.updateTimeRange("long_term") }}>All time top artists</Dropdown.Item>
                             <Dropdown.Item onClick={() => { this.updateTimeRange("medium_term") }}>Top artists for past 6 months</Dropdown.Item>
                             <Dropdown.Item onClick={() => { this.updateTimeRange("short_term") }}>Top artists for past month</Dropdown.Item>
                         </DropdownButton>
+                        <div class="artistDetails">
+                            <div> More about the selected artist & related artists here</div>
+                        </div>
                     </div>
                 </div>
             </div>
