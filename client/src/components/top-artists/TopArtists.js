@@ -21,7 +21,7 @@ class TopArtists extends Component {
 
     getAllData = () => {
         //Need to get top artists before finding the top track for each artist
-        this.getTopArtists(10).then((topArtists) => {
+        this.getTopArtists(20).then((topArtists) => {
             this.getTopTracksForAllArtists(topArtists).then((topTracks) => {
                 this.setState({
                     topArtists: topArtists,
@@ -119,9 +119,9 @@ class TopArtists extends Component {
                     </div>
                     <div >
                         <DropdownButton title="Change time range" id="time-range-dropdown">
-                            <Dropdown.Item onClick={() => { this.updateTimeRange("long_term") }} eventKey="1">All time top artists</Dropdown.Item>
-                            <Dropdown.Item onClick={() => { this.updateTimeRange("medium_term") }} eventKey="2">Top artists for past 6 months</Dropdown.Item>
-                            <Dropdown.Item onClick={() => { this.updateTimeRange("short_term") }} eventKey="2">Top artists for past month</Dropdown.Item>
+                            <Dropdown.Item onClick={() => { this.updateTimeRange("long_term") }}>All time top artists</Dropdown.Item>
+                            <Dropdown.Item onClick={() => { this.updateTimeRange("medium_term") }}>Top artists for past 6 months</Dropdown.Item>
+                            <Dropdown.Item onClick={() => { this.updateTimeRange("short_term") }}>Top artists for past month</Dropdown.Item>
                         </DropdownButton>
                     </div>
                 </div>
