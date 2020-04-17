@@ -13,13 +13,12 @@ class TopTracks extends Component {
       popularityChart:{
         datasets:[
           {
-            data: [10, 90],
+            data: [0, 0],
             backgroundColor: ["#0074D9"],
           },
         ],
       },
     }
-
   }
 
   //Grabs the 10 most popular songs and pushes them into an array.
@@ -40,12 +39,12 @@ class TopTracks extends Component {
     })
   }
 
-  getSongPopularity(){
+  getSongPopularity(popularity){
     this.setState({
       popularityChart:{
         datasets:[
           {
-            data: [10, 20, 30],
+            data: [popularity, 100-popularity],
           },
         ],
       }
@@ -60,7 +59,7 @@ class TopTracks extends Component {
         <div className="row">
           <div className="list-group col-md-3 topSongList margin-top">
             {this.state.topTracks.map((track) => (
-              <button onClick={() => { this.selectSong(this.state.topTracks.indexOf(track));}} className="song-card" key={track.id}>
+              <button onClick={() => {this.getSongPopularity(track.popularity); this.selectSong(this.state.topTracks.indexOf(track));}} className="song-card" key={track.id}>
                 {<img className="img-responsive float-left" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
                 <p className="song-card-text vertical-center">{track.name}</p>
               </button>
@@ -87,8 +86,8 @@ class TopTracks extends Component {
                   to={{ opacity:1 }}
                 >
                   { props => (
-                    <div style={props} className="col-sm-7 song-text-container">
-                      <div className="song-text">
+                    <div style={props} className="col-sm-8">
+                      <div className="song-text song-text-container">
                         <h3>{track.name}</h3>
                         <h5>By: {track.artists[0].name}</h5>
                         <h5>Album: {track.album.name}</h5>
@@ -104,7 +103,7 @@ class TopTracks extends Component {
                 </Spring>
               </div>
             ))}
-            <div className="margin-top">
+            <div className="margin-top margin-bottom">
             <Pie
                 data={this.state.popularityChart}
                 options={{
@@ -115,12 +114,19 @@ class TopTracks extends Component {
                     fontColor:'#ffffff'
                   },
                   legend:{
-                    display:true,
+                    display:false,
                     position:'right',
                     labels:{
                       fontColor:'#ffffff'
                     }
                   },
+                  tooltips: {
+                    callbacks: {
+                      label: function(tooltipItem) {
+                        return tooltipItem.yLabel;
+                      }
+                    }
+                  }
                 }}
               />
             </div>
