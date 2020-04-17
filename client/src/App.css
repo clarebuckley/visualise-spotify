@@ -31,3 +31,24 @@ h1 {
 .tabs a:hover {
     color: white;
 }
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(144, 91, 109, 0.4);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(144, 91, 109);
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #7d4f5e;
+    }
