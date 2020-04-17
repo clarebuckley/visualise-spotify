@@ -11,6 +11,7 @@ class TopArtists extends Component {
             topArtists: [],
             topArtistsTracks: [],
             timeRange: "medium_term",
+            selectedArtist: 0,
             dataHasLoaded: false
         }
     }
@@ -95,6 +96,12 @@ class TopArtists extends Component {
 
     }
 
+    handleListClickEvent = (index) => {
+        this.setState({
+            selectedArtist: index
+        })
+    }
+
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
@@ -104,7 +111,7 @@ class TopArtists extends Component {
                 <div className="mainContent">
                     <div className="resultsContainer">
                         {this.state.topArtists.map((result, index) => (
-                            <li className="result" id={index}>
+                            <li className="result" id={index} onClick={() => {this.handleListClickEvent(index)}} >
                                 <div className="albumArtContainer">
                                     <img className="albumArt" src={result.images[0].url} alt="album art" />
                                     <div className="middleOfAlbumArt">
@@ -124,8 +131,10 @@ class TopArtists extends Component {
                             <Dropdown.Item onClick={() => { this.updateTimeRange("medium_term") }}>Top artists for past 6 months</Dropdown.Item>
                             <Dropdown.Item onClick={() => { this.updateTimeRange("short_term") }}>Top artists for past month</Dropdown.Item>
                         </DropdownButton>
-                        <div class="artistDetails">
-                            <div> More about the selected artist & related artists here</div>
+                        <div className="artistDetails">
+                            <div>
+                                <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
+                            </div>
                         </div>
                     </div>
                 </div>

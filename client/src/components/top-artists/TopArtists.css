@@ -34,7 +34,7 @@
         height: auto;
         padding: 10px;
         text-transform: capitalize;
-        
+        cursor: pointer;
     }
         .resultsContainer li:nth-child(even) {
             background-color: rgba(238, 153, 132, 0.5);
