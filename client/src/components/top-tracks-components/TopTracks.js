@@ -10,6 +10,8 @@ class TopTracks extends Component {
     this.state = {
       topTracks: [],
       focusedSong: 0,
+      timeframe: 'medium_term',
+      titleTimeframe: 'The Last 6 Months',
       popularityChart:{
         datasets:[
           {
@@ -25,7 +27,7 @@ class TopTracks extends Component {
   //The 'tracks' state is then updated to add this new array.
   getTopTracks(spotifyWebApi){
     var tracks = []
-    spotifyWebApi.getMyTopTracks({limit : 10, time_range: 'medium_term'}).then((response) => {
+    spotifyWebApi.getMyTopTracks({limit : 10, time_range: this.state.timeframe}).then((response) => {
       tracks = response.items;
       this.setState({
         topTracks: tracks,
@@ -51,11 +53,36 @@ class TopTracks extends Component {
     });
   }
 
+  selectTimeframe(timeframe){
+    this.setState({
+      timeframe: timeframe,
+    })
+    switch (timeframe) {
+      case 'short_term':
+        this.setState({
+          titleTimeframe: 'The Last 4 Weeks',
+        });
+        break;
+      case 'medium_term':
+        this.setState({
+          titleTimeframe: 'The Last 6 Months',
+        });
+        break;
+      case 'long_term':
+        this.setState({
+          titleTimeframe: 'All Time',
+        });
+    }
+  }
+
   render(){
     this.getTopTracks(this.props.spotifyWebApi);
     return (
       <div className="App">
-        <div className="header">Your Top 10 Songs of The Last 6 Months</div>
+        <div className="header">
+          <p>Your Top 10 Songs of {this.state.titleTimeframe}</p>
+        </div>
+
         <div className="row">
           <div className="list-group col-md-3 topSongList margin-top">
             {this.state.topTracks.map((track) => (
@@ -77,9 +104,10 @@ class TopTracks extends Component {
                   { props => (
                     <div style={props} className="col-lg-4">
                       <img className="img-responsive album-art" src={track.album.images[0].url} alt=""/>
-                      <img className="overlay" onClick={() => { playOrPausePreview('song-preview') }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
+                      <img className="overlay" onClick={() => { playOrPausePreview('song-preview');  }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
                     </div>
                   )}
+
                 </Spring>
                 <Spring
                   from={{ opacity:0 }}
@@ -101,6 +129,15 @@ class TopTracks extends Component {
                     </div>
                   )}
                 </Spring>
+                <div class="dropdown">
+                  <button class="dropdown-toggle btn-custom" type="button" data-toggle="dropdown"><div className="dropdown-text">Change Time Frame</div>
+                  <span class="caret"></span></button>
+                  <div class="dropdown-menu text-center">
+                    <a class="dropdown-item" href onClick={() => { this.selectTimeframe('short_term'); this.getTopTracks(this.props.spotifyWebApi);}}>4 Weeks</a>
+                    <a class="dropdown-item" href onClick={() => { this.selectTimeframe('medium_term'); this.getTopTracks(this.props.spotifyWebApi);}}>6 Months</a>
+                    <a class="dropdown-item" href onClick={() => { this.selectTimeframe('long_term'); this.getTopTracks(this.props.spotifyWebApi);}}>All Time</a>
+                  </div>
+                </div>
               </div>
             ))}
             <div className="margin-top margin-bottom">
