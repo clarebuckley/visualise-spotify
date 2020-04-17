@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './TopArtists.css';
-import { playOrPausePreview } from './TrackPreviewHelper.js';
+import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
 
 class TopArtists extends Component {
     constructor() {

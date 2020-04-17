@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './TopTracks.css';
 import {Spring} from 'react-spring/renderprops';
-import { playOrPausePreview, autoplaySong, muteSong } from '../TrackPreviewHelper.js';
+import { playOrPausePreview, autoplaySong, muteSong } from '../../helpers/TrackPreviewHelper.js';
 
 class TopTracks extends Component {
   constructor(){

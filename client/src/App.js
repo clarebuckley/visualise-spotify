@@ -4,11 +4,11 @@ import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab';
 
 import './App.css';
-import Login from './components/Login';
+import Login from './components/login/Login';
 import TopTracks from './components/top-tracks-components/TopTracks';
 import NowPlaying from './components/NowPlaying';
-import TopArtists from './components/TopArtists';
-import Welcome from './components/Welcome';
+import TopArtists from './components/top-artists/TopArtists';
+import Welcome from './components/welcome/Welcome';
 import getHashParams from "./hash.js";
 
 const spotifyWebApi = new Spotify();
