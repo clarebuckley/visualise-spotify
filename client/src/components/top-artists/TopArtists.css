@@ -1,5 +1,5 @@
 .header {
-    background-color: rgba(144, 91, 109, 0.5);
+    background-color: rgba(144, 91, 109, 0.8);
     text-align: center;
     color: white;
     font-size: 20px;
@@ -11,25 +11,38 @@
     height: 500px;
 }
 
+.mainContent{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 
 .resultsContainer {
-    color: #555;
+    color: white;
     font-size: 16px;
     padding: 0 !important;
-    border: 1px solid #dedede;
     overflow: auto;
     height: inherit;
     width: 50%;
+    
 }
 
     .resultsContainer li {
         list-style: none;
-        border-bottom: 1px dotted #ccc;
+        border-bottom: 1px solid #ccc;
         text-indent: 25px;
         height: auto;
         padding: 10px;
         text-transform: capitalize;
     }
+        .resultsContainer li:nth-child(even) {
+            background-color: rgba(238, 153, 132, 0.5);
+        }
+
+        .resultsContainer li:nth-child(odd) {
+            background-color: rgba(184, 107, 88, 0.5);
+        }
 
 .result {
     display: flex;
@@ -71,4 +84,12 @@
 .startStop {
     height: 100px;
     position: absolute;
+}
+
+#time-range-dropdown {
+    background-color: rgb(144, 91, 109);
+    color: white;
+    padding: 5px;
+    text-align: center;
+    width: 300px;
 }

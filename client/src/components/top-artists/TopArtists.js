@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './TopArtists.css';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 class TopArtists extends Component {
     constructor() {
@@ -8,18 +10,23 @@ class TopArtists extends Component {
         this.state = {
             topArtists: [],
             topArtistsTracks: [],
-            promiseIsResolved: false
+            timeRange: "medium_term",
+            dataHasLoaded: false
         }
     }
 
     componentDidMount() {
+        this.getAllData();
+    }
+
+    getAllData = () => {
         //Need to get top artists before finding the top track for each artist
         this.getTopArtists(10).then((topArtists) => {
             this.getTopTracksForAllArtists(topArtists).then((topTracks) => {
                 this.setState({
                     topArtists: topArtists,
                     topArtistsTracks: topTracks,
-                    promiseIsResolved: true
+                    dataHasLoaded: true
                 });
             })
         })
@@ -28,7 +35,7 @@ class TopArtists extends Component {
     //Get x top artists for this user
     getTopArtists = (numOfTopArtists) => {
         return new Promise(resolve => {
-            this.props.spotifyWebApi.getMyTopArtists({ limit: numOfTopArtists })
+            this.props.spotifyWebApi.getMyTopArtists({ time_range: this.state.timeRange, limit: numOfTopArtists })
                 .then((response) => {
                     return resolve(response.items);
                 })
@@ -65,27 +72,58 @@ class TopArtists extends Component {
         })
     }
 
+    getTimeRangeInString = () => {
+        switch (this.state.timeRange) {
+            case "long_term":
+                return "of All Time"
+            case "medium_term":
+                return "for the Past 6 Months"
+            case "short_term":
+                return "for the Past Month"
+            default:
+                return "INVALID TIME RANGE"
+        }
+    }
+
+    updateTimeRange = (selectedTimeRange) => {
+        this.setState({
+            timeRange: selectedTimeRange,
+            dataHasLoaded: false
+        })
+        this.getAllData();
+
+    }
+
 
     render() {
-        if (!this.state.promiseIsResolved) { return null }
+        if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
         return (
             <div className="TopArtists">
-                <div className="header">Your top artists</div>
-                <div className="resultsContainer">
-                    {this.state.topArtists.map((result, index) => (
-                        <li className="result">
-                            <div className="albumArtContainer">
-                                <img className="albumArt" src={result.images[0].url} alt="album art" />
-                                <div className="middleOfAlbumArt">
-                                    <img className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview'+ index) }} src="https://image.flaticon.com/icons/svg/27/27185.svg"/>
+                <div className="header">Your Top Artists {this.getTimeRangeInString()}</div>
+                <div className="mainContent">
+                    <div className="resultsContainer">
+                        {this.state.topArtists.map((result, index) => (
+                            <li className="result">
+                                <div className="albumArtContainer">
+                                    <img className="albumArt" src={result.images[0].url} alt="album art" />
+                                    <div className="middleOfAlbumArt">
+                                        <img className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview' + index) }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
+                                    </div>
                                 </div>
-                            </div>
-                            <p>{result.name}</p>
-                            <audio ref="song" id={"artist-top-song-preview" + index }>
-                                <source src={this.state.topArtistsTracks[index].preview_url} type="audio/ogg" />
-                            </audio>
-                        </li>
-                    ))}
+                                <p>{result.name}</p>
+                                <audio ref="song" id={"artist-top-song-preview" + index}>
+                                    <source src={this.state.topArtistsTracks[index].preview_url} type="audio/ogg" />
+                                </audio>
+                            </li>
+                        ))}
+                    </div>
+                    <div >
+                        <DropdownButton title="Change time range" id="time-range-dropdown">
+                            <Dropdown.Item onClick={() => { this.updateTimeRange("long_term") }} eventKey="1">All time top artists</Dropdown.Item>
+                            <Dropdown.Item onClick={() => { this.updateTimeRange("medium_term") }} eventKey="2">Top artists for past 6 months</Dropdown.Item>
+                            <Dropdown.Item onClick={() => { this.updateTimeRange("short_term") }} eventKey="2">Top artists for past month</Dropdown.Item>
+                        </DropdownButton>
+                    </div>
                 </div>
             </div>
         );
@@ -93,8 +131,8 @@ class TopArtists extends Component {
 }
 
 
-  
 
-  
-  
-  export default TopArtists;
+
+
+
+export default TopArtists;
