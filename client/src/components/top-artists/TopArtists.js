@@ -79,6 +79,7 @@ class TopArtists extends Component {
     getSimilarArtists = (limit, artistId) => {
         this.props.spotifyWebApi.getArtistRelatedArtists(artistId)
             .then((response) => {
+                console.log(response.artists[0])
                 var similarArtists = response.artists.slice(0, limit)
                 this.setState({
                     similarToSelectedArtist: similarArtists,
@@ -206,7 +207,7 @@ class TopArtists extends Component {
                                 <br />
                                 <p> Similar artists:</p>
                                 {this.state.similarToSelectedArtist.map((similarArtist) => (
-                                    <li>{similarArtist.name}</li>
+                                    <li><a href={similarArtist.external_urls.spotify}>{similarArtist.name}</a></li>
                                 ))}
                             </div>
                         </div>
