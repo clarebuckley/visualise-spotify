@@ -73,6 +73,13 @@ class TopArtists extends Component {
         })
     }
 
+    getSimilarArtists = (limit, artistId) => {
+        this.props.spotifyWebApi.getArtistRelatedArtists(artistId, { limit: limit })
+            .then((response) => {
+                console.log(response);
+            })
+    }
+
     getTimeRangeInString = () => {
         switch (this.state.timeRange) {
             case "long_term":
@@ -93,13 +100,13 @@ class TopArtists extends Component {
             dataHasLoaded: false
         })
         this.getAllData();
-
     }
 
     handleListClickEvent = (index) => {
         this.setState({
             selectedArtist: index
         })
+        this.getSimilarArtists(4, this.state.topArtists[index].id);
     }
 
 
@@ -111,11 +118,11 @@ class TopArtists extends Component {
                 <div className="mainContent">
                     <div className="resultsContainer">
                         {this.state.topArtists.map((result, index) => (
-                            <li className="result" id={index} onClick={() => {this.handleListClickEvent(index)}} >
+                            <li className="result" id={index} onClick={() => { this.handleListClickEvent(index) }} >
                                 <div className="albumArtContainer">
                                     <img className="albumArt" src={result.images[0].url} alt="album art" />
                                     <div className="middleOfAlbumArt">
-                                        <img className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview' + index) }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
+                                        <img alt="start/stop icon" className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview' + index) }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
                                     </div>
                                 </div>
                                 <p>{result.name}</p>
@@ -134,6 +141,17 @@ class TopArtists extends Component {
                         <div className="artistDetails">
                             <div>
                                 <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
+                                <p>IF FOLLOWING - You are one of {this.state.topArtists[this.state.selectedArtist].followers.total} followers!</p>
+                                <p> IF NOT FOLLOWING -  {this.state.topArtists[this.state.selectedArtist].name} have {this.state.topArtists[this.state.selectedArtist].followers.total} followers - follow now?</p>
+                                <p>Genres:</p>
+                                {this.state.topArtists[this.state.selectedArtist].genres.map((genre) => (
+                                    <li>{genre}</li>
+                                ))}
+                                <br/>
+                                <p> Similar artists:</p>
+                                {this.state.topArtists[this.state.selectedArtist].genres.map((genre) => (
+                                    <li>{genre}</li>
+                                ))}
                             </div>
                         </div>
                     </div>
@@ -142,8 +160,6 @@ class TopArtists extends Component {
         );
     }
 }
-
-
 
 
 

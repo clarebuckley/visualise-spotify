@@ -54,7 +54,7 @@
     position: relative;
     left: 0;
     top: 0;
-    width: 150px;
+    width: 100px;
 }
 
 .albumArt {
@@ -96,12 +96,12 @@
 }
 
 .artistDetails {
-    height: 80%;
-    width: 80%;
+    height: 90%;
+    width: 90%;
     background-color: rgba(144, 91, 109, 0.6);
-    align-self: center;
+    align-self: flex-end;
     color: white;
-    padding: 50px;
+    padding: 20px;
 }
 
 
