@@ -106,12 +106,16 @@
 }
 
 
-#time-range-dropdown {
+#action-button {
     background-color: rgb(144, 91, 109);
     color: white;
     padding: 5px;
     text-align: center;
     border: none;
+}
+
+#action-button:hover{
+    cursor: pointer;
 }
 
 .timeRangeDropdown {

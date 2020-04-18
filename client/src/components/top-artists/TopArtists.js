@@ -13,6 +13,7 @@ class TopArtists extends Component {
             timeRange: "medium_term",
             selectedArtist: 0,
             similarToSelectedArtist: [],
+            isFollowingSelectedArtist: false,
             dataHasLoaded: false
         }
     }
@@ -86,6 +87,40 @@ class TopArtists extends Component {
             })
     }
 
+    isFollowingArtist = (artistId) => {
+        this.props.spotifyWebApi.isFollowingArtists([artistId])
+            .then((response) => {
+                this.setState({
+                    isFollowingSelectedArtist: response[0],
+                    dataHasLoaded: true
+                })
+            })
+    }
+
+    followArtist = (artistId) => {
+        this.setDataHasLoaded(false);
+        this.props.spotifyWebApi.followArtists([artistId])
+            .then(() => {
+                this.setDataHasLoaded(true);
+                this.isFollowingArtist(artistId);
+            })
+    }
+
+    unfollowArtist = (artistId) => {
+        this.setDataHasLoaded(false);
+        this.props.spotifyWebApi.unfollowArtists([artistId])
+            .then(() => {
+                this.setDataHasLoaded(true);
+                this.isFollowingArtist(artistId);
+            })
+    }
+
+    setDataHasLoaded = (hasLoaded) => {
+        this.setState({
+            dataHasLoaded: hasLoaded
+        })
+    }
+
     getTimeRangeInString = () => {
         switch (this.state.timeRange) {
             case "long_term":
@@ -98,6 +133,7 @@ class TopArtists extends Component {
                 return "INVALID TIME RANGE"
         }
     }
+
 
     updateTimeRange = (selectedTimeRange) => {
         console.log(selectedTimeRange);
@@ -114,6 +150,7 @@ class TopArtists extends Component {
             dataHasLoaded: false
         })
         this.getSimilarArtists(4, this.state.topArtists[index].id);
+        this.isFollowingArtist(this.state.topArtists[index].id);
     }
 
 
@@ -140,7 +177,7 @@ class TopArtists extends Component {
                         ))}
                     </div>
                     <div className="detailsContainer">
-                        <DropdownButton className="timeRangeDropdown" title="Change time range" id="time-range-dropdown">
+                        <DropdownButton className="timeRangeDropdown" title="Change time range" id="action-button">
                             <Dropdown.Item onClick={() => { this.updateTimeRange("long_term") }}>All time top artists</Dropdown.Item>
                             <Dropdown.Item onClick={() => { this.updateTimeRange("medium_term") }}>Top artists for past 6 months</Dropdown.Item>
                             <Dropdown.Item onClick={() => { this.updateTimeRange("short_term") }}>Top artists for past month</Dropdown.Item>
@@ -149,13 +186,24 @@ class TopArtists extends Component {
                             <div>
                                 <p> CHANGE THIS TO USE TABS BETWEEN GENRES/SIMILAR ARTISTS </p>
                                 <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
-                                <p>IF FOLLOWING - You are one of {this.state.topArtists[this.state.selectedArtist].followers.total} followers!</p>
-                                <p> IF NOT FOLLOWING -  {this.state.topArtists[this.state.selectedArtist].name} have {this.state.topArtists[this.state.selectedArtist].followers.total} followers - follow now?</p>
+                                {this.state.isFollowingSelectedArtist &&
+                                    <div>
+                                        <p>You are one of {this.state.topArtists[this.state.selectedArtist].name}'s {this.state.topArtists[this.state.selectedArtist].followers.total} followers!</p>
+                                    <div id="action-button" onClick={() => this.unfollowArtist(this.state.topArtists[this.state.selectedArtist].id)}> Unfollow :( </div>
+
+                                </div>
+                                }
+                                {!this.state.isFollowingSelectedArtist &&
+                                    <div>
+                                        <p>{this.state.topArtists[this.state.selectedArtist].name} have {this.state.topArtists[this.state.selectedArtist].followers.total} followers. Follow now?</p>
+                                        <div id="action-button" onClick={() => this.followArtist(this.state.topArtists[this.state.selectedArtist].id)}> Follow </div>
+                                    </div>
+                                }
                                 <p>Genres:</p>
                                 {this.state.topArtists[this.state.selectedArtist].genres.map((genre) => (
                                     <li>{genre}</li>
                                 ))}
-                                <br/>
+                                <br />
                                 <p> Similar artists:</p>
                                 {this.state.similarToSelectedArtist.map((similarArtist) => (
                                     <li>{similarArtist.name}</li>
@@ -168,8 +216,6 @@ class TopArtists extends Component {
         );
     }
 }
-
-
 
 
 export default TopArtists;
