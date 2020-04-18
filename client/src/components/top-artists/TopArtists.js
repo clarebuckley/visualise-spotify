@@ -12,6 +12,7 @@ class TopArtists extends Component {
             topArtistsTracks: [],
             timeRange: "medium_term",
             selectedArtist: 0,
+            similarToSelectedArtist: [],
             dataHasLoaded: false
         }
     }
@@ -73,10 +74,15 @@ class TopArtists extends Component {
         })
     }
 
+    //Get similar artists to the currently selected artist
     getSimilarArtists = (limit, artistId) => {
-        this.props.spotifyWebApi.getArtistRelatedArtists(artistId, { limit: limit })
+        this.props.spotifyWebApi.getArtistRelatedArtists(artistId)
             .then((response) => {
-                console.log(response);
+                var similarArtists = response.artists.slice(0, limit)
+                this.setState({
+                    similarToSelectedArtist: similarArtists,
+                    dataHasLoaded: true
+                })
             })
     }
 
@@ -104,7 +110,8 @@ class TopArtists extends Component {
 
     handleListClickEvent = (index) => {
         this.setState({
-            selectedArtist: index
+            selectedArtist: index,
+            dataHasLoaded: false
         })
         this.getSimilarArtists(4, this.state.topArtists[index].id);
     }
@@ -140,6 +147,7 @@ class TopArtists extends Component {
                         </DropdownButton>
                         <div className="artistDetails">
                             <div>
+                                <p> CHANGE THIS TO USE TABS BETWEEN GENRES/SIMILAR ARTISTS </p>
                                 <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
                                 <p>IF FOLLOWING - You are one of {this.state.topArtists[this.state.selectedArtist].followers.total} followers!</p>
                                 <p> IF NOT FOLLOWING -  {this.state.topArtists[this.state.selectedArtist].name} have {this.state.topArtists[this.state.selectedArtist].followers.total} followers - follow now?</p>
@@ -149,8 +157,8 @@ class TopArtists extends Component {
                                 ))}
                                 <br/>
                                 <p> Similar artists:</p>
-                                {this.state.topArtists[this.state.selectedArtist].genres.map((genre) => (
-                                    <li>{genre}</li>
+                                {this.state.similarToSelectedArtist.map((similarArtist) => (
+                                    <li>{similarArtist.name}</li>
                                 ))}
                             </div>
                         </div>

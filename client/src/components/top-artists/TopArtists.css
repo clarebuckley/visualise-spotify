@@ -102,6 +102,7 @@
     align-self: flex-end;
     color: white;
     padding: 20px;
+    overflow: scroll;
 }
 
 
