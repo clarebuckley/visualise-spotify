@@ -184,7 +184,7 @@ class TopArtists extends Component {
                         </DropdownButton>
                         <div className="artistDetails">
                             <div>
-                                <p> CHANGE THIS TO USE TABS BETWEEN GENRES/SIMILAR ARTISTS </p>
+                                <img src={this.state.topArtists[this.state.selectedArtist].images[0].url} height="150px" alt="album art" />
                                 <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
                                 {this.state.isFollowingSelectedArtist &&
                                     <div>
