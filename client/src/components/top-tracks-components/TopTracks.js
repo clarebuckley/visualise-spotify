@@ -23,6 +23,10 @@ class TopTracks extends Component {
     }
   }
 
+  componentDidMount(){
+    this.getTopTracks(this.props.spotifyWebApi);
+  }
+
   //Grabs the 10 most popular songs and pushes them into an array.
   //The 'tracks' state is then updated to add this new array.
   getTopTracks(spotifyWebApi){
@@ -33,7 +37,7 @@ class TopTracks extends Component {
         topTracks: tracks,
       })
     })
-    }
+  }
 
   selectSong(track_index) {
     this.setState({
@@ -62,27 +66,28 @@ class TopTracks extends Component {
         this.setState({
           titleTimeframe: 'The Last 4 Weeks',
         });
+        this.getTopTracks(this.props.spotifyWebApi);
         break;
       case 'medium_term':
         this.setState({
           titleTimeframe: 'The Last 6 Months',
         });
+        this.getTopTracks(this.props.spotifyWebApi);
         break;
       case 'long_term':
         this.setState({
           titleTimeframe: 'All Time',
         });
+        this.getTopTracks(this.props.spotifyWebApi);
     }
   }
 
   render(){
-    this.getTopTracks(this.props.spotifyWebApi);
     return (
       <div className="App">
         <div className="header">
           <p>Your Top 10 Songs of {this.state.titleTimeframe}</p>
         </div>
-
         <div className="row">
           <div className="list-group col-md-3 topSongList margin-top">
             {this.state.topTracks.map((track) => (
@@ -133,9 +138,9 @@ class TopTracks extends Component {
                   <button class="dropdown-toggle btn-custom" type="button" data-toggle="dropdown"><div className="dropdown-text">Change Time Frame</div>
                   <span class="caret"></span></button>
                   <div class="dropdown-menu text-center">
-                    <a class="dropdown-item" href onClick={() => { this.selectTimeframe('short_term'); this.getTopTracks(this.props.spotifyWebApi);}}>4 Weeks</a>
-                    <a class="dropdown-item" href onClick={() => { this.selectTimeframe('medium_term'); this.getTopTracks(this.props.spotifyWebApi);}}>6 Months</a>
-                    <a class="dropdown-item" href onClick={() => { this.selectTimeframe('long_term'); this.getTopTracks(this.props.spotifyWebApi);}}>All Time</a>
+                    <a class="dropdown-item" href="#" onClick={() => { this.selectTimeframe('short_term'); }}>4 Weeks</a>
+                    <a class="dropdown-item" href="#" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</a>
+                    <a class="dropdown-item" href="#" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</a>
                   </div>
                 </div>
               </div>
