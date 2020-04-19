@@ -6,6 +6,7 @@
         "npm": "~5.6.0"
     },
     "scripts": {
-        "heroku-postbuild": "npm run build --prefix client"
+        "heroku-postbuild": "npm run build --prefix client",
+        "start": "npm run start --prefix client"
     }
 }
