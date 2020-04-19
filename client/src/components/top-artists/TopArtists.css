@@ -125,6 +125,7 @@
     text-align: center;
     border: 1px solid white;
     max-width: 300px;
+    margin-bottom: 10px;
 }
 
 #action-button:hover{
