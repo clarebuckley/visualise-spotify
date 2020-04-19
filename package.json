@@ -2,7 +2,8 @@
     "name": "visualise-spotify",
     "version": "1.0.0",
     "engines": {
-        "node": "12.13.0"
+        "node": "12.13.0",
+        "npm": "~5.6.0"
     },
     "scripts": {
         "heroku-postbuild": "npm run build --prefix client"
