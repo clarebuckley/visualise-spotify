@@ -48,6 +48,13 @@
     display: flex;
 }
 
+.selected {
+    font-weight: bold;
+    display: flex;
+    font-style: italic;
+    border: 1.5px solid white;
+}
+
 
 .albumArtContainer {
     height: 60px;

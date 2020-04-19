@@ -163,7 +163,7 @@ class TopArtists extends Component {
                 <div className="mainContent">
                     <div className="resultsContainer">
                         {this.state.topArtists.map((result, index) => (
-                            <li className="result" id={index} onClick={() => { this.handleListClickEvent(index) }} >
+                            <li id={index} onClick={() => { this.handleListClickEvent(index) }} className={this.state.selectedArtist === index ? 'selected' : 'result'}>
                                 <div className="albumArtContainer">
                                     <img className="albumArt" src={result.images[0].url} alt="album art" />
                                     <div className="middleOfAlbumArt">
