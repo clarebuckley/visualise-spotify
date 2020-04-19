@@ -7,6 +7,6 @@
     },
     "scripts": {
         "heroku-postbuild": "npm run build --prefix client",
-        "start": "npm run start --prefix client"
+        "start": "npm run build --prefix client"
     }
 }
