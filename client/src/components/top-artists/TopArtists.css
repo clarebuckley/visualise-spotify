@@ -105,17 +105,23 @@
     overflow: scroll;
 }
 
+.mainContentAlbum {
+    float: right;
+    margin: 10px;
+    height: 150px;
+}
 
 #action-button {
     background-color: rgb(144, 91, 109);
     color: white;
     padding: 5px;
     text-align: center;
-    border: none;
+    border: 1px solid white;
+    max-width: 300px;
 }
 
 #action-button:hover{
-    cursor: pointer;
+    cursor: pointer
 }
 
 .timeRangeDropdown {

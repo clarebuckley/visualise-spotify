@@ -185,21 +185,23 @@ class TopArtists extends Component {
                         </DropdownButton>
                         <div className="artistDetails">
                             <div>
-                                <img src={this.state.topArtists[this.state.selectedArtist].images[0].url} height="150px" alt="album art" />
-                                <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
-                                {this.state.isFollowingSelectedArtist &&
-                                    <div>
-                                        <p>You are one of {this.state.topArtists[this.state.selectedArtist].name}'s {this.state.topArtists[this.state.selectedArtist].followers.total} followers!</p>
-                                    <div id="action-button" onClick={() => this.unfollowArtist(this.state.topArtists[this.state.selectedArtist].id)}> Unfollow :( </div>
+                                <img src={this.state.topArtists[this.state.selectedArtist].images[0].url} className="mainContentAlbum" alt="album art" />
+                                <div>
+                                    <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
+                                    {this.state.isFollowingSelectedArtist &&
+                                        <div>
+                                            <p>You are one of {this.state.topArtists[this.state.selectedArtist].name}'s {this.state.topArtists[this.state.selectedArtist].followers.total} followers!</p>
+                                            <div id="action-button" onClick={() => this.unfollowArtist(this.state.topArtists[this.state.selectedArtist].id)}> Unfollow :( </div>
 
+                                        </div>
+                                    }
+                                    {!this.state.isFollowingSelectedArtist &&
+                                        <div>
+                                            <p>{this.state.topArtists[this.state.selectedArtist].name} have {this.state.topArtists[this.state.selectedArtist].followers.total} followers. Follow now?</p>
+                                            <div id="action-button" onClick={() => this.followArtist(this.state.topArtists[this.state.selectedArtist].id)}> Follow </div>
+                                        </div>
+                                    }
                                 </div>
-                                }
-                                {!this.state.isFollowingSelectedArtist &&
-                                    <div>
-                                        <p>{this.state.topArtists[this.state.selectedArtist].name} have {this.state.topArtists[this.state.selectedArtist].followers.total} followers. Follow now?</p>
-                                        <div id="action-button" onClick={() => this.followArtist(this.state.topArtists[this.state.selectedArtist].id)}> Follow </div>
-                                    </div>
-                                }
                                 <p>Genres:</p>
                                 {this.state.topArtists[this.state.selectedArtist].genres.map((genre) => (
                                     <li>{genre}</li>
