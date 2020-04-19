@@ -6,7 +6,7 @@
         "npm": "~5.6.0"
     },
     "scripts": {
-		"start": "PORT=process.env.PORT react-scripts start",
+		"start": "set PORT=process.env.PORT react-scripts start",
         "heroku-postbuild": "npm run build --prefix client"
     }
 }
