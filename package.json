@@ -6,7 +6,7 @@
         "npm": "~5.6.0"
     },
     "scripts": {
-        "start": "npm start --prefix client",
+        "start": "react-scripts start --prefix client",
         "heroku-postbuild": "npm run build --prefix client"
     }
 }
