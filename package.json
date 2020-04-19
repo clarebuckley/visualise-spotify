@@ -6,5 +6,24 @@
     },
     "scripts": {
         "heroku-postbuild": "./scripts/heroku.build"
+    },
+    "dependencies": {
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.5.0",
+        "@testing-library/user-event": "^7.2.1",
+        "bootstrap": "^4.4.1",
+        "chart.js": "^2.9.3",
+        "react": "^16.13.1",
+        "react-bootstrap": "^1.0.0",
+        "react-chartjs-2": "^2.9.0",
+        "react-dom": "^16.13.1",
+        "react-scripts": "3.4.1",
+        "react-spring": "^8.0.27",
+        "spotify-web-api-js": "^1.2.0",
+        "cookie-parser": "^1.4.5",
+        "cors": "^2.8.4",
+        "express": "~4.16.0",
+        "querystring": "~0.2.0",
+        "request": "~2.83.0"
     }
 }
