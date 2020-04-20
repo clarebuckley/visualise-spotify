@@ -216,7 +216,10 @@ class TopArtists extends Component {
                                 <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent">
                                     <div className="similarArtists">
                                         {this.state.similarToSelectedArtist.map((similarArtist) => (
-                                            <img className="similarArtistAlbumArt" src={similarArtist.images[0].url} alt="album art" />
+                                            <div className="similarArtistAlbumArt">
+                                                <img src={similarArtist.images[0].url} alt="album art" />
+                                                <p>{similarArtist.name}</p>
+                                            </div>
                                         ))}
                                     </div>
                                 </Tab>
