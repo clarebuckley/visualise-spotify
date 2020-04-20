@@ -27,6 +27,10 @@ var generateRandomString = function (length) {
     return text;
 };
 
+app.get('/', function (req, res) {
+    res.send("Server is working correctly");
+})
+
 
 app.get('/login', function (req, res) {
 

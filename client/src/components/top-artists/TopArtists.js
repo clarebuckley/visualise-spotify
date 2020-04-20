@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import './TopArtists.css';
-import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
+import Tabs from 'react-bootstrap/Tabs'
+import Tab from 'react-bootstrap/Tab';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
+import './TopArtists.css';
+import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
+
 
 class TopArtists extends Component {
     constructor() {
@@ -79,7 +82,6 @@ class TopArtists extends Component {
     getSimilarArtists = (limit, artistId) => {
         this.props.spotifyWebApi.getArtistRelatedArtists(artistId)
             .then((response) => {
-                console.log(response.artists[0])
                 var similarArtists = response.artists.slice(0, limit)
                 this.setState({
                     similarToSelectedArtist: similarArtists,
@@ -137,7 +139,6 @@ class TopArtists extends Component {
 
 
     updateTimeRange = (selectedTimeRange) => {
-        console.log(selectedTimeRange);
         this.setState({
             timeRange: selectedTimeRange,
             dataHasLoaded: false
@@ -166,14 +167,8 @@ class TopArtists extends Component {
                             <li id={index} onClick={() => { this.handleListClickEvent(index) }} className={this.state.selectedArtist === index ? 'selected' : 'result'}>
                                 <div className="albumArtContainer">
                                     <img className="albumArt" src={result.images[0].url} alt="album art" />
-                                    <div className="middleOfAlbumArt">
-                                        <img alt="start/stop icon" className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview' + index) }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
-                                    </div>
-                                </div>
+                                   </div>
                                 <p>{result.name}</p>
-                                <audio ref="song" id={"artist-top-song-preview" + index}>
-                                    <source src={this.state.topArtistsTracks[index].preview_url} type="audio/ogg" />
-                                </audio>
                             </li>
                         ))}
                     </div>
@@ -185,7 +180,8 @@ class TopArtists extends Component {
                         </DropdownButton>
                         <div className="artistDetails">
                             <div>
-                                <img src={this.state.topArtists[this.state.selectedArtist].images[0].url} className="mainContentAlbum" alt="album art" />
+                                <img className="mainContentAlbumArt" src={this.state.topArtists[this.state.selectedArtist].images[0].url} alt="album art" />
+
                                 <div>
                                     <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
                                     {this.state.isFollowingSelectedArtist &&
@@ -202,15 +198,18 @@ class TopArtists extends Component {
                                         </div>
                                     }
                                 </div>
-                                <p>Genres:</p>
-                                {this.state.topArtists[this.state.selectedArtist].genres.map((genre) => (
-                                    <li>{genre}</li>
-                                ))}
-                                <br />
-                                <p> Similar artists:</p>
-                                {this.state.similarToSelectedArtist.map((similarArtist) => (
-                                    <li><a href={similarArtist.external_urls.spotify}>{similarArtist.name}</a></li>
-                                ))}
+                                <Tabs defaultActiveKey="genres" id="arist-details-tabs" className="aristDetailsTabs">
+                                    <Tab eventKey="genres" title="Genres" className="artistTabContent">
+                                        {this.state.topArtists[this.state.selectedArtist].genres.map((genre) => (
+                                            <li>{genre}</li>
+                                        ))}
+                                    </Tab>
+                                    <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent">
+                                        {this.state.similarToSelectedArtist.map((similarArtist) => (
+                                            <li><a href={similarArtist.external_urls.spotify}>{similarArtist.name}</a></li>
+                                        ))}
+                                    </Tab>
+                                </Tabs>
                             </div>
                         </div>
                     </div>

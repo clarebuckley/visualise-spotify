@@ -11,7 +11,7 @@
     height: 500px;
 }
 
-.mainContent{
+.mainContent {
     height: 100%;
     display: flex;
     justify-content: initial
@@ -36,6 +36,7 @@
         text-transform: capitalize;
         cursor: pointer;
     }
+
         .resultsContainer li:nth-child(even) {
             background-color: rgba(238, 153, 132, 0.5);
         }
@@ -109,13 +110,29 @@
     align-self: flex-end;
     color: white;
     padding: 20px;
-    overflow: scroll;
 }
 
-.mainContentAlbum {
+.aristDetailsTabs {
+    background-color: rgba(144, 91, 109, 0.5);
+}
+
+    .aristDetailsTabs a {
+        color: white;
+    }
+
+        .aristDetailsTabs a:hover {
+            color: white;
+        }
+
+.artistTabContent {
+    border: 1px solid white;
+    height: 100%;
+    padding: 20px;
+}
+
+.mainContentAlbumArt {
     float: right;
-    margin: 10px;
-    height: 150px;
+    height: 170px;
 }
 
 #action-button {
@@ -128,9 +145,9 @@
     margin-bottom: 10px;
 }
 
-#action-button:hover{
-    cursor: pointer
-}
+    #action-button:hover {
+        cursor: pointer
+    }
 
 .timeRangeDropdown {
     align-self: flex-end;
