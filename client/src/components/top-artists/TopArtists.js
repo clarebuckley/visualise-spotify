@@ -167,7 +167,7 @@ class TopArtists extends Component {
                             <li id={index} onClick={() => { this.handleListClickEvent(index) }} className={this.state.selectedArtist === index ? 'selected' : 'result'}>
                                 <div className="albumArtContainer">
                                     <img className="albumArt" src={result.images[0].url} alt="album art" />
-                                   </div>
+                                </div>
                                 <p>{result.name}</p>
                             </li>
                         ))}
@@ -180,8 +180,12 @@ class TopArtists extends Component {
                         </DropdownButton>
                         <div className="artistDetails">
                             <div>
-                                <img className="mainContentAlbumArt" src={this.state.topArtists[this.state.selectedArtist].images[0].url} alt="album art" />
-
+                                <div className="mainAlbumContainer">
+                                    <img className="mainAlbumArt" src={this.state.topArtists[this.state.selectedArtist].images[0].url} alt="album art" />
+                                    <div className="startStopContainer">
+                                        <img alt="start/stop icon" className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview' + this.state.selectedArtist) }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
+                                    </div>
+                                </div>
                                 <div>
                                     <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
                                     {this.state.isFollowingSelectedArtist &&
@@ -214,6 +218,9 @@ class TopArtists extends Component {
                         </div>
                     </div>
                 </div>
+                <audio ref="song" id={"artist-top-song-preview" + this.state.selectedArtist}>
+                    <source src={this.state.topArtistsTracks[this.state.selectedArtist].preview_url} type="audio/ogg" />
+                </audio>
             </div>
         );
     }
