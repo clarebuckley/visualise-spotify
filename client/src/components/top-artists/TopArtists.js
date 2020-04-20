@@ -6,6 +6,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import './TopArtists.css';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
 
+const similarArtistsReturnLimit = 9;
 
 class TopArtists extends Component {
     constructor() {
@@ -34,7 +35,7 @@ class TopArtists extends Component {
                     topArtistsTracks: topTracks,
                     dataHasLoaded: true
                 }, () => {
-                    this.getSimilarArtists(4, this.state.topArtists[0].id);
+                    this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[0].id);
                     this.isFollowingArtist(this.state.topArtists[0].id);
                 });
 
@@ -86,13 +87,15 @@ class TopArtists extends Component {
     getSimilarArtists = (limit, artistId) => {
         this.props.spotifyWebApi.getArtistRelatedArtists(artistId)
             .then((response) => {
-                var similarArtists = response.artists.slice(0, limit)
+                var similarArtists = response.artists.slice(0, limit);
+                console.log(similarArtists);
                 this.setState({
                     similarToSelectedArtist: similarArtists,
                     dataHasLoaded: true
                 })
             })
     }
+
 
     isFollowingArtist = (artistId) => {
         this.props.spotifyWebApi.isFollowingArtists([artistId])
@@ -155,7 +158,7 @@ class TopArtists extends Component {
             selectedArtist: index,
             dataHasLoaded: false
         })
-        this.getSimilarArtists(4, this.state.topArtists[index].id);
+        this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[index].id);
         this.isFollowingArtist(this.state.topArtists[index].id);
     }
 
@@ -183,42 +186,41 @@ class TopArtists extends Component {
                             <Dropdown.Item onClick={() => { this.updateTimeRange("short_term") }}>Top artists for past month</Dropdown.Item>
                         </DropdownButton>
                         <div className="artistDetails">
-                            <div>
-                                <div className="mainAlbumContainer">
-                                    <img className="mainAlbumArt" src={this.state.topArtists[this.state.selectedArtist].images[0].url} alt="album art" />
-                                    <div className="startStopContainer">
-                                        <img alt="start/stop icon" className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview' + this.state.selectedArtist) }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
-                                    </div>
+                            <div className="mainAlbumContainer">
+                                <img className="mainAlbumArt" src={this.state.topArtists[this.state.selectedArtist].images[0].url} alt="album art" />
+                                <div className="startStopContainer">
+                                    <img alt="start/stop icon" className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview' + this.state.selectedArtist) }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
                                 </div>
-                                <div>
-                                    <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
-                                    {this.state.isFollowingSelectedArtist &&
-                                        <div>
-                                            <p>You are one of {this.state.topArtists[this.state.selectedArtist].name}'s {this.state.topArtists[this.state.selectedArtist].followers.total} followers!</p>
-                                            <div id="action-button" onClick={() => this.unfollowArtist(this.state.topArtists[this.state.selectedArtist].id)}> Unfollow :( </div>
-
-                                        </div>
-                                    }
-                                    {!this.state.isFollowingSelectedArtist &&
-                                        <div>
-                                            <p>{this.state.topArtists[this.state.selectedArtist].name} have {this.state.topArtists[this.state.selectedArtist].followers.total} followers. Follow now?</p>
-                                            <div id="action-button" onClick={() => this.followArtist(this.state.topArtists[this.state.selectedArtist].id)}> Follow </div>
-                                        </div>
-                                    }
-                                </div>
-                                <Tabs defaultActiveKey="genres" id="arist-details-tabs" className="aristDetailsTabs">
-                                    <Tab eventKey="genres" title="Genres" className="artistTabContent">
-                                        {this.state.topArtists[this.state.selectedArtist].genres.map((genre) => (
-                                            <li>{genre}</li>
-                                        ))}
-                                    </Tab>
-                                    <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent">
-                                        {this.state.similarToSelectedArtist.map((similarArtist) => (
-                                            <li><a href={similarArtist.external_urls.spotify}>{similarArtist.name}</a></li>
-                                        ))}
-                                    </Tab>
-                                </Tabs>
                             </div>
+                            <div>
+                                <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
+                                {this.state.isFollowingSelectedArtist &&
+                                    <div>
+                                        <p>You are one of {this.state.topArtists[this.state.selectedArtist].name}'s {this.state.topArtists[this.state.selectedArtist].followers.total} followers!</p>
+                                        <div id="action-button" onClick={() => this.unfollowArtist(this.state.topArtists[this.state.selectedArtist].id)}> Unfollow :( </div>
+                                    </div>
+                                }
+                                {!this.state.isFollowingSelectedArtist &&
+                                    <div>
+                                        <p>{this.state.topArtists[this.state.selectedArtist].name} have {this.state.topArtists[this.state.selectedArtist].followers.total} followers. Follow now?</p>
+                                        <div id="action-button" onClick={() => this.followArtist(this.state.topArtists[this.state.selectedArtist].id)}> Follow </div>
+                                    </div>
+                                }
+                            </div>
+                            <Tabs defaultActiveKey="genres" id="arist-details-tabs" className="aristDetailsTabs">
+                                <Tab eventKey="genres" title="Genres" className="artistTabContent">
+                                    {this.state.topArtists[this.state.selectedArtist].genres.map((genre) => (
+                                        <li>{genre}</li>
+                                    ))}
+                                </Tab>
+                                <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent">
+                                    <div className="similarArtists">
+                                        {this.state.similarToSelectedArtist.map((similarArtist) => (
+                                            <img className="similarArtistAlbumArt" src={similarArtist.images[0].url} alt="album art" />
+                                        ))}
+                                    </div>
+                                </Tab>
+                            </Tabs>
                         </div>
                     </div>
                 </div>

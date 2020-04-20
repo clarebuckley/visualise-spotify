@@ -103,6 +103,7 @@
     padding: 20px;
 }
 
+
 .aristDetailsTabs {
     background-color: rgba(144, 91, 109, 0.5);
 }
@@ -117,8 +118,8 @@
 
 .artistTabContent {
     border: 1px solid white;
-    height: 100%;
     padding: 20px;
+    height: 240px;
 }
 
 .mainAlbumContainer {
@@ -157,6 +158,21 @@
     display: block;
 }
 
+.similarArtistAlbumArt {
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    padding: 10px;
+}
+
+.similarArtists {
+    width: inherit;
+    height: 220px;
+    display:flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+}
 
 
 #action-button {
