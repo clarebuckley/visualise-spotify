@@ -33,7 +33,11 @@ class TopArtists extends Component {
                     topArtists: topArtists,
                     topArtistsTracks: topTracks,
                     dataHasLoaded: true
+                }, () => {
+                    this.getSimilarArtists(4, this.state.topArtists[0].id);
+                    this.isFollowingArtist(this.state.topArtists[0].id);
                 });
+
             })
         })
     }
