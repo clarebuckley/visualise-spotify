@@ -9,7 +9,7 @@ class TopTracks extends Component {
     super();
     this.state = {
       topTracks: [],
-      focusedSong: 0,
+      focusedSong: -1,
       timeframe: 'medium_term',
       titleTimeframe: 'The Last 6 Months',
       popularityChart:{
@@ -88,7 +88,7 @@ class TopTracks extends Component {
         <div className="header">
           <p>Your Top 10 Songs of {this.state.titleTimeframe}</p>
         </div>
-        <div className="row">
+        <div className="row reverse-for-mobile">
           <div className="list-group col-md-3 topSongList margin-top">
             {this.state.topTracks.map((track) => (
               <button onClick={() => {this.getSongPopularity(track.popularity); this.selectSong(this.state.topTracks.indexOf(track));}} className="song-card" key={track.id}>
@@ -96,7 +96,6 @@ class TopTracks extends Component {
                 <p className="song-card-text vertical-center">{track.name}</p>
               </button>
             ))}
-
           </div>
 
           <div className="col-sm-9 margin-top">
