@@ -5,7 +5,7 @@ class Login extends Component {
     render() {
         return (
             <div className="Login">
-                <a className="loginLink" href="http://localhost:8888/login">
+                <a className="loginLink" href="https://heroku-auth-server.herokuapp.com/login">
                     Login With Spotify
                 </a>
             </div>
