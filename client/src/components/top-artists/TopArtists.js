@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import Tabs from 'react-bootstrap/Tabs'
-import Tab from 'react-bootstrap/Tab';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
+import TopArtistsList from './TopArtistsList'
+import TopArtistDetails from './TopArtistDetails';
 import './TopArtists.css';
-import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
 
+//Set the amount of similar artists to be displayed (MAX=20)
 const similarArtistsReturnLimit = 9;
 
 class TopArtists extends Component {
@@ -17,8 +15,8 @@ class TopArtists extends Component {
             timeRange: "medium_term",
             selectedArtist: 0,
             similarToSelectedArtist: [],
-            isFollowingSelectedArtist: false,
-            dataHasLoaded: false
+            dataHasLoaded: false,
+            isFollowingArtist: false
         }
     }
 
@@ -35,8 +33,9 @@ class TopArtists extends Component {
                     topArtistsTracks: topTracks,
                     dataHasLoaded: true
                 }, () => {
+                    //Get additional data with an artistId for the first artist in the list
                     this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[0].id);
-                    this.isFollowingArtist(this.state.topArtists[0].id);
+                   
                 });
 
             })
@@ -88,49 +87,40 @@ class TopArtists extends Component {
         this.props.spotifyWebApi.getArtistRelatedArtists(artistId)
             .then((response) => {
                 var similarArtists = response.artists.slice(0, limit);
-                console.log(similarArtists);
                 this.setState({
                     similarToSelectedArtist: similarArtists,
                     dataHasLoaded: true
                 })
             })
+            .catch((err) => {
+                console.error(err);
+            })
     }
 
-
+    //Check whether the user is following a given artist
     isFollowingArtist = (artistId) => {
         this.props.spotifyWebApi.isFollowingArtists([artistId])
             .then((response) => {
                 this.setState({
-                    isFollowingSelectedArtist: response[0],
+                    isFollowingArtist: response[0],
                     dataHasLoaded: true
                 })
             })
-    }
-
-    followArtist = (artistId) => {
-        this.setDataHasLoaded(false);
-        this.props.spotifyWebApi.followArtists([artistId])
-            .then(() => {
-                this.setDataHasLoaded(true);
-                this.isFollowingArtist(artistId);
+            .catch((err) => {
+                console.error(err);
             })
     }
 
-    unfollowArtist = (artistId) => {
-        this.setDataHasLoaded(false);
-        this.props.spotifyWebApi.unfollowArtists([artistId])
-            .then(() => {
-                this.setDataHasLoaded(true);
-                this.isFollowingArtist(artistId);
-            })
-    }
 
+
+    //Helper function to set whether the data has been loaded
     setDataHasLoaded = (hasLoaded) => {
         this.setState({
             dataHasLoaded: hasLoaded
         })
     }
 
+    //Spotify API returns data for long/medium/short term
     getTimeRangeInString = () => {
         switch (this.state.timeRange) {
             case "long_term":
@@ -144,7 +134,7 @@ class TopArtists extends Component {
         }
     }
 
-
+    //Spotify API returns data for a given time range
     updateTimeRange = (selectedTimeRange) => {
         this.setState({
             timeRange: selectedTimeRange,
@@ -153,6 +143,8 @@ class TopArtists extends Component {
         this.getAllData();
     }
 
+
+    //Need to load additional data for a given artist
     handleListClickEvent = (index) => {
         this.setState({
             selectedArtist: index,
@@ -169,67 +161,26 @@ class TopArtists extends Component {
             <div className="TopArtists">
                 <div className="header">Your Top Artists {this.getTimeRangeInString()}</div>
                 <div className="mainContent">
-                    <div className="resultsContainer">
-                        {this.state.topArtists.map((result, index) => (
-                            <li id={index} onClick={() => { this.handleListClickEvent(index) }} className={this.state.selectedArtist === index ? 'selected' : 'result'}>
-                                <div className="albumArtContainer">
-                                    <img className="albumArt" src={result.images[0].url} alt="album art" />
-                                </div>
-                                <p>{result.name}</p>
-                            </li>
-                        ))}
-                    </div>
-                    <div className="detailsContainer">
-                        <DropdownButton className="timeRangeDropdown" title="Change time range" id="action-button">
-                            <Dropdown.Item onClick={() => { this.updateTimeRange("long_term") }}>All time top artists</Dropdown.Item>
-                            <Dropdown.Item onClick={() => { this.updateTimeRange("medium_term") }}>Top artists for past 6 months</Dropdown.Item>
-                            <Dropdown.Item onClick={() => { this.updateTimeRange("short_term") }}>Top artists for past month</Dropdown.Item>
-                        </DropdownButton>
-                        <div className="artistDetails">
-                            <div className="mainAlbumContainer">
-                                <img className="mainAlbumArt" src={this.state.topArtists[this.state.selectedArtist].images[0].url} alt="album art" />
-                                <div className="startStopContainer">
-                                    <img alt="start/stop icon" className="startStop" onClick={() => { playOrPausePreview('artist-top-song-preview' + this.state.selectedArtist) }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
-                                </div>
-                            </div>
-                            <div>
-                                <h2>{this.state.topArtists[this.state.selectedArtist].name}</h2>
-                                {this.state.isFollowingSelectedArtist &&
-                                    <div>
-                                        <p>You are one of {this.state.topArtists[this.state.selectedArtist].name}'s {this.state.topArtists[this.state.selectedArtist].followers.total} followers!</p>
-                                        <div id="action-button" onClick={() => this.unfollowArtist(this.state.topArtists[this.state.selectedArtist].id)}> Unfollow :( </div>
-                                    </div>
-                                }
-                                {!this.state.isFollowingSelectedArtist &&
-                                    <div>
-                                        <p>{this.state.topArtists[this.state.selectedArtist].name} have {this.state.topArtists[this.state.selectedArtist].followers.total} followers. Follow now?</p>
-                                        <div id="action-button" onClick={() => this.followArtist(this.state.topArtists[this.state.selectedArtist].id)}> Follow </div>
-                                    </div>
-                                }
-                            </div>
-                            <Tabs defaultActiveKey="genres" id="arist-details-tabs" className="aristDetailsTabs">
-                                <Tab eventKey="genres" title="Genres" className="artistTabContent">
-                                    {this.state.topArtists[this.state.selectedArtist].genres.map((genre) => (
-                                        <li>{genre}</li>
-                                    ))}
-                                </Tab>
-                                <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent">
-                                    <div className="similarArtists">
-                                        {this.state.similarToSelectedArtist.map((similarArtist) => (
-                                            <div className="similarArtistAlbumArt">
-                                                <img src={similarArtist.images[0].url} alt="album art" />
-                                                <p>{similarArtist.name}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </Tab>
-                            </Tabs>
-                        </div>
-                    </div>
+                    <TopArtistsList
+                        topArtists={this.state.topArtists}
+                        handleListClickEvent={this.handleListClickEvent}>
+                    </TopArtistsList>
+                    <TopArtistDetails
+                        spotifyWebApi={this.props.spotifyWebApi}
+                        artistImage={this.state.topArtists[this.state.selectedArtist].images[0].url}
+                        artistName={this.state.topArtists[this.state.selectedArtist].name}
+                        artistId={this.state.topArtists[this.state.selectedArtist].id}
+                        followers={this.state.topArtists[this.state.selectedArtist].followers.total}
+                        genres={this.state.topArtists[this.state.selectedArtist].genres}
+                        similarArtists={this.state.similarToSelectedArtist}
+                        isFollowingArtist={this.state.isFollowingArtist}
+                        checkFollowingArtist={this.isFollowingArtist}
+                        previewUrl={this.state.topArtistsTracks[this.state.selectedArtist].preview_url}
+                    >
+                    </TopArtistDetails>
+
                 </div>
-                <audio ref="song" id={"artist-top-song-preview" + this.state.selectedArtist}>
-                    <source src={this.state.topArtistsTracks[this.state.selectedArtist].preview_url} type="audio/ogg" />
-                </audio>
+
             </div>
         );
     }
