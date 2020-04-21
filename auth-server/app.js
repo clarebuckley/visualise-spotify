@@ -12,13 +12,11 @@ app.use(express.static(__dirname + '/public'))
     .use(cors())
     .use(cookieParser());
 
-var environment;
-
 var getEnvironment = function () {
     if (process.env.PORT = null || process.env.PORT == "") {
         return "https://localhost:3000";
     } else {
-        return "https://visualise-spotify.herokuapp.com/"
+        return "https://visualise-spotify.herokuapp.com"
     }
 }
 
