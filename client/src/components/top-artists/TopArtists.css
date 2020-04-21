@@ -14,7 +14,7 @@
 .mainContent {
     height: 100%;
     display: flex;
-    justify-content: initial
+    justify-content: initial;
 }
 
 /* LIST OF TOP ARTISTS -----------------------------------------*/
@@ -205,4 +205,5 @@
 
 .timeRangeDropdown {
     align-self: flex-end;
+    flex-grow: 1;
 }

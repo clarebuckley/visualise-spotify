@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
 
+/**
+ * Responsible for displaying the details for the currently selected artist
+ * */
 class TopArtistDetails extends Component {
     constructor() {
         super();
@@ -46,17 +47,10 @@ class TopArtistDetails extends Component {
             })
     }
 
-
-
-
     render() {
         return (
             <div className="detailsContainer">
-                <DropdownButton className="timeRangeDropdown" title="Change time range" id="action-button">
-                    <Dropdown.Item onClick={() => { this.updateTimeRange("long_term") }}>All time top artists</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { this.updateTimeRange("medium_term") }}>Top artists for past 6 months</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { this.updateTimeRange("short_term") }}>Top artists for past month</Dropdown.Item>
-                </DropdownButton>
+
                 <div className="artistDetails">
                     <div className="mainAlbumContainer">
                         <img className="mainAlbumArt" src={this.props.artistImage} alt="album art" />

@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import TopArtistsList from './TopArtistsList'
 import TopArtistDetails from './TopArtistDetails';
+import TopArtistsTimeRange from './TopArtistsTimeRange';
 import './TopArtists.css';
 
 //Set the amount of similar artists to be displayed (MAX=20)
 const similarArtistsReturnLimit = 9;
 
+/**
+ * Responsible for getting data for TopArtistDetails and TopArtistsLists
+ * */
 class TopArtists extends Component {
     constructor() {
         super();
@@ -35,7 +39,7 @@ class TopArtists extends Component {
                 }, () => {
                     //Get additional data with an artistId for the first artist in the list
                     this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[0].id);
-                   
+
                 });
 
             })
@@ -111,13 +115,21 @@ class TopArtists extends Component {
             })
     }
 
-
-
     //Helper function to set whether the data has been loaded
     setDataHasLoaded = (hasLoaded) => {
         this.setState({
             dataHasLoaded: hasLoaded
         })
+    }
+
+    //Need to load additional data for a given artist
+    handleListClickEvent = (index) => {
+        this.setState({
+            selectedArtist: index,
+            dataHasLoaded: false
+        })
+        this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[index].id);
+        this.isFollowingArtist(this.state.topArtists[index].id);
     }
 
     //Spotify API returns data for long/medium/short term
@@ -134,26 +146,6 @@ class TopArtists extends Component {
         }
     }
 
-    //Spotify API returns data for a given time range
-    updateTimeRange = (selectedTimeRange) => {
-        this.setState({
-            timeRange: selectedTimeRange,
-            dataHasLoaded: false
-        })
-        this.getAllData();
-    }
-
-
-    //Need to load additional data for a given artist
-    handleListClickEvent = (index) => {
-        this.setState({
-            selectedArtist: index,
-            dataHasLoaded: false
-        })
-        this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[index].id);
-        this.isFollowingArtist(this.state.topArtists[index].id);
-    }
-
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
@@ -161,6 +153,7 @@ class TopArtists extends Component {
             <div className="TopArtists">
                 <div className="header">Your Top Artists {this.getTimeRangeInString()}</div>
                 <div className="mainContent">
+                    <TopArtistsTimeRange getAllData={this.getAllData}></TopArtistsTimeRange>
                     <TopArtistsList
                         topArtists={this.state.topArtists}
                         handleListClickEvent={this.handleListClickEvent}>

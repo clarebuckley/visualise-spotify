@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+/**
+ * Responsible for rendering the list of top artists for this user
+ * */
 class TopArtistsList extends Component {
 
     //Need to load additional data for a given artist
