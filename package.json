@@ -9,6 +9,7 @@
         "start": "npm start --prefix client"
     },
     "dependencies": {
-        "serve": "11.3.0"
+        "serve": "11.3.0",
+        "react-scripts": "3.4.1"
     }
 }
