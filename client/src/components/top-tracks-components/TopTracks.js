@@ -38,7 +38,7 @@ class TopTracks extends Component {
         popularityChart:{
           datasets:[
             {
-              data: [tracks[0].popularity, 100-tracks[0].popularity],
+              data: [tracks[this.state.focusedSong].popularity, 100-tracks[this.state.focusedSong].popularity],
             },
           ],
         }
