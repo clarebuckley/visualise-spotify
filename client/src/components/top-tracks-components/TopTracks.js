@@ -152,33 +152,31 @@ class TopTracks extends Component {
                 </div>
               </div>
             ))}
-            <div className="margin-bottom">
             <Pie
-                data={this.state.popularityChart}
-                options={{
-                  title:{
-                    display:true,
-                    text:'Song Popularity',
-                    fontSize:25,
-                    fontColor:'#ffffff'
-                  },
-                  legend:{
-                    display:false,
-                    position:'right',
-                    labels:{
-                      fontColor:'#ffffff'
-                    }
-                  },
-                  tooltips: {
-                    callbacks: {
-                      label: function(tooltipItem) {
-                        return tooltipItem.yLabel;
-                      }
-                    }
+            data={this.state.popularityChart}
+            options={{
+              title:{
+                display:true,
+                text:'Song Popularity',
+                fontSize:25,
+                fontColor:'#ffffff'
+              },
+              legend:{
+                display:false,
+                position:'right',
+                labels:{
+                  fontColor:'#ffffff'
+                }
+              },
+              tooltips: {
+                callbacks: {
+                  label: function(tooltipItem) {
+                    return tooltipItem.yLabel;
                   }
-                }}
-              />
-            </div>
+                }
+              }
+            }}
+            />
           </div>
         </div>
       </div>
