@@ -93,3 +93,9 @@
   color: white;
   font-size: 20px;
 }
+
+@media only screen and (max-width: 960px) {
+  .reverse-for-mobile {
+    flex-direction: column-reverse;
+  }
+}
