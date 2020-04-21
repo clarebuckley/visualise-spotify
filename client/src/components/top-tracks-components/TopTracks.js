@@ -141,8 +141,11 @@ class TopTracks extends Component {
                   )}
                 </Spring>
                 <div class="dropdown">
-                  <button class="dropdown-toggle btn-custom" type="button" data-toggle="dropdown"><div className="dropdown-text">Change Time Frame</div>
+                  <button class="dropdown-toggle btn-custom margin-bottom" type="button" data-toggle="dropdown"><div className="dropdown-text">Change Time Frame</div>
                   <span class="caret"></span></button>
+                  <div class="alert alert-warning margin-left float-right">
+                    Right now you must <strong>select</strong> the <strong>timeframe twice</strong> for it to work.
+                  </div>
                   <div class="dropdown-menu text-center">
                     <a class="dropdown-item" href="#" onClick={() => { this.selectTimeframe('short_term'); }}>4 Weeks</a>
                     <a class="dropdown-item" href="#" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</a>
