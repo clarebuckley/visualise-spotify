@@ -9,7 +9,7 @@ class TopTracks extends Component {
     super();
     this.state = {
       topTracks: [],
-      focusedSong: -1,
+      focusedSong: 0,
       timeframe: 'medium_term',
       titleTimeframe: 'The Last 6 Months',
       popularityChart:{
@@ -35,6 +35,13 @@ class TopTracks extends Component {
       tracks = response.items;
       this.setState({
         topTracks: tracks,
+        popularityChart:{
+          datasets:[
+            {
+              data: [tracks[0].popularity, 100-tracks[0].popularity],
+            },
+          ],
+        }
       })
     })
   }
