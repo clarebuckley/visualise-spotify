@@ -7,27 +7,24 @@
 }
 
 .TopArtists {
-    width: 100%;
     height: 500px;
 }
 
 .mainContent {
     height: 100%;
-    display: flex;
-    justify-content: initial;
 }
 
 /* LIST OF TOP ARTISTS -----------------------------------------*/
-.resultsContainer {
+.topArtistList {
     color: white;
     font-size: 16px;
     padding: 0 !important;
     overflow: auto;
     height: inherit;
-    width: 40%;
+    padding: 20px;
 }
 
-    .resultsContainer li {
+    .topArtistList li {
         list-style: none;
         border-bottom: 1px solid #ccc;
         text-indent: 25px;
@@ -37,11 +34,11 @@
         cursor: pointer;
     }
 
-        .resultsContainer li:nth-child(even) {
+        .topArtistList li:nth-child(even) {
             background-color: rgba(238, 153, 132, 0.5);
         }
 
-        .resultsContainer li:nth-child(odd) {
+        .topArtistList li:nth-child(odd) {
             background-color: rgba(184, 107, 88, 0.5);
         }
 
@@ -87,20 +84,12 @@
 
 
 /* RIGHT HAND COLUMN -----------------------------------------*/
-.detailsContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 60%;
-}
 
 .artistDetails {
-    height: 90%;
-    width: 90%;
     background-color: rgba(144, 91, 109, 0.6);
-    align-self: flex-end;
     color: white;
     padding: 20px;
+    width: 600px;
 }
 
 
@@ -119,7 +108,6 @@
 .artistTabContent {
     border: 1px solid white;
     padding: 20px;
-    height: 240px;
 }
 
 .mainAlbumContainer {
@@ -162,29 +150,25 @@
     position: relative;
 }
 
-.similarArtistAlbumArt > img {
-    object-fit: cover;
-    width: 150px;
-    height: 150px;
-    padding: 10px;
-}
+    .similarArtistAlbumArt > img {
+        object-fit: cover;
+        width: 150px;
+        height: 150px;
+        padding: 10px;
+    }
 
-.similarArtistAlbumArt > p {
-    position: absolute;
-    width: 140px;
-    bottom: 50px;
-    background-color: rgba(0,0,0,0.7);
-    color: white;
-    padding: 10px;
-
-}
+    .similarArtistAlbumArt > p {
+        position: absolute;
+        width: 140px;
+        bottom: 50px;
+        background-color: rgba(0,0,0,0.7);
+        color: white;
+        padding: 10px;
+    }
 
 .similarArtists {
     width: inherit;
     height: 220px;
-    display:flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
     overflow-y: scroll;
 }
 
@@ -204,6 +188,4 @@
     }
 
 .timeRangeDropdown {
-    align-self: flex-end;
-    flex-grow: 1;
 }

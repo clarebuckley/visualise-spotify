@@ -152,14 +152,15 @@ class TopArtists extends Component {
         return (
             <div className="TopArtists">
                 <div className="header">Your Top Artists {this.getTimeRangeInString()}</div>
-  
                 <TopArtistsTimeRange getAllData={this.getAllData}></TopArtistsTimeRange>
-                <div className="mainContent">
+                <div className="mainContent row justify-content-around">
                     <TopArtistsList
+                        className="col-sm-4"
                         topArtists={this.state.topArtists}
                         handleListClickEvent={this.handleListClickEvent}>
                     </TopArtistsList>
                     <TopArtistDetails
+                        className="col-sm-8"
                         spotifyWebApi={this.props.spotifyWebApi}
                         artistImage={this.state.topArtists[this.state.selectedArtist].images[0].url}
                         artistName={this.state.topArtists[this.state.selectedArtist].name}
@@ -172,13 +173,10 @@ class TopArtists extends Component {
                         previewUrl={this.state.topArtistsTracks[this.state.selectedArtist].preview_url}
                     >
                     </TopArtistDetails>
-
                 </div>
-
             </div>
         );
     }
 }
-
 
 export default TopArtists;

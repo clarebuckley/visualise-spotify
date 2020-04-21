@@ -12,7 +12,7 @@ class TopArtistsList extends Component {
 
     render() {
         return (
-            <div className="resultsContainer">
+            <div className="topArtistList">
                 {this.props.topArtists.map((result, index) => (
                     <li id={index} onClick={() => { this.handleListClickEvent(index) }} className={this.props.selectedArtist === index ? 'selected' : 'result'}>
                         <div className="albumArtContainer">
