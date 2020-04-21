@@ -143,7 +143,7 @@ class TopTracks extends Component {
                 <div class="dropdown">
                   <button class="dropdown-toggle btn-custom margin-bottom" type="button" data-toggle="dropdown"><div className="dropdown-text">Change Time Frame</div>
                   <span class="caret"></span></button>
-                  <div class="alert alert-warning margin-left float-right">
+                  <div class="alert alert-warning margin-left margin-right float-right">
                     Right now you must <strong>select</strong> the <strong>timeframe twice</strong> for it to work.
                   </div>
                   <div class="dropdown-menu text-center">
