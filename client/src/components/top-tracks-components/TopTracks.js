@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './TopTracks.css';
 import {Spring} from 'react-spring/renderprops';
-import { playOrPausePreview, autoplaySong, muteSong } from '../../helpers/TrackPreviewHelper.js';
+import { playOrPausePreview, muteSong } from '../../helpers/TrackPreviewHelper.js';
 import { Pie } from 'react-chartjs-2';
 
 class TopTracks extends Component {
@@ -86,6 +86,8 @@ class TopTracks extends Component {
           titleTimeframe: 'All Time',
         });
         this.getTopTracks(this.props.spotifyWebApi);
+        break;
+      default:
     }
   }
 
@@ -115,7 +117,7 @@ class TopTracks extends Component {
                   { props => (
                     <div style={props} className="col-lg-4">
                       <img className="img-responsive album-art" src={track.album.images[0].url} alt=""/>
-                      <img className="overlay" onClick={() => { playOrPausePreview('song-preview');  }} src="https://image.flaticon.com/icons/svg/27/27185.svg" />
+                      <img className="overlay" onClick={() => { playOrPausePreview('song-preview');  }} src="https://image.flaticon.com/icons/svg/27/27185.svg" alt=""/>
                     </div>
                   )}
 
@@ -140,21 +142,17 @@ class TopTracks extends Component {
                     </div>
                   )}
                 </Spring>
-                <div class="dropdown">
-                  <button class="dropdown-toggle btn-custom margin-bottom" type="button" data-toggle="dropdown"><div className="dropdown-text">Change Time Frame</div>
-                  <span class="caret"></span></button>
-                  <div class="alert alert-warning margin-left margin-right float-right">
-                    Right now you must <strong>select</strong> the <strong>timeframe twice</strong> for it to work.
-                  </div>
-                  <div class="dropdown-menu text-center">
-                    <a class="dropdown-item" href="#" onClick={() => { this.selectTimeframe('short_term'); }}>4 Weeks</a>
-                    <a class="dropdown-item" href="#" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</a>
-                    <a class="dropdown-item" href="#" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</a>
-                  </div>
+                <div className="margin-left">
+                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('short_term'); }}>4 Weeks</button>
+                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</button>
+                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</button>
+                </div>
+                <div className="alert alert-warning margin-left margin-right float-right">
+                  Right now you must <strong>select the timeframe twice</strong> for it to work.
                 </div>
               </div>
             ))}
-            <div className="margin-top margin-bottom">
+            <div className="margin-bottom">
             <Pie
                 data={this.state.popularityChart}
                 options={{
