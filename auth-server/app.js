@@ -12,6 +12,16 @@ app.use(express.static(__dirname + '/public'))
     .use(cors())
     .use(cookieParser());
 
+var environment;
+
+var getEnvironment = function () {
+    if (process.env.PORT = null || process.env.PORT == "") {
+        return "https://localhost:3000";
+    } else {
+        return "https://visualise-spotify.herokuapp.com/"
+    }
+}
+
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
@@ -33,7 +43,6 @@ app.get('/', function (req, res) {
 
 
 app.get('/login', function (req, res) {
-
     var state = generateRandomString(16);
     res.cookie(config.state_key, state);
 
@@ -92,13 +101,14 @@ app.get('/callback', function (req, res) {
                     json: true
                 };
 
+                var environemnt = getEnvironment();
                 //use the access token to access the Spotify Web API
                 request.get(options, function (error, response, body) {
                     console.log(body);
                 });
 
                 //pass the token to the browser to make requests from there
-                res.redirect('http://localhost:3000/#' +
+                res.redirect(environemnt + '#' +
                     querystring.stringify({
                         access_token: access_token,
                         refresh_token: refresh_token
