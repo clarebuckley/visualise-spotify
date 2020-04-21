@@ -176,13 +176,23 @@
         line-height: 150px;
     }
 
+        .similarArtistAlbumArt > p > a {
+            color: white;
+        }
+
     .similarArtistAlbumArt > img:hover {
         opacity: 0.3;
     }
 
     .similarArtistAlbumArt > p:hover {
         opacity: 1;
+        cursor: pointer;
     }
+
+similarArtistAlbumArt > a:hover {
+    color: white;
+    text-decoration: none;
+}
 
 .similarArtists {
     width: inherit;

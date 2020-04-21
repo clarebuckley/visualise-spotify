@@ -39,7 +39,6 @@ class TopArtists extends Component {
                 }, () => {
                     //Get additional data with an artistId for the first artist in the list
                     this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[0].id);
-
                 });
 
             })

@@ -82,7 +82,7 @@ class TopArtistDetails extends Component {
                             {this.props.similarArtists.map((similarArtist) => (
                                 <div className="similarArtistAlbumArt">
                                     <img src={similarArtist.images[0].url} alt="album art" />
-                                    <p>{similarArtist.name}</p>
+                                    <p><a href={similarArtist.external_urls.spotify}>{similarArtist.name}</a></p>
                                 </div>
                             ))}
                         </div>
