@@ -152,8 +152,9 @@ class TopArtists extends Component {
         return (
             <div className="TopArtists">
                 <div className="header">Your Top Artists {this.getTimeRangeInString()}</div>
+  
+                <TopArtistsTimeRange getAllData={this.getAllData}></TopArtistsTimeRange>
                 <div className="mainContent">
-                    <TopArtistsTimeRange getAllData={this.getAllData}></TopArtistsTimeRange>
                     <TopArtistsList
                         topArtists={this.state.topArtists}
                         handleListClickEvent={this.handleListClickEvent}>
