@@ -13,8 +13,8 @@ app.use(express.static(__dirname + '/public'))
     .use(cookieParser());
 
 var getEnvironment = function () {
-    if (process.env.PORT = null || process.env.PORT == "") {
-        return "https://localhost:3000";
+    if (process.env.PORT == null || process.env.PORT == "") {
+        return "http://localhost:3000";
     } else {
         return "https://visualise-spotify.herokuapp.com"
     }
@@ -65,7 +65,6 @@ app.get('/callback', function (req, res) {
     var code = req.query.code || null;
     var state = req.query.state || null;
     var storedState = req.cookies ? req.cookies[config.state_key] : null;
-
     if (state === null || state !== storedState) {
         res.redirect('/#' +
             querystring.stringify({
@@ -99,14 +98,15 @@ app.get('/callback', function (req, res) {
                     json: true
                 };
 
-                var environemnt = getEnvironment();
+
                 //use the access token to access the Spotify Web API
                 request.get(options, function (error, response, body) {
                     console.log(body);
                 });
 
+           
                 //pass the token to the browser to make requests from there
-                res.redirect(environemnt + '#' +
+                res.redirect(getEnvironment() + '#' +
                     querystring.stringify({
                         access_token: access_token,
                         refresh_token: refresh_token
