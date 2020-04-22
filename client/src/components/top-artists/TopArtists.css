@@ -204,7 +204,6 @@ similarArtistAlbumArt > a:hover {
 }
 
 
-
 #action-button {
     background-color: rgb(144, 91, 109);
     color: white;
@@ -218,6 +217,7 @@ similarArtistAlbumArt > a:hover {
     #action-button:hover {
         cursor: pointer
     }
+
 
 .artistGenre{
     text-transform: capitalize;

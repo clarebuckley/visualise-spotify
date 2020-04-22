@@ -60,9 +60,6 @@ class App extends Component {
                         <Tab eventKey="home" title="Welcome!">
                             <Welcome spotifyWebApi={spotifyWebApi}/>
                         </Tab>
-                        <Tab eventKey="nowPlaying" title="Now Playing">
-                            <NowPlaying spotifyWebApi={spotifyWebApi} />
-                        </Tab>
                         <Tab eventKey="topArtists" title="Top Artists">
                             <TopArtists spotifyWebApi={spotifyWebApi} />
                         </Tab>
@@ -73,6 +70,7 @@ class App extends Component {
                         </Tab>
                     </Tabs>
                     <div className="footer">
+                        <NowPlaying  spotifyWebApi={spotifyWebApi} />
                         <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
                     </div>
                 </div >

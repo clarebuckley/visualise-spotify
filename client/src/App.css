@@ -6,13 +6,6 @@ h1 {
     text-transform: capitalize;
 }
 
-.logOutButton {
-    background-color: rgb(144, 91, 109);
-    color: white;
-    text-align: center;
-    width: 100px;
-}
-
 .App{
    height: 100%;
 }
@@ -24,7 +17,6 @@ h1 {
     width: 100%;
     text-align: center;
     color:white;
-
 }
 
 .tabs {
@@ -64,3 +56,6 @@ h1 {
     ::-webkit-scrollbar-thumb:hover {
         background: #7d4f5e;
     }
+
+
+
