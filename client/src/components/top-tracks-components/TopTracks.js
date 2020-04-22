@@ -136,7 +136,7 @@ class TopTracks extends Component {
           <p>Your Top {this.state.numberOfSongs} Songs of {this.state.titleTimeframe}</p>
         </div>
         <div className="row reverse-for-mobile">
-          <div className="list-group col-md-3 topSongList margin-top">
+          <div className="list-group col-lg-3 topSongList margin-top">
             {this.state.topTracks.map((track) => (
               <button onClick={() => {this.getSongPopularity(track.popularity); this.selectSong(this.state.topTracks.indexOf(track));}} className="song-card" key={track.id}>
                 {<img className="img-responsive float-left" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
@@ -191,7 +191,7 @@ class TopTracks extends Component {
                   to={{ opacity:1 }}
                 >
                   { props => (
-                    <div style={props} className="col-sm-7">
+                    <div style={props} className="col-md-7">
                       <div className="song-text-container">
                         <h3>{track.name}</h3>
                         <h5>By: {track.artists[0].name}</h5>
