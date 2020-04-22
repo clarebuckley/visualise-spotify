@@ -117,7 +117,6 @@ class TopTracks extends Component {
                   { props => (
                     <div style={props} className="col-lg-3">
                       <img className="img-responsive album-art margin-right" src={track.album.images[0].url} alt=""/>
-
                       <div className="overlay">
                       <Pie
                       data={this.state.popularityChart}
@@ -125,7 +124,7 @@ class TopTracks extends Component {
                         title:{
                           display:true,
                           text:'Song Popularity',
-                          fontSize:25,
+                          fontSize:16,
                           fontColor:'#ffffff'
                         },
                         legend:{
@@ -169,7 +168,7 @@ class TopTracks extends Component {
                     </div>
                   )}
                 </Spring>
-                <div className="col-lg-12 margin-left">
+                <div className="col-lg-12">
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('short_term'); }}>4 Weeks</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</button>
