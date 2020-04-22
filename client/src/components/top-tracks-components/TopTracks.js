@@ -10,6 +10,7 @@ class TopTracks extends Component {
     this.state = {
       topTracks: [],
       focusedSong: 0,
+      numberOfSongs: 10,
       timeframe: 'medium_term',
       titleTimeframe: 'The Last 6 Months',
       popularityChart:{
@@ -31,7 +32,7 @@ class TopTracks extends Component {
   //The 'tracks' state is then updated to add this new array.
   getTopTracks(spotifyWebApi){
     var tracks = []
-    spotifyWebApi.getMyTopTracks({limit : 10, time_range: this.state.timeframe}).then((response) => {
+    spotifyWebApi.getMyTopTracks({limit : this.state.numberOfSongs, time_range: this.state.timeframe}).then((response) => {
       tracks = response.items;
       this.setState({
         topTracks: tracks,
@@ -50,6 +51,15 @@ class TopTracks extends Component {
     this.setState({
         focusedSong: track_index,
     })
+  }
+
+  selectNumberOfSongs(numberOfSongs){
+    this.setState({
+        numberOfSongs: numberOfSongs,
+    },
+    () => {
+        this.getTopTracks(this.props.spotifyWebApi);
+    });
   }
 
   getSongPopularity(popularity){
@@ -72,20 +82,29 @@ class TopTracks extends Component {
       case 'short_term':
         this.setState({
           titleTimeframe: 'The Last 4 Weeks',
+        },
+        () => {
+            this.getTopTracks(this.props.spotifyWebApi);
         });
-        this.getTopTracks(this.props.spotifyWebApi);
+
         break;
       case 'medium_term':
         this.setState({
           titleTimeframe: 'The Last 6 Months',
+        },
+        () => {
+            this.getTopTracks(this.props.spotifyWebApi);
         });
-        this.getTopTracks(this.props.spotifyWebApi);
+
         break;
       case 'long_term':
         this.setState({
           titleTimeframe: 'All Time',
+        },
+        () => {
+            this.getTopTracks(this.props.spotifyWebApi);
         });
-        this.getTopTracks(this.props.spotifyWebApi);
+
         break;
       default:
     }
@@ -95,7 +114,7 @@ class TopTracks extends Component {
     return (
       <div className="App">
         <div className="header">
-          <p>Your Top 10 Songs of {this.state.titleTimeframe}</p>
+          <p>Your Top {this.state.numberOfSongs} Songs of {this.state.titleTimeframe}</p>
         </div>
         <div className="row reverse-for-mobile">
           <div className="list-group col-md-3 topSongList margin-top">
@@ -109,15 +128,41 @@ class TopTracks extends Component {
 
           <div className="col-sm-9 margin-top">
             {this.state.topTracks.slice(this.state.focusedSong,this.state.focusedSong+1).map((track) => (
-              <div key={track.id} className="row">
+              <div key={track.id} className="row fixed-position">
                 <Spring
                   from={{ opacity:0, marginTop: -500 }}
                   to={{ opacity:1, marginTop: 0 }}
                 >
                   { props => (
-                    <div style={props} className="col-lg-4">
+                    <div style={props} className="col-lg-3">
                       <img className="img-responsive album-art" src={track.album.images[0].url} alt=""/>
-                      <img className="overlay" onClick={() => { playOrPausePreview('song-preview');  }} src="https://image.flaticon.com/icons/svg/27/27185.svg" alt=""/>
+                      <div className="overlay">
+                      <Pie
+                      data={this.state.popularityChart}
+                      options={{
+                        title:{
+                          display:true,
+                          text:'Song Popularity',
+                          fontSize:16,
+                          fontColor:'#ffffff'
+                        },
+                        legend:{
+                          display:false,
+                          position:'right',
+                          labels:{
+                            fontColor:'#ffffff'
+                          }
+                        },
+                        tooltips: {
+                          callbacks: {
+                            label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                            }
+                          }
+                        }
+                      }}
+                      />
+                      </div>
                     </div>
                   )}
 
@@ -127,56 +172,44 @@ class TopTracks extends Component {
                   to={{ opacity:1 }}
                 >
                   { props => (
-                    <div style={props} className="col-sm-8">
-                      <div className="song-text song-text-container">
+                    <div style={props} className="col-sm-7">
+                      <div className="song-text-container">
                         <h3>{track.name}</h3>
                         <h5>By: {track.artists[0].name}</h5>
                         <h5>Album: {track.album.name}</h5>
                         <audio id="song-preview">
                           <source src={track.preview_url} type="audio/ogg"/>
                         </audio>
-                        <button onClick={() => muteSong('song-preview')}>
-                          Mute
+                        <button onClick={() => playOrPausePreview('song-preview')}>
+                          Play/Pause
                         </button>
+                        <br/>
                       </div>
                     </div>
                   )}
                 </Spring>
-                <div className="margin-left">
+                <div className="col-lg-12">
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('short_term'); }}>4 Weeks</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</button>
                 </div>
-                <div className="alert alert-warning margin-left margin-right float-right">
-                  Right now you must <strong>select the timeframe twice</strong> for it to work.
+                <div className="col-lg-12">
+                  <div class="dropdown">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                      {this.state.numberOfSongs} Songs
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(5); }}>5</a>
+                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(10); }}>10</a>
+                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(20); }}>20</a>
+                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(30); }}>30</a>
+                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(40); }} >40</a>
+                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(50); }}>50</a>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
-            <Pie
-            data={this.state.popularityChart}
-            options={{
-              title:{
-                display:true,
-                text:'Song Popularity',
-                fontSize:25,
-                fontColor:'#ffffff'
-              },
-              legend:{
-                display:false,
-                position:'right',
-                labels:{
-                  fontColor:'#ffffff'
-                }
-              },
-              tooltips: {
-                callbacks: {
-                  label: function(tooltipItem) {
-                    return tooltipItem.yLabel;
-                  }
-                }
-              }
-            }}
-            />
           </div>
         </div>
       </div>

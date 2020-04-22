@@ -55,20 +55,22 @@
   width: 250px;
   height: auto;
   margin-bottom: 15px;
+  margin-right: 100px;
 }
 
 .overlay {
   position: absolute;
-  bottom: 0;
+  bottom:0;
   background: rgb(0, 0, 0);
-  background: rgba(184, 107, 88, 0.7); /* Black see-through */
+  background: rgba(184, 107, 88, 0); /* Black see-through */
   color: #f1f1f1;
   width: 250px;
+  height: 250px;
   transition: .5s ease;
   opacity:0;
   color: white;
   font-size: 20px;
-  padding: 20px;
+  padding-top: 50px;
   text-align: center;
   margin-bottom: 15px;
 }
@@ -85,6 +87,7 @@
   padding-bottom: 10px;
   padding-left: 15px;
   margin-bottom: 15px;
+  max-width: 535px;
   height: 250px;
 }
 
@@ -105,5 +108,14 @@
 @media only screen and (max-width: 960px) {
   .reverse-for-mobile {
     flex-direction: column-reverse;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .fixed-position{
+    position: fixed;
+  }
+  .position-pie-chart{
+    margin-top: 400px;
   }
 }
