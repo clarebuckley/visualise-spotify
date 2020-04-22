@@ -219,5 +219,6 @@ similarArtistAlbumArt > a:hover {
         cursor: pointer
     }
 
-.timeRangeDropdown {
+.artistGenre{
+    text-transform: capitalize;
 }

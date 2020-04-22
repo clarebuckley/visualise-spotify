@@ -74,7 +74,7 @@ class TopArtistDetails extends Component {
                 <Tabs defaultActiveKey="genres" id="arist-details-tabs" className="aristDetailsTabs">
                     <Tab eventKey="genres" title="Genres" className="artistTabContent">
                         {this.props.genres.map((genre) => (
-                            <li>{genre}</li>
+                            <li className="artistGenre">{genre}</li>
                         ))}
                     </Tab>
                     <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent row">
