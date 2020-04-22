@@ -6,8 +6,15 @@ h1 {
     text-transform: capitalize;
 }
 
+.logOutButton {
+    background-color: rgb(144, 91, 109);
+    color: white;
+    text-align: center;
+    width: 100px;
+}
+
 .App{
-   
+   height: 100vw;
 }
 
 .footer {
@@ -32,6 +39,10 @@ h1 {
 .tabs a:hover {
     color: white;
 }
+
+    .tabs > #main-app-tabs-tab-logOut {
+        background-color: rgba(140, 140, 140, 0.5);
+    }
 
 
 /* width */

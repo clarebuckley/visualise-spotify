@@ -26,6 +26,26 @@ class App extends Component {
     }
 
 
+    //NOTE: this will need to be changed when the authorization work is sorted
+    // --> there is a /logout endpoint on the server side which will redirect to the spotify log out page,
+    // but we still need to be able to redirect back to our login page when that request has been made
+    logOut = () => {
+        var url = window.location.href;
+        if (url.includes("localhost")) {
+            window.location.replace("http://localhost:3000/")
+        } else {
+            window.location.replace("https://visualise-spotify.herokuapp.com/")
+        }
+    }
+
+    handleTabClick = (eventKey) => {
+        if (eventKey === "logOut") {
+            this.logOut();
+        }
+    }
+
+
+
     render() {
         if (!this.state.loggedIn) {
             return (
@@ -35,8 +55,8 @@ class App extends Component {
             )
         } else {
             return (
-                <div className="App" >
-                    <Tabs defaultActiveKey="home" id="main-app-tabs" className="tabs">
+                <div className="App col">
+                    <Tabs defaultActiveKey="home" id="main-app-tabs" className="tabs" onSelect={(k) => this.handleTabClick(k)}>
                         <Tab eventKey="home" title="Welcome!">
                             <Welcome spotifyWebApi={spotifyWebApi}></Welcome>
                         </Tab>
@@ -48,6 +68,8 @@ class App extends Component {
                         </Tab>
                         <Tab eventKey="topTracks" title="Top Tracks">
                             <TopTracks spotifyWebApi={spotifyWebApi} />
+                        </Tab>
+                        <Tab className="logOut" eventKey="logOut" title="Log out" onClick={this.logOut}>
                         </Tab>
                     </Tabs>
                     <div className="footer">
