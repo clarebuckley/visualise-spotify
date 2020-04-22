@@ -9,6 +9,7 @@ class TopTracks extends Component {
     super();
     this.state = {
       topTracks: [],
+      userDetails: [],
       focusedSong: 0,
       numberOfSongs: 10,
       timeframe: 'medium_term',
@@ -26,6 +27,16 @@ class TopTracks extends Component {
 
   componentDidMount(){
     this.getTopTracks(this.props.spotifyWebApi);
+    this.getUserDetails(this.props.spotifyWebApi);
+  }
+
+  getUserDetails(spotifyWebApi){
+    spotifyWebApi.getMe()
+    .then((response) => {
+      this.setState({
+        userDetails: response,
+      })
+    })
   }
 
   //Grabs the 10 most popular songs and pushes them into an array.
@@ -74,6 +85,13 @@ class TopTracks extends Component {
     });
   }
 
+
+  createNewPlaylist(spotifyWebApi){
+    spotifyWebApi.createPlaylist(this.state.userDetails.id, {name:"Top Songs"}).then((response)=>{
+      console.log(response);
+    })
+  }
+
   selectTimeframe(timeframe){
     this.setState({
       timeframe: timeframe,
@@ -111,6 +129,7 @@ class TopTracks extends Component {
   }
 
   render(){
+    console.log(this.state.userDetails);
     return (
       <div className="App">
         <div className="header">
@@ -184,6 +203,9 @@ class TopTracks extends Component {
                           Play/Pause
                         </button>
                         <br/>
+                        <button className="btn btn-success margin-top" onClick={() => {this.createNewPlaylist(this.props.spotifyWebApi);}}>
+                          Add All Songs To Playlist
+                        </button>
                       </div>
                     </div>
                   )}
@@ -194,17 +216,17 @@ class TopTracks extends Component {
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</button>
                 </div>
                 <div className="col-lg-12">
-                  <div class="dropdown">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                  <div className="dropdown">
+                    <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                       {this.state.numberOfSongs} Songs
                     </button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(5); }}>5</a>
-                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(10); }}>10</a>
-                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(20); }}>20</a>
-                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(30); }}>30</a>
-                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(40); }} >40</a>
-                      <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(50); }}>50</a>
+                    <div className="dropdown-menu">
+                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(5); }}>5</a>
+                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(10); }}>10</a>
+                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(20); }}>20</a>
+                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(30); }}>30</a>
+                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(40); }} >40</a>
+                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(50); }}>50</a>
                     </div>
                   </div>
                 </div>
