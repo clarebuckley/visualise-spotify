@@ -135,7 +135,7 @@ class TopTracks extends Component {
                 >
                   { props => (
                     <div style={props} className="col-lg-3">
-                      <img className="img-responsive album-art margin-right" src={track.album.images[0].url} alt=""/>
+                      <img className="img-responsive album-art" src={track.album.images[0].url} alt=""/>
                       <div className="overlay">
                       <Pie
                       data={this.state.popularityChart}
@@ -172,7 +172,7 @@ class TopTracks extends Component {
                   to={{ opacity:1 }}
                 >
                   { props => (
-                    <div style={props} className="col-sm-6">
+                    <div style={props} className="col-sm-7">
                       <div className="song-text-container">
                         <h3>{track.name}</h3>
                         <h5>By: {track.artists[0].name}</h5>
@@ -183,6 +183,7 @@ class TopTracks extends Component {
                         <button onClick={() => playOrPausePreview('song-preview')}>
                           Play/Pause
                         </button>
+                        <br/>
                       </div>
                     </div>
                   )}
