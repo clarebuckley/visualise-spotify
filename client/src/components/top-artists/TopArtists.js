@@ -145,13 +145,21 @@ class TopArtists extends Component {
         }
     }
 
+    setTimeRange = (newTimeRange) => {
+        this.setState({
+            timeRange: newTimeRange
+        }, () => {
+            this.getAllData()
+        })
+    }
+
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
         return (
             <div className="TopArtists">
                 <div className="header">Your Top Artists {this.getTimeRangeInString()}</div>
-                <TopArtistsTimeRange getAllData={this.getAllData}></TopArtistsTimeRange>
+                <TopArtistsTimeRange  setTimeRange={this.setTimeRange}></TopArtistsTimeRange>
                 <div className="mainContent row justify-content-around">
                     <TopArtistsList
                         className="col-sm-4"
