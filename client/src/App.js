@@ -6,7 +6,7 @@ import Tab from 'react-bootstrap/Tab';
 import './App.css';
 import Login from './components/login/Login';
 import TopTracks from './components/top-tracks-components/TopTracks';
-import NowPlaying from './components/NowPlaying';
+import NowPlaying from './components/now-playing/NowPlaying';
 import TopArtists from './components/top-artists/TopArtists';
 import Welcome from './components/welcome/Welcome';
 import getHashParams from "./hash.js";
@@ -58,7 +58,7 @@ class App extends Component {
                 <div className="App col">
                     <Tabs defaultActiveKey="home" id="main-app-tabs" className="tabs" onSelect={(k) => this.handleTabClick(k)}>
                         <Tab eventKey="home" title="Welcome!">
-                            <Welcome spotifyWebApi={spotifyWebApi}></Welcome>
+                            <Welcome spotifyWebApi={spotifyWebApi}/>
                         </Tab>
                         <Tab eventKey="nowPlaying" title="Now Playing">
                             <NowPlaying spotifyWebApi={spotifyWebApi} />
