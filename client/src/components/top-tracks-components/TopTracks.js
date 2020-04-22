@@ -31,7 +31,7 @@ class TopTracks extends Component {
   //The 'tracks' state is then updated to add this new array.
   getTopTracks(spotifyWebApi){
     var tracks = []
-    spotifyWebApi.getMyTopTracks({limit : 10, time_range: this.state.timeframe}).then((response) => {
+    spotifyWebApi.getMyTopTracks({limit : 50, time_range: this.state.timeframe}).then((response) => {
       tracks = response.items;
       this.setState({
         topTracks: tracks,
@@ -109,15 +109,42 @@ class TopTracks extends Component {
 
           <div className="col-sm-9 margin-top">
             {this.state.topTracks.slice(this.state.focusedSong,this.state.focusedSong+1).map((track) => (
-              <div key={track.id} className="row">
+              <div key={track.id} className="row fixed-position">
                 <Spring
                   from={{ opacity:0, marginTop: -500 }}
                   to={{ opacity:1, marginTop: 0 }}
                 >
                   { props => (
-                    <div style={props} className="col-lg-4">
-                      <img className="img-responsive album-art" src={track.album.images[0].url} alt=""/>
-                      <img className="overlay" onClick={() => { playOrPausePreview('song-preview');  }} src="https://image.flaticon.com/icons/svg/27/27185.svg" alt=""/>
+                    <div style={props} className="col-lg-3">
+                      <img className="img-responsive album-art margin-right" src={track.album.images[0].url} alt=""/>
+
+                      <div className="overlay">
+                      <Pie
+                      data={this.state.popularityChart}
+                      options={{
+                        title:{
+                          display:true,
+                          text:'Song Popularity',
+                          fontSize:25,
+                          fontColor:'#ffffff'
+                        },
+                        legend:{
+                          display:false,
+                          position:'right',
+                          labels:{
+                            fontColor:'#ffffff'
+                          }
+                        },
+                        tooltips: {
+                          callbacks: {
+                            label: function(tooltipItem) {
+                              return tooltipItem.yLabel;
+                            }
+                          }
+                        }
+                      }}
+                      />
+                      </div>
                     </div>
                   )}
 
@@ -127,22 +154,22 @@ class TopTracks extends Component {
                   to={{ opacity:1 }}
                 >
                   { props => (
-                    <div style={props} className="col-sm-8">
-                      <div className="song-text song-text-container">
+                    <div style={props} className="col-sm-6">
+                      <div className="song-text-container">
                         <h3>{track.name}</h3>
                         <h5>By: {track.artists[0].name}</h5>
                         <h5>Album: {track.album.name}</h5>
                         <audio id="song-preview">
                           <source src={track.preview_url} type="audio/ogg"/>
                         </audio>
-                        <button onClick={() => muteSong('song-preview')}>
-                          Mute
+                        <button onClick={() => playOrPausePreview('song-preview')}>
+                          Play/Pause
                         </button>
                       </div>
                     </div>
                   )}
                 </Spring>
-                <div className="margin-left">
+                <div className="col-lg-12 margin-left">
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('short_term'); }}>4 Weeks</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</button>
@@ -152,31 +179,6 @@ class TopTracks extends Component {
                 </div>
               </div>
             ))}
-            <Pie
-            data={this.state.popularityChart}
-            options={{
-              title:{
-                display:true,
-                text:'Song Popularity',
-                fontSize:25,
-                fontColor:'#ffffff'
-              },
-              legend:{
-                display:false,
-                position:'right',
-                labels:{
-                  fontColor:'#ffffff'
-                }
-              },
-              tooltips: {
-                callbacks: {
-                  label: function(tooltipItem) {
-                    return tooltipItem.yLabel;
-                  }
-                }
-              }
-            }}
-            />
           </div>
         </div>
       </div>
