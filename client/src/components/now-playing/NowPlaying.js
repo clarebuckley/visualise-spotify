@@ -10,7 +10,8 @@ class NowPlaying extends Component {
                 artists: null,
                 image: null
             },
-            showNowPlaying: false
+            showNowPlaying: false,
+            hideWholeBanner: false
         }
     }
 
@@ -43,29 +44,31 @@ class NowPlaying extends Component {
         console.log("hit");
         this.setState({
             showNowPlaying: false,
-            test: true
+            hideWholeBanner: true
         })
-        this.render();
     }
 
     render() {
-        if (!this.state.showNowPlaying) {
-            return (
-                <div className="NowPlaying row justify-content-md-center">
-                    <div className="nowPlayingButton" onClick={() => this.getNowPlaying(this.props.spotifyWebApi)}>Show media player</div>
-                    <div className="nowPlayingButton" onClick={this.hideComponent}>Hide</div>
-                </div>
-            )
-        } else if(this.state.showNowPlaying) {
-            return (
-                <div className="NowPlaying">
-                    <div>Now Playing: {this.state.nowPlaying.name} </div>
-                    <div>
-                        <img src={this.state.nowPlaying.image} alt="" style={{ width: 100 }} />
+        if (this.state.hideWholeBanner) { return null }
+        else {
+            if (!this.state.showNowPlaying) {
+                return (
+                    <div className="NowPlaying row justify-content-md-center">
+                        <div className="nowPlayingButton" onClick={() => this.getNowPlaying(this.props.spotifyWebApi)}>Show media player</div>
+                        <div className="nowPlayingButton" onClick={this.hideComponent}>Hide</div>
                     </div>
-
-                </div>
-            );
+                )
+            }
+            else {
+                return (
+                    <div className="NowPlaying">
+                        <div>Now Playing: {this.state.nowPlaying.name} </div>
+                        <div>
+                            <img src={this.state.nowPlaying.image} alt="" style={{ width: 100 }} />
+                        </div>
+                    </div>
+                );
+            }
         }
     }
 }
