@@ -163,6 +163,7 @@ class TopArtists extends Component {
                 <div className="mainContent row justify-content-around">
                     <TopArtistsList
                         className="col-sm-4"
+                        selectedArtist={this.state.selectedArtist}
                         topArtists={this.state.topArtists}
                         handleListClickEvent={this.handleListClickEvent}>
                     </TopArtistsList>

@@ -42,16 +42,16 @@
             background-color: rgba(184, 107, 88, 0.5);
         }
 
-.result {
-    display: flex;
-}
+    .topArtistList > .result {
+        display: flex;
+    }
 
-.selected {
-    font-weight: bold;
-    display: flex;
-    font-style: italic;
-    border: 1.5px solid white;
-}
+    .topArtistList > .selected {
+        font-weight: bold;
+        display: flex;
+        font-style: italic;
+        border: 1.5px solid white;
+    }
 
 
 .albumArtContainer {
