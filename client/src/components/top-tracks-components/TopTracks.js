@@ -56,8 +56,10 @@ class TopTracks extends Component {
   selectNumberOfSongs(numberOfSongs){
     this.setState({
         numberOfSongs: numberOfSongs,
+    },
+    () => {
+        this.getTopTracks(this.props.spotifyWebApi);
     });
-    this.getTopTracks(this.props.spotifyWebApi);
   }
 
   getSongPopularity(popularity){
@@ -80,20 +82,29 @@ class TopTracks extends Component {
       case 'short_term':
         this.setState({
           titleTimeframe: 'The Last 4 Weeks',
+        },
+        () => {
+            this.getTopTracks(this.props.spotifyWebApi);
         });
-        this.getTopTracks(this.props.spotifyWebApi);
+
         break;
       case 'medium_term':
         this.setState({
           titleTimeframe: 'The Last 6 Months',
+        },
+        () => {
+            this.getTopTracks(this.props.spotifyWebApi);
         });
-        this.getTopTracks(this.props.spotifyWebApi);
+
         break;
       case 'long_term':
         this.setState({
           titleTimeframe: 'All Time',
+        },
+        () => {
+            this.getTopTracks(this.props.spotifyWebApi);
         });
-        this.getTopTracks(this.props.spotifyWebApi);
+
         break;
       default:
     }
@@ -181,13 +192,10 @@ class TopTracks extends Component {
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</button>
                 </div>
-                <div className="alert alert-warning margin-left margin-right float-right">
-                  Right now you must <strong>select the timeframe twice</strong> for it to work.
-                </div>
                 <div className="col-lg-12">
                   <div class="dropdown">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                      Choose Number of Songs To Display
+                      {this.state.numberOfSongs} Songs
                     </button>
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(5); }}>5</a>
