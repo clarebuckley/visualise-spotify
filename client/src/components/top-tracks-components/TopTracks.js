@@ -10,6 +10,7 @@ class TopTracks extends Component {
     this.state = {
       topTracks: [],
       userDetails: [],
+      songsForNewPlaylist: [],
       focusedSong: 0,
       numberOfSongs: 10,
       timeframe: 'medium_term',
@@ -53,7 +54,8 @@ class TopTracks extends Component {
               data: [tracks[this.state.focusedSong].popularity, 100-tracks[this.state.focusedSong].popularity],
             },
           ],
-        }
+        },
+        songsForNewPlaylist: response,
       })
     })
   }
@@ -85,10 +87,13 @@ class TopTracks extends Component {
     });
   }
 
-
   createNewPlaylist(spotifyWebApi){
-    spotifyWebApi.createPlaylist(this.state.userDetails.id, {name:"Top Songs"}).then((response)=>{
-      console.log(response);
+    var songUriList = []
+    spotifyWebApi.createPlaylist(this.state.userDetails.id, {name:`Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`}).then((response)=>{
+      for (var i = 0; i < this.state.numberOfSongs; i++) {
+        songUriList.push(this.state.songsForNewPlaylist.items[i].uri)
+      }
+      spotifyWebApi.addTracksToPlaylist(response.id, songUriList)
     })
   }
 
@@ -99,7 +104,7 @@ class TopTracks extends Component {
     switch (timeframe) {
       case 'short_term':
         this.setState({
-          titleTimeframe: 'The Last 4 Weeks',
+          titleTimeframe: 'The Last Month',
         },
         () => {
             this.getTopTracks(this.props.spotifyWebApi);
@@ -129,11 +134,25 @@ class TopTracks extends Component {
   }
 
   render(){
-    console.log(this.state.userDetails);
     return (
       <div className="App">
         <div className="header">
           <p>Your Top {this.state.numberOfSongs} Songs of {this.state.titleTimeframe}</p>
+          <button type="button" className="btn btn-success" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi);}} data-toggle="modal" data-target="#myModal">
+            Add These Songs To Playlist
+          </button>
+          <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <p class="popup-text">A playlist with your Top {this.state.numberOfSongs} songs of {this.state.titleTimeframe} has been created! Check your Spotify!</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="row reverse-for-mobile">
           <div className="list-group col-lg-3 topSongList margin-top">
@@ -144,7 +163,6 @@ class TopTracks extends Component {
               </button>
             ))}
           </div>
-
           <div className="col-sm-9 margin-top">
             {this.state.topTracks.slice(this.state.focusedSong,this.state.focusedSong+1).map((track) => (
               <div key={track.id} className="row fixed-position">
@@ -202,16 +220,12 @@ class TopTracks extends Component {
                         <button onClick={() => playOrPausePreview('song-preview')}>
                           Play/Pause
                         </button>
-                        <br/>
-                        <button className="btn btn-success margin-top">
-                          Button Under Construction
-                        </button>
                       </div>
                     </div>
                   )}
                 </Spring>
                 <div className="col-lg-12">
-                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('short_term'); }}>4 Weeks</button>
+                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('short_term'); }}>1 Month</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</button>
                 </div>
