@@ -205,7 +205,7 @@ class TopTracks extends Component {
                           Play/Pause
                         </button>
                         <br/>
-                        <button className="btn btn-success margin-top">
+                        <button className="btn btn-success margin-top" onClick({() => { this.createNewPlaylist(this.props.spotifyWebApi);})>
                           Button Under Construction
                         </button>
                       </div>
