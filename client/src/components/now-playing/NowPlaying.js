@@ -10,45 +10,54 @@ class NowPlaying extends Component {
                 artists: null,
                 image: null
             },
-            showNowPlaying: false
+            showNowPlaying: false,
+            hideWholeBanner: true,              //change to false when spotify api is in stable state
+            spotifyIsPlaying: true
         }
     }
-
 
     getNowPlaying = (spotifyWebApi) => {
         spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
             console.log(response);
-            var nowPlaying;
             if (response.item == null) {
-                nowPlaying = {
-                    name: "Not currently listening to anything",
-                    artists: null,
-                    image: null
-                }
+                this.setState({
+                    spotifyIsPlaying: false
+                })
             } else {
-                nowPlaying = {
-                    name: response.item.name,
-                    artists: response.item.artists[0].name,
-                    image: response.item.album.images[0].url
-                }
+                this.setState({
+                    nowPlaying: {
+                        name: response.item.name,
+                        artists: response.item.artists[0].name,
+                        image: response.item.album.images[0].url
+                    },
+                    showNowPlaying: true
+                })
             }
-            this.setState({
-                nowPlaying,
-                showNowPlaying: true
-            })
+        })
+    }
+
+    skipToNext = () => {
+        this.props.spotifyWebApi.skipToNext().then((response) => {
+            console.log(response);
         })
     }
 
     hideComponent = () => {
-        console.log("hit");
         this.setState({
             showNowPlaying: false,
-            test: true
+            hideWholeBanner: true
         })
-        this.render();
     }
 
     render() {
+        if (this.state.hideWholeBanner) {
+            return null
+        }
+        if (!this.state.spotifyIsPlaying) {
+            return (
+                <p> something</p>
+            )
+        }
         if (!this.state.showNowPlaying) {
             return (
                 <div className="NowPlaying row justify-content-md-center">
@@ -56,17 +65,19 @@ class NowPlaying extends Component {
                     <div className="nowPlayingButton" onClick={this.hideComponent}>Hide</div>
                 </div>
             )
-        } else if(this.state.showNowPlaying) {
+        }
+        else {
             return (
                 <div className="NowPlaying">
                     <div>Now Playing: {this.state.nowPlaying.name} </div>
                     <div>
                         <img src={this.state.nowPlaying.image} alt="" style={{ width: 100 }} />
                     </div>
-
+                    <div onClick={()=>this.skipToNext()}>Skip</div>
                 </div>
             );
         }
+
     }
 }
 
