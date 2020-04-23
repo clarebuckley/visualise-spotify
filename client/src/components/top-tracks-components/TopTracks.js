@@ -54,7 +54,8 @@ class TopTracks extends Component {
               data: [tracks[this.state.focusedSong].popularity, 100-tracks[this.state.focusedSong].popularity],
             },
           ],
-        }
+        },
+        songsForNewPlaylist: response,
       })
     })
   }
@@ -86,22 +87,13 @@ class TopTracks extends Component {
     });
   }
 
-  getSongsForPlaylist(spotifyWebApi){
-    var songsForNewPlaylist = [];
-    spotifyWebApi.getMyTopTracks({limit : this.state.numberOfSongs, time_range: this.state.timeframe}).then((response) => {
-      for (var i = 0; i < response.items.length; i++) {
-        songsForNewPlaylist.push(response.items[i].uri)
-      }
-    })
-    //console.log(songsForNewPlaylist)
-    return songsForNewPlaylist
-  }
-
   createNewPlaylist(spotifyWebApi){
-    spotifyWebApi.createPlaylist(this.state.userDetails.id, {name:"Top Songs"}).then((response)=>{
+    var songUriList = []
+    spotifyWebApi.createPlaylist(this.state.userDetails.id, {name:`Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`}).then((response)=>{
       for (var i = 0; i < this.state.numberOfSongs; i++) {
-        spotifyWebApi.addTracksToPlaylist(response.id, this.state.songsForNewPlaylist)
+        songUriList.push(this.state.songsForNewPlaylist.items[i].uri)
       }
+      spotifyWebApi.addTracksToPlaylist(response.id, songUriList)
     })
   }
 
@@ -112,7 +104,7 @@ class TopTracks extends Component {
     switch (timeframe) {
       case 'short_term':
         this.setState({
-          titleTimeframe: 'The Last 4 Weeks',
+          titleTimeframe: 'The Last Month',
         },
         () => {
             this.getTopTracks(this.props.spotifyWebApi);
@@ -146,6 +138,9 @@ class TopTracks extends Component {
       <div className="App">
         <div className="header">
           <p>Your Top {this.state.numberOfSongs} Songs of {this.state.titleTimeframe}</p>
+          <button className="btn btn-success" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi);}}>
+            Add These Songs To Playlist
+          </button>
         </div>
         <div className="row reverse-for-mobile">
           <div className="list-group col-lg-3 topSongList margin-top">
@@ -214,19 +209,12 @@ class TopTracks extends Component {
                         <button onClick={() => playOrPausePreview('song-preview')}>
                           Play/Pause
                         </button>
-                        <br/>
-                        <button className="btn btn-success margin-top" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi);}}>
-                          Button Under Construction
-                        </button>
-                        <button className="btn btn-success margin-top" onClick={() => { this.getSongsForPlaylist(this.props.spotifyWebApi);}}>
-                          test
-                        </button>
                       </div>
                     </div>
                   )}
                 </Spring>
                 <div className="col-lg-12">
-                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('short_term'); }}>4 Weeks</button>
+                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('short_term'); }}>1 Month</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</button>
                   <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</button>
                 </div>
