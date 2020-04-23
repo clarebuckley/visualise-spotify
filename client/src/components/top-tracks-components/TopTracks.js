@@ -88,7 +88,9 @@ class TopTracks extends Component {
 
   createNewPlaylist(spotifyWebApi){
     spotifyWebApi.createPlaylist(this.state.userDetails.id, {name:"Top Songs"}).then((response)=>{
-      console.log(response);
+      spotifyWebApi.getPlaylist(response.id).then((response)=>{
+        console.log(response);
+      })
     })
   }
 
