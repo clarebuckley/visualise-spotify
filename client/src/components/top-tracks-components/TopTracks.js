@@ -138,9 +138,21 @@ class TopTracks extends Component {
       <div className="App">
         <div className="header">
           <p>Your Top {this.state.numberOfSongs} Songs of {this.state.titleTimeframe}</p>
-          <button className="btn btn-success" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi);}}>
+          <button type="button" className="btn btn-success" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi);}} data-toggle="modal" data-target="#myModal">
             Add These Songs To Playlist
           </button>
+          <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                  <p class="popup-text">A playlist with your Top {this.state.numberOfSongs} songs of {this.state.titleTimeframe} has been created! Check your Spotify!</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="row reverse-for-mobile">
           <div className="list-group col-lg-3 topSongList margin-top">
@@ -151,7 +163,6 @@ class TopTracks extends Component {
               </button>
             ))}
           </div>
-
           <div className="col-sm-9 margin-top">
             {this.state.topTracks.slice(this.state.focusedSong,this.state.focusedSong+1).map((track) => (
               <div key={track.id} className="row fixed-position">
