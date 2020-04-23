@@ -11,11 +11,10 @@ class NowPlaying extends Component {
                 image: null
             },
             showNowPlaying: false,
-            hideWholeBanner: false,
+            hideWholeBanner: true,              //change to false when spotify api is in stable state
             spotifyIsPlaying: true
         }
     }
-
 
     getNowPlaying = (spotifyWebApi) => {
         spotifyWebApi.getMyCurrentPlaybackState().then((response) => {
@@ -34,6 +33,12 @@ class NowPlaying extends Component {
                     showNowPlaying: true
                 })
             }
+        })
+    }
+
+    skipToNext = () => {
+        this.props.spotifyWebApi.skipToNext().then((response) => {
+            console.log(response);
         })
     }
 
@@ -68,6 +73,7 @@ class NowPlaying extends Component {
                     <div>
                         <img src={this.state.nowPlaying.image} alt="" style={{ width: 100 }} />
                     </div>
+                    <div onClick={()=>this.skipToNext()}>Skip</div>
                 </div>
             );
         }
