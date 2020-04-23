@@ -23,5 +23,8 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "dependencies": {
+        "react-scripts": "^3.4.1"
     }
 }
