@@ -10,6 +10,7 @@ class TopTracks extends Component {
     this.state = {
       topTracks: [],
       userDetails: [],
+      songsForNewPlaylist: [],
       focusedSong: 0,
       numberOfSongs: 10,
       timeframe: 'medium_term',
@@ -85,12 +86,22 @@ class TopTracks extends Component {
     });
   }
 
+  getSongsForPlaylist(spotifyWebApi){
+    var songsForNewPlaylist = [];
+    spotifyWebApi.getMyTopTracks({limit : this.state.numberOfSongs, time_range: this.state.timeframe}).then((response) => {
+      for (var i = 0; i < response.items.length; i++) {
+        songsForNewPlaylist.push(response.items[i].uri)
+      }
+    })
+    //console.log(songsForNewPlaylist)
+    return songsForNewPlaylist
+  }
 
   createNewPlaylist(spotifyWebApi){
     spotifyWebApi.createPlaylist(this.state.userDetails.id, {name:"Top Songs"}).then((response)=>{
-      spotifyWebApi.getPlaylist(response.id).then((response)=>{
-        console.log(response);
-      })
+      for (var i = 0; i < this.state.numberOfSongs; i++) {
+        spotifyWebApi.addTracksToPlaylist(response.id, this.state.songsForNewPlaylist)
+      }
     })
   }
 
@@ -131,7 +142,6 @@ class TopTracks extends Component {
   }
 
   render(){
-    console.log(this.state.userDetails);
     return (
       <div className="App">
         <div className="header">
@@ -205,8 +215,11 @@ class TopTracks extends Component {
                           Play/Pause
                         </button>
                         <br/>
-                        <button className="btn btn-success margin-top" onClick({() => { this.createNewPlaylist(this.props.spotifyWebApi);})>
+                        <button className="btn btn-success margin-top" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi);}}>
                           Button Under Construction
+                        </button>
+                        <button className="btn btn-success margin-top" onClick={() => { this.getSongsForPlaylist(this.props.spotifyWebApi);}}>
+                          test
                         </button>
                       </div>
                     </div>
