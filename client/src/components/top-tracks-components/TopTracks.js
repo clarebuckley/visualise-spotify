@@ -26,6 +26,16 @@ class TopTracks extends Component {
     }
   }
 
+  getCurrentDate(){
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + '/' + mm + '/' + yyyy;
+    return today
+  }
+
   componentDidMount(){
     this.getTopTracks(this.props.spotifyWebApi);
     this.getUserDetails(this.props.spotifyWebApi);
@@ -89,7 +99,7 @@ class TopTracks extends Component {
 
   createNewPlaylist(spotifyWebApi){
     var songUriList = []
-    spotifyWebApi.createPlaylist(this.state.userDetails.id, {name:`Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`}).then((response)=>{
+    spotifyWebApi.createPlaylist(this.state.userDetails.id, {name:`Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`, description:`These are your Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe} as of ${this.getCurrentDate()}`}).then((response)=>{
       for (var i = 0; i < this.state.numberOfSongs; i++) {
         songUriList.push(this.state.songsForNewPlaylist.items[i].uri)
       }
