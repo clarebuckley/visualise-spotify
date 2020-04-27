@@ -64,7 +64,7 @@ class TopArtistPopularity extends Component {
                 <div className="artistPopularity">
                     <div>
                         <p>
-                            Artists' popularity is calculated from the popularity of all the artist's tracks.
+                            Artists' popularity is calculated from the popularity of all the artist's tracks and are given on a scale of 0 (unpopular) to 100 (popular).
                             The popularity of a track is calculated by algorithm and is based on the total number of plays the track has had and how recent those plays are.
                             Generally, songs that are being played a lot now will have a higher popularity than songs that were played a lot in the past.
                             Duplicate tracks (e.g. the same track from a single and an album) are rated independently.

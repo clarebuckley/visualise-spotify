@@ -65,7 +65,14 @@ class App extends Component {
             )
         }
         else if (!this.state.dataLoaded) {
-            return ("Oops! Looks like there was an error :( Please try reloading the page, or signing out and in again.")
+            return (
+                <div>
+                    <p>Oops! Looks like there was an error :( Please try reloading the page, or signing out and in again.</p><br/>
+                    <a className="loginLink" onClick={() => this.logOut()} >
+                        Log Out
+                </a>
+                    </div>
+                )
         }
         else{
             return (
