@@ -163,12 +163,39 @@ class TopArtists extends Component {
         })
     }
 
+    //Creates a new playlist for top artist songs
+    createNewPlaylist = () => {
+        
+    }
+
+    //Populates the given playlist with songs by top artists
+    populatePlaylist = (playlistId) => {
+    }
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
         return (
             <div className="TopArtists">
-                <div className="header">Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</div>
+                <div id="successModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <p>Successfully created playlist!</p>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="popup-text">A playlist with your Top {this.state.resultLimit} songs {this.getTimeRangeInString()} has been created! Check your Spotify!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="header">
+                    <p>Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</p>
+                    <button type="button" className="btn btn-success" onClick={() => { this.createNewPlaylist(); }} data-toggle="modal" data-target="#successModal">
+                        Make A Playlist Of These Artists
+                    </button>
+                </div>
                 <div className="row justify-content-md-center">
                     <TopArtistsTimeRange setTimeRange={this.setTimeRange}></TopArtistsTimeRange>
                     <TopArtistsResultLimit setResultLimit={this.setResultLimit}></TopArtistsResultLimit>

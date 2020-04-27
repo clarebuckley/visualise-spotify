@@ -19,6 +19,7 @@ class App extends Component {
         const params = getHashParams();
         this.state = {
             loggedIn: params.access_token ? true : false,
+            dataLoaded: false
         }
         if (params.access_token) {
             spotifyWebApi.setAccessToken(params.access_token);
@@ -44,9 +45,19 @@ class App extends Component {
         }
     }
 
+    componentDidMount() {
+        spotifyWebApi.getMe()
+            .then((response) => {
+                this.setState({
+                    userDetails: response,
+                    dataLoaded: true
+                })
+            })
+    }
 
 
     render() {
+        if (!this.state.dataLoaded) { return("Loading...")}
         if (!this.state.loggedIn) {
             return (
                 <div className="App">
@@ -58,13 +69,13 @@ class App extends Component {
                 <div className="App col">
                     <Tabs defaultActiveKey="home" id="main-app-tabs" className="tabs" onSelect={(k) => this.handleTabClick(k)}>
                         <Tab eventKey="home" title="Welcome!">
-                            <Welcome spotifyWebApi={spotifyWebApi}/>
+                            <Welcome spotifyWebApi={spotifyWebApi} />
                         </Tab>
                         <Tab eventKey="topArtists" title="Top Artists">
-                            <TopArtists spotifyWebApi={spotifyWebApi} />
+                            <TopArtists userId={this.state.userDetails.id} spotifyWebApi={spotifyWebApi} />
                         </Tab>
                         <Tab eventKey="topTracks" title="Top Tracks">
-                            <TopTracks spotifyWebApi={spotifyWebApi} />
+                            <TopTracks userId={this.state.userDetails.id} spotifyWebApi={spotifyWebApi} />
                         </Tab>
                         <Tab className="logOut" eventKey="logOut" title="Log out" onClick={this.logOut}>
                         </Tab>

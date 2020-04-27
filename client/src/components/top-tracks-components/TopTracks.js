@@ -9,7 +9,6 @@ class TopTracks extends Component {
     super();
     this.state = {
       topTracks: [],
-      userDetails: [],
       songsForNewPlaylist: [],
       focusedSong: 0,
       numberOfSongs: 10,
@@ -38,17 +37,8 @@ class TopTracks extends Component {
 
   componentDidMount(){
     this.getTopTracks(this.props.spotifyWebApi);
-    this.getUserDetails(this.props.spotifyWebApi);
   }
 
-  getUserDetails(spotifyWebApi){
-    spotifyWebApi.getMe()
-    .then((response) => {
-      this.setState({
-        userDetails: response,
-      })
-    })
-  }
 
   //Grabs the 10 most popular songs and pushes them into an array.
   //The 'tracks' state is then updated to add this new array.
@@ -99,7 +89,7 @@ class TopTracks extends Component {
 
   createNewPlaylist(spotifyWebApi){
     var songUriList = []
-    spotifyWebApi.createPlaylist(this.state.userDetails.id, {name:`Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`, description:`These are your Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe} as of ${this.getCurrentDate()}`}).then((response)=>{
+    spotifyWebApi.createPlaylist(this.props.userId, {name:`Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`, description:`These are your Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe} as of ${this.getCurrentDate()}`}).then((response)=>{
       for (var i = 0; i < this.state.numberOfSongs; i++) {
         songUriList.push(this.state.songsForNewPlaylist.items[i].uri)
       }
