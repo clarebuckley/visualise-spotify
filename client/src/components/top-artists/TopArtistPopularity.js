@@ -10,15 +10,8 @@ class TopArtistPopularity extends Component {
         super();
         this.state = {
             showExplanation: true,
-            dataPie: {
-                datasets: [
-                    {
-                        data: [],
-                        backgroundColor: [],
-                        hoverBackgroundColor: []
-                    }
-                ]
-            }
+            pieData: {},
+            pieOptions: {}
         }
     }
 
@@ -33,7 +26,7 @@ class TopArtistPopularity extends Component {
     populatePieChart = () => {
         var remaining = 100 - this.props.popularity
         this.setState({
-            dataPie: {
+            pieData: {
                 labels: ["Popularity", ""],
                 datasets: [{
                     data: [
@@ -47,6 +40,18 @@ class TopArtistPopularity extends Component {
                         "rgba(240, 135, 30,0.6)"
                     ]
                 }]
+            },
+            pieOptions: {
+                title: {
+                    display: false
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    yLabel: "Test"
+                },
+                responsive: true
             }
         });
         
@@ -73,7 +78,9 @@ class TopArtistPopularity extends Component {
             return (
                 <div className="artistPopularity">
                     <p>Note that the popularity value may lag actual popularity by a few days: the value is not updated in real time.</p>
-                    <Pie data={this.state.dataPie} options={{ responsive: true }} />
+                    <div className="pieContainer">
+                        <Pie data={this.state.pieData} options={this.state.pieOptions}/>
+                    </div>
                 </div>
             )
         }

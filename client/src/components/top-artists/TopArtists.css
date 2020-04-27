@@ -222,3 +222,7 @@ similarArtistAlbumArt > a:hover {
 .artistGenre{
     text-transform: capitalize;
 }
+
+.pieContainer{
+    width: 400px;
+}
