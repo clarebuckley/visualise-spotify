@@ -20,8 +20,8 @@
     font-size: 16px;
     padding: 0 !important;
     overflow: auto;
-    height: inherit;
     padding: 20px;
+    height: 100%;
 }
 
     .topArtistList li {
@@ -90,7 +90,6 @@
     color: white;
     padding: 20px;
     width: 600px;
-
 }
 
 

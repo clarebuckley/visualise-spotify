@@ -192,6 +192,7 @@ class TopArtists extends Component {
                         isFollowingArtist={this.state.isFollowingArtist}
                         checkFollowingArtist={this.isFollowingArtist}
                         previewUrl={this.state.topArtistsTracks[this.state.selectedArtist].preview_url}
+                        popularity={this.state.topArtists[this.state.selectedArtist].popularity}
                     >
                     </TopArtistDetails>
                 </div>

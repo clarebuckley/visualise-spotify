@@ -61,8 +61,8 @@ class NowPlaying extends Component {
         if (!this.state.showNowPlaying) {
             return (
                 <div className="NowPlaying row justify-content-md-center">
-                    <div className="nowPlayingButton" onClick={() => this.getNowPlaying(this.props.spotifyWebApi)}>Show media player</div>
-                    <div className="nowPlayingButton" onClick={this.hideComponent}>Hide</div>
+                    <div className="genericButton" onClick={() => this.getNowPlaying(this.props.spotifyWebApi)}>Show media player</div>
+                    <div className="genericButton" onClick={this.hideComponent}>Hide</div>
                 </div>
             )
         }

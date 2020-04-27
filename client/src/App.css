@@ -19,6 +19,20 @@ h1 {
     color:white;
 }
 
+.genericButton {
+    background-color: rgb(144, 91, 109);
+    color: white;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid white;
+    width: 200px;
+    margin: 10px;
+}
+
+    .genericButton:hover {
+        cursor: pointer;
+    }
+
 .tabs {
     background-color: rgba(144, 91, 109, 0.8);
     color: white;

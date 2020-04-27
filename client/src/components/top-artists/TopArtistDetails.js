@@ -60,6 +60,7 @@ class TopArtistDetails extends Component {
                 </div>
                 <div>
                     <h2>{this.props.artistName}</h2>
+                    <p>Click the album art to hear a preview.</p>
                     {this.props.isFollowingArtist &&
                         <div>
                             <p>You are one of {this.props.artistName}'s {this.props.followers} followers!</p>
@@ -73,17 +74,17 @@ class TopArtistDetails extends Component {
                         </div>
                     }
                 </div>
-                <Tabs defaultActiveKey="genres" id="arist-details-tabs" className="aristDetailsTabs">
+                <Tabs defaultActiveKey="similarArtists" id="arist-details-tabs" className="aristDetailsTabs">
+                    <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent">
+                        <TopArtistSimilarArtists similarArtists={this.props.similarArtists} />
+                    </Tab>
                     <Tab eventKey="genres" title="Genres" className="artistTabContent">
                         {this.props.genres.map((genre) => (
                             <li className="artistGenre">{genre}</li>
                         ))}
                     </Tab>
-                    <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent">
-                        <TopArtistSimilarArtists similarArtists={this.props.similarArtists} />
-                    </Tab>
                     <Tab eventKey="popularity" title="Artist Popularity" className="artistTabContent">
-                        <TopArtistPopularity />
+                        <TopArtistPopularity popularity={this.props.popularity} />
                     </Tab>
                 </Tabs>
 
