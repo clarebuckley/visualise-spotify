@@ -33,8 +33,8 @@ class Welcome extends Component {
             <div className="Welcome">
                 <p> Hi  {this.state.userDetails.display_name.split(' ')[0]}! </p>
                 <p> This web app will tell you all you need to know about your music taste. </p>
-                <p> Click the tabs to see more :)</p>
                 <p> Tell your {this.state.userDetails.followers.total} followers! </p>
+                <p> For any bugs or suggestions, please contact <a href="https://github.com/clarebuckley">Clare</a> or <a href="https://github.com/thavi97">Thavi</a> :)</p>
             </div>
         );
     }
