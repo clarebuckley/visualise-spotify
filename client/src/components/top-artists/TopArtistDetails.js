@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab';
+import TopArtistPopularity from './TopArtistPopularity';
+import TopArtistSimilarArtists from './TopArtistSimilarArtists';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
 
 /**
@@ -77,15 +79,11 @@ class TopArtistDetails extends Component {
                             <li className="artistGenre">{genre}</li>
                         ))}
                     </Tab>
-                    <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent row">
-                        <div className="similarArtists">
-                            {this.props.similarArtists.map((similarArtist) => (
-                                <div className="similarArtistAlbumArt">
-                                    <img src={similarArtist.images[0].url} alt="album art" />
-                                    <p><a href={similarArtist.external_urls.spotify}>{similarArtist.name}</a></p>
-                                </div>
-                            ))}
-                        </div>
+                    <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent">
+                        <TopArtistSimilarArtists similarArtists={this.props.similarArtists} />
+                    </Tab>
+                    <Tab eventKey="popularity" title="Artist Popularity" className="artistTabContent">
+                        <TopArtistPopularity />
                     </Tab>
                 </Tabs>
 
