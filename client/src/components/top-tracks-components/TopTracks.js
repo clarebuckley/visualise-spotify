@@ -164,8 +164,8 @@ class TopTracks extends Component {
             </div>
           </div>
         </div>
-        <div className="row reverse-for-mobile">
-          <div className="list-group col-lg-3 topSongList margin-top">
+        <div className="row reverse-for-mobile margin-bottom">
+          <div className="list-group col-lg-4 top-song-list margin-top">
             {this.state.topTracks.map((track) => (
               <button onClick={() => {this.getSongPopularity(track.popularity); this.selectSong(this.state.topTracks.indexOf(track));}} className="song-card" key={track.id}>
                 {<img className="img-responsive float-left" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
@@ -173,15 +173,15 @@ class TopTracks extends Component {
               </button>
             ))}
           </div>
-          <div className="col-sm-9 margin-top">
+          <div className="col-sm-8 margin-top">
             {this.state.topTracks.slice(this.state.focusedSong,this.state.focusedSong+1).map((track) => (
-              <div key={track.id} className="row fixed-position">
+              <div key={track.id} className="row">
                 <Spring
                   from={{ opacity:0, marginTop: -500 }}
                   to={{ opacity:1, marginTop: 0 }}
                 >
                   { props => (
-                    <div style={props} className="col-lg-3">
+                    <div style={props} className="col-lg-4">
                       <img className="img-responsive album-art" src={track.album.images[0].url} alt=""/>
                       <div className="overlay">
                       <Pie
@@ -219,7 +219,7 @@ class TopTracks extends Component {
                   to={{ opacity:1 }}
                 >
                   { props => (
-                    <div style={props} className="col-md-7">
+                    <div style={props} className="col-md-8">
                       <div className="song-text-container">
                         <h3>{track.name}</h3>
                         <h5>By: {track.artists[0].name}</h5>
