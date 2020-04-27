@@ -172,7 +172,11 @@ class TopArtists extends Component {
         this.props.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
             .then((response) => {
                 this.populatePlaylist(response.id);
+                this.uploadPlaylistImage(response.id);
             })
+            .catch((err) => {
+                console.error(err);
+            });
     }
 
     //Populates the given playlist with songs by top artists
@@ -182,6 +186,16 @@ class TopArtists extends Component {
             songUriList.push(artistTrack.uri)
         }
         this.props.spotifyWebApi.addTracksToPlaylist(playlistId, songUriList)
+    }
+
+    uploadPlaylistImage = (playlistId) => {
+        this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, "../../../public/top-artists-playlist-cover.jpeg")
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     }
 
     render() {
