@@ -4,6 +4,12 @@
   border-color: #5bc2c2
 }
 
+.top-song-list{
+  overflow: scroll;
+  overflow-x: hidden;
+  max-height: 650px;
+}
+
 .header {
     background-color: rgba(144, 91, 109, 0.8);
     text-align: center;
@@ -55,7 +61,6 @@
   width: 250px;
   height: auto;
   margin-bottom: 15px;
-  margin-right: 100px;
 }
 
 .overlay {
@@ -87,7 +92,7 @@
   padding-bottom: 10px;
   padding-left: 15px;
   margin-bottom: 15px;
-  max-width: 535px;
+  margin-left: 10px;
   height: 250px;
 }
 
