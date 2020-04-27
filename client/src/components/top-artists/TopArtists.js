@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TopArtistsList from './TopArtistsList'
 import TopArtistDetails from './TopArtistDetails';
 import TopArtistsTimeRange from './TopArtistsTimeRange';
+import TopArtistsResultLimit from './TopArtistsResultLimit';
 import './TopArtists.css';
 
 //Set the amount of similar artists to be displayed (MAX=20)
@@ -20,7 +21,8 @@ class TopArtists extends Component {
             selectedArtist: 0,
             similarToSelectedArtist: [],
             dataHasLoaded: false,
-            isFollowingArtist: false
+            isFollowingArtist: false,
+            resultLimit: 20
         }
     }
 
@@ -30,7 +32,7 @@ class TopArtists extends Component {
 
     getAllData = () => {
         //Need to get top artists before finding the top track for each artist
-        this.getTopArtists(20).then((topArtists) => {
+        this.getTopArtists(this.state.resultLimit).then((topArtists) => {
             this.getTopTracksForAllArtists(topArtists).then((topTracks) => {
                 this.setState({
                     topArtists: topArtists,
@@ -153,13 +155,24 @@ class TopArtists extends Component {
         })
     }
 
+    setResultLimit = (newResultLimit) => {
+        this.setState({
+            resultLimit: newResultLimit
+        }, () => {
+            this.getAllData();
+        })
+    }
+
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
         return (
             <div className="TopArtists">
-                <div className="header">Your Top Artists {this.getTimeRangeInString()}</div>
-                <TopArtistsTimeRange  setTimeRange={this.setTimeRange}></TopArtistsTimeRange>
+                <div className="header">Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</div>
+                <div className="row justify-content-md-center">
+                    <TopArtistsTimeRange setTimeRange={this.setTimeRange}></TopArtistsTimeRange>
+                    <TopArtistsResultLimit setResultLimit={this.setResultLimit}></TopArtistsResultLimit>
+                </div>
                 <div className="mainContent row justify-content-around">
                     <TopArtistsList
                         className="col-sm-4"

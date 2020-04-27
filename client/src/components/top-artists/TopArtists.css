@@ -90,6 +90,7 @@
     color: white;
     padding: 20px;
     width: 600px;
+
 }
 
 
@@ -153,8 +154,8 @@
 
     .similarArtistAlbumArt > img {
         object-fit: cover;
-        width: 150px;
-        height: 150px;
+        width: 140px;
+        height: 140px;
         opacity: 1;
         display: block;
         transition: .5s ease;
@@ -162,8 +163,8 @@
     }
 
     .similarArtistAlbumArt > p {
-        width: 150px;
-        height: 150px;
+        width: 140px;
+        height: 140px;
         opacity: 0;
         transition: .5s ease;
         transform: translateY(-100%);
@@ -195,7 +196,7 @@ similarArtistAlbumArt > a:hover {
 }
 
 .similarArtists {
-    width: inherit;
+    width: 100%;
     height: 220px;
     display: flex;
     justify-content: space-around;
