@@ -65,7 +65,7 @@ class App extends Component {
             )
         }
         else if (!this.state.dataLoaded) {
-            return ("Loading...")
+            return ("Oops! Looks like there was an error :( Please try reloading the page, or signing out and in again.")
         }
         else{
             return (

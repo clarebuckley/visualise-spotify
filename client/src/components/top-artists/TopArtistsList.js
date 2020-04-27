@@ -14,7 +14,7 @@ class TopArtistsList extends Component {
         return (
             <div className="topArtistList">
                 {this.props.topArtists.map((result, index) => (
-                    <li id={index} onClick={() => { this.handleListClickEvent(index) }} className={this.props.selectedArtist === index ? 'selected' : 'result'}>
+                    <li id={index} key={result.id} onClick={() => { this.handleListClickEvent(index) }} className={this.props.selectedArtist === index ? 'selected' : 'result'}>
                         <p>{index + 1}.</p>
                         <div className="albumArtContainer">
                             <img className="albumArt" src={result.images[0].url} alt="album art" />
