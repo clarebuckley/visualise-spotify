@@ -166,23 +166,22 @@ class TopArtists extends Component {
 
     //Creates a new playlist for top artist songs
     createNewPlaylist = () => {
-        var playlistName = `${this.state.resultLimit} Songs By My Top Artists ${this.getTimeRangeInString()}`;
-        var playlistDescription = `${this.state.resultLimit} Songs By My Top Artists ${this.getTimeRangeInString()} as of ${getCurrentDate()}`
+        var playlistName = `Songs by my Top ${this.state.resultLimit} Artists ${this.getTimeRangeInString()}`;
+        var playlistDescription = `My ${this.state.resultLimit} Top Artists ${this.getTimeRangeInString()} as of ${getCurrentDate()}`
 
-        this.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
+        this.props.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
             .then((response) => {
-                console.log(response);
-        //        this.populatePlaylist(response.id);
+                this.populatePlaylist(response.id);
             })
     }
 
     //Populates the given playlist with songs by top artists
     populatePlaylist = (playlistId) => {
-        var songUriList = []
-        for (var i = 0; i < this.state.resultLimit; i++) {
-            songUriList.push("something")
+        var songUriList = [];
+        for (let artistTrack of this.state.topArtistsTracks) {
+            songUriList.push(artistTrack.uri)
         }
-        this.spotifyWebApi.addTracksToPlaylist(playlistId, songUriList)
+        this.props.spotifyWebApi.addTracksToPlaylist(playlistId, songUriList)
     }
 
     render() {
@@ -197,7 +196,7 @@ class TopArtists extends Component {
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                <p class="popup-text">A playlist with your Top {this.state.resultLimit} songs {this.getTimeRangeInString()} has been created! Check your Spotify!</p>
+                                <p class="popup-text">A playlist with songs by your top {this.state.resultLimit} artists {this.getTimeRangeInString()} has been created! Check your Spotify!</p>
                             </div>
                         </div>
                     </div>
