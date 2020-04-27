@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './TopTracks.css';
 import {Spring} from 'react-spring/renderprops';
-import { playOrPausePreview, muteSong } from '../../helpers/TrackPreviewHelper.js';
+import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
+import { getCurrentDate } from '../../helpers/DateHelper.js';
 import { Pie } from 'react-chartjs-2';
 
 class TopTracks extends Component {
@@ -23,16 +24,6 @@ class TopTracks extends Component {
         ],
       },
     }
-  }
-
-  getCurrentDate(){
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = dd + '/' + mm + '/' + yyyy;
-    return today
   }
 
   componentDidMount(){
@@ -89,7 +80,7 @@ class TopTracks extends Component {
 
   createNewPlaylist(spotifyWebApi){
     var songUriList = []
-    spotifyWebApi.createPlaylist(this.props.userId, {name:`Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`, description:`These are your Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe} as of ${this.getCurrentDate()}`}).then((response)=>{
+    spotifyWebApi.createPlaylist(this.props.userId, {name:`Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`, description:`These are your Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe} as of ${getCurrentDate()}`}).then((response)=>{
       for (var i = 0; i < this.state.numberOfSongs; i++) {
         songUriList.push(this.state.songsForNewPlaylist.items[i].uri)
       }

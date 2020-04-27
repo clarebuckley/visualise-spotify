@@ -3,6 +3,7 @@ import TopArtistsList from './TopArtistsList'
 import TopArtistDetails from './TopArtistDetails';
 import TopArtistsTimeRange from './TopArtistsTimeRange';
 import TopArtistsResultLimit from './TopArtistsResultLimit';
+import { getCurrentDate } from '../../helpers/DateHelper.js';
 import './TopArtists.css';
 
 //Set the amount of similar artists to be displayed (MAX=20)
@@ -165,11 +166,23 @@ class TopArtists extends Component {
 
     //Creates a new playlist for top artist songs
     createNewPlaylist = () => {
-        
+        var playlistName = `${this.state.resultLimit} Songs By My Top Artists ${this.getTimeRangeInString()}`;
+        var playlistDescription = `${this.state.resultLimit} Songs By My Top Artists ${this.getTimeRangeInString()} as of ${getCurrentDate()}`
+
+        this.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
+            .then((response) => {
+                console.log(response);
+        //        this.populatePlaylist(response.id);
+            })
     }
 
     //Populates the given playlist with songs by top artists
     populatePlaylist = (playlistId) => {
+        var songUriList = []
+        for (var i = 0; i < this.state.resultLimit; i++) {
+            songUriList.push("something")
+        }
+        this.spotifyWebApi.addTracksToPlaylist(playlistId, songUriList)
     }
 
     render() {

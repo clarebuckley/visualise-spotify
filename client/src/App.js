@@ -57,14 +57,17 @@ class App extends Component {
 
 
     render() {
-        if (!this.state.dataLoaded) { return("Loading...")}
         if (!this.state.loggedIn) {
             return (
                 <div className="App">
                     <Login spotifyWebApi={spotifyWebApi} />
                 </div>
             )
-        } else {
+        }
+        else if (!this.state.dataLoaded) {
+            return ("Loading...")
+        }
+        else{
             return (
                 <div className="App col">
                     <Tabs defaultActiveKey="home" id="main-app-tabs" className="tabs" onSelect={(k) => this.handleTabClick(k)}>
