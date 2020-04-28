@@ -33,8 +33,10 @@ class TopTracks extends Component {
   }
 
 
-  //Grabs the most popular songs of the user and pushes them into an array.
-  //The 'topTracks' state is then updated to add this new array.
+  /**
+   * Grabs the most popular songs of the user (depending on the timeframe) and pushes them into an array.
+   * The 'topTracks' state is then updated to add this new array.
+   */
   getTopTracks = (spotifyWebApi) =>{
     var tracks = []
     spotifyWebApi.getMyTopTracks({limit : this.state.numberOfSongs, time_range: this.state.timeframe}).then((response) => {
@@ -52,6 +54,9 @@ class TopTracks extends Component {
     })
   }
 
+  /**
+   * This function is used to select the song to view.
+   */
   selectSong = (track) =>{
     this.setState({
         focusedSong: this.state.topTracks.indexOf(track),
@@ -61,6 +66,9 @@ class TopTracks extends Component {
     });
   }
 
+  /**
+   * Sets the number of songs that the user wishes to see.
+   */
   selectNumberOfSongs = (numberOfSongs) => {
     this.setState({
         numberOfSongs: numberOfSongs,
@@ -70,6 +78,9 @@ class TopTracks extends Component {
     });
   }
 
+  /**
+   * Get the popuilarity of a specific song and update the 'popularityChart' state.
+   */
   getSongPopularity = (popularity) =>{
     this.setState({
       popularityChart:{
@@ -82,6 +93,12 @@ class TopTracks extends Component {
     });
   }
 
+  /**
+   * Select the timeframe for the user's top tracks.
+   * 'short_term' = Top Tracks of The Last 1 Month.
+   * 'medium_term' = Top Tracks of The Last 6 Months.
+   * 'long_term' = Top Tracks of All Time.
+   */
   selectTimeframe = (timeframe) => {
     this.setState({
       timeframe: timeframe,

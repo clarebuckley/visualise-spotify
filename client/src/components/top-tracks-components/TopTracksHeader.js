@@ -7,6 +7,9 @@ import { getCurrentDate } from '../../helpers/DateHelper.js';
  * */
 class TopTracksHeader extends Component {
 
+  /**
+   * Creates a new Spotify playlist of top tracks for the user given their parameters
+   */
   createNewPlaylist = (spotifyWebApi) =>{
     var songUriList = [];
     var playlistName = `My Top ${this.props.numberOfSongs} Songs of ${this.props.titleTimeframe}`;
