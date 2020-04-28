@@ -35,7 +35,7 @@ class TopTracks extends Component {
 
   //Grabs the most popular songs of the user and pushes them into an array.
   //The 'topTracks' state is then updated to add this new array.
-  getTopTracks(spotifyWebApi){
+  getTopTracks = (spotifyWebApi) =>{
     var tracks = []
     spotifyWebApi.getMyTopTracks({limit : this.state.numberOfSongs, time_range: this.state.timeframe}).then((response) => {
       tracks = response.items;
@@ -70,7 +70,7 @@ class TopTracks extends Component {
     });
   }
 
-  getSongPopularity(popularity){
+  getSongPopularity = (popularity) =>{
     this.setState({
       popularityChart:{
         datasets:[
