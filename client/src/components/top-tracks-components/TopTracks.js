@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './TopTracks.css';
+import TopTracksTimeRange from './TopTracksTimeRange';
+import TopTracksNumberOfSongs from './TopTracksNumberOfSongs';
 import {Spring} from 'react-spring/renderprops';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
@@ -10,7 +12,6 @@ class TopTracks extends Component {
     super();
     this.state = {
       topTracks: [],
-      songsForNewPlaylist: [],
       focusedSong: 0,
       numberOfSongs: 10,
       timeframe: 'medium_term',
@@ -31,8 +32,8 @@ class TopTracks extends Component {
   }
 
 
-  //Grabs the 10 most popular songs and pushes them into an array.
-  //The 'tracks' state is then updated to add this new array.
+  //Grabs the most popular songs of the user and pushes them into an array.
+  //The 'topTracks' state is then updated to add this new array.
   getTopTracks(spotifyWebApi){
     var tracks = []
     spotifyWebApi.getMyTopTracks({limit : this.state.numberOfSongs, time_range: this.state.timeframe}).then((response) => {
@@ -46,18 +47,20 @@ class TopTracks extends Component {
             },
           ],
         },
-        songsForNewPlaylist: response,
       })
     })
   }
 
-  selectSong(track_index) {
+  selectSong(track){
     this.setState({
-        focusedSong: track_index,
-    })
+        focusedSong: this.state.topTracks.indexOf(track),
+    },
+    () => {
+      this.getSongPopularity(track.popularity);
+    });
   }
 
-  selectNumberOfSongs(numberOfSongs){
+  selectNumberOfSongs = (numberOfSongs) => {
     this.setState({
         numberOfSongs: numberOfSongs,
     },
@@ -79,16 +82,18 @@ class TopTracks extends Component {
   }
 
   createNewPlaylist(spotifyWebApi){
-    var songUriList = []
-    spotifyWebApi.createPlaylist(this.props.userId, {name:`Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`, description:`These are your Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe} as of ${getCurrentDate()}`}).then((response)=>{
+    var songUriList = [];
+    var playlistName = `My Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`;
+    var playlistDescription = `These are your Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe} as of ${getCurrentDate()}`;
+    spotifyWebApi.createPlaylist(this.props.userId, {name:playlistName, description:playlistDescription}).then((response)=>{
       for (var i = 0; i < this.state.numberOfSongs; i++) {
-        songUriList.push(this.state.songsForNewPlaylist.items[i].uri)
+        songUriList.push(this.state.topTracks[i].uri)
       }
       spotifyWebApi.addTracksToPlaylist(response.id, songUriList)
     })
   }
 
-  selectTimeframe(timeframe){
+  selectTimeframe = (timeframe) => {
     this.setState({
       timeframe: timeframe,
     })
@@ -148,7 +153,7 @@ class TopTracks extends Component {
         <div className="row reverse-for-mobile margin-bottom">
           <div className="list-group col-lg-4 top-song-list margin-top">
             {this.state.topTracks.map((track) => (
-              <button onClick={() => {this.getSongPopularity(track.popularity); this.selectSong(this.state.topTracks.indexOf(track));}} className="song-card" key={track.id}>
+              <button onClick={() => {this.selectSong(track);}} className="song-card" key={track.id}>
                 {<img className="img-responsive float-left" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
                 <p className="song-card-text vertical-center">{track.name}</p>
               </button>
@@ -216,24 +221,16 @@ class TopTracks extends Component {
                   )}
                 </Spring>
                 <div className="col-lg-12">
-                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('short_term'); }}>1 Month</button>
-                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</button>
-                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</button>
-                </div>
-                <div className="col-lg-12">
-                  <div className="dropdown">
-                    <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                      {this.state.numberOfSongs} Songs
-                    </button>
-                    <div className="dropdown-menu">
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(5); }}>5</a>
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(10); }}>10</a>
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(20); }}>20</a>
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(30); }}>30</a>
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(40); }} >40</a>
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(50); }}>50</a>
-                    </div>
-                  </div>
+                  <TopTracksTimeRange
+                    selectTimeframe={this.selectTimeframe}
+                    titleTimeframe={this.state.titleTimeframe}
+                  >
+                  </TopTracksTimeRange>
+                  <TopTracksNumberOfSongs
+                    numberOfSongs={this.state.numberOfSongs}
+                    selectNumberOfSongs={this.selectNumberOfSongs}
+                  >
+                  </TopTracksNumberOfSongs>
                 </div>
               </div>
             ))}
