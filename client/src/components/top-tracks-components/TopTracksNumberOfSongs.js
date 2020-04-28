@@ -3,7 +3,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 /**
- * Responsible for changing the time range for the displayed top artist data
+ * Responsible for changing the number of top tracks to be displayed
  * */
 class TopTracksNumberOfSongs extends Component {
     render() {

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './TopTracks.css';
-import TopTracksTimeRange from './TopTracksTimeRange';
+import TopTracksTimeframe from './TopTracksTimeframe';
 import TopTracksNumberOfSongs from './TopTracksNumberOfSongs';
+import TopTracksHeader from './TopTracksHeader';
 import {Spring} from 'react-spring/renderprops';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
@@ -81,18 +82,6 @@ class TopTracks extends Component {
     });
   }
 
-  createNewPlaylist(spotifyWebApi){
-    var songUriList = [];
-    var playlistName = `My Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`;
-    var playlistDescription = `These are your Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe} as of ${getCurrentDate()}`;
-    spotifyWebApi.createPlaylist(this.props.userId, {name:playlistName, description:playlistDescription}).then((response)=>{
-      for (var i = 0; i < this.state.numberOfSongs; i++) {
-        songUriList.push(this.state.topTracks[i].uri)
-      }
-      spotifyWebApi.addTracksToPlaylist(response.id, songUriList)
-    })
-  }
-
   selectTimeframe = (timeframe) => {
     this.setState({
       timeframe: timeframe,
@@ -132,24 +121,14 @@ class TopTracks extends Component {
   render(){
     return (
       <div className="App">
-        <div className="header">
-          <p>Your Top {this.state.numberOfSongs} Songs of {this.state.titleTimeframe}</p>
-          <button type="button" className="btn btn-success" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi);}} data-toggle="modal" data-target="#myModal">
-            Add These Songs To Playlist
-          </button>
-          <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <p class="popup-text">A playlist with your Top {this.state.numberOfSongs} songs of {this.state.titleTimeframe} has been created! Check your Spotify!</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <TopTracksHeader
+          numberOfSongs={this.state.numberOfSongs}
+          titleTimeframe={this.state.titleTimeframe}
+          spotifyWebApi={this.props.spotifyWebApi}
+          topTracks={this.state.topTracks}
+          userId={this.props.userId}
+        >
+        </TopTracksHeader>
         <div className="row reverse-for-mobile margin-bottom">
           <div className="list-group col-lg-4 top-song-list margin-top">
             {this.state.topTracks.map((track) => (
@@ -198,7 +177,6 @@ class TopTracks extends Component {
                       </div>
                     </div>
                   )}
-
                 </Spring>
                 <Spring
                   from={{ opacity:0 }}
@@ -221,11 +199,11 @@ class TopTracks extends Component {
                   )}
                 </Spring>
                 <div className="col-lg-12">
-                  <TopTracksTimeRange
+                  <TopTracksTimeframe
                     selectTimeframe={this.selectTimeframe}
                     titleTimeframe={this.state.titleTimeframe}
                   >
-                  </TopTracksTimeRange>
+                  </TopTracksTimeframe>
                   <TopTracksNumberOfSongs
                     numberOfSongs={this.state.numberOfSongs}
                     selectNumberOfSongs={this.selectNumberOfSongs}

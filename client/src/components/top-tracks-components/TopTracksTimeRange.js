@@ -3,9 +3,9 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 /**
- * Responsible for changing the time range for the displayed top artist data
+ * Responsible for changing the timeframe for the displayed top tracks data
  * */
-class TopTracksTimeRange extends Component {
+class TopTracksTimeframe extends Component {
     render() {
         return (
             <DropdownButton className="dropdown" title={this.props.titleTimeframe} id="action-button">
@@ -17,4 +17,4 @@ class TopTracksTimeRange extends Component {
     }
 }
 
-export default TopTracksTimeRange;
+export default TopTracksTimeframe;
