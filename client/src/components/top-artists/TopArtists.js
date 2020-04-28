@@ -11,6 +11,7 @@ const similarArtistsReturnLimit = 9;
 
 /**
  * Responsible for getting data for TopArtistDetails and TopArtistsLists
+ * TODO: add better error handling, tests and general tidy-up
  * */
 class TopArtists extends Component {
     constructor() {
@@ -188,33 +189,35 @@ class TopArtists extends Component {
         this.props.spotifyWebApi.addTracksToPlaylist(playlistId, songUriList)
     }
 
+    //Uploads a custom cover image to the given playlist
     uploadPlaylistImage = (playlistId) => {
-        this.fileToBase64("top-artists-playlist-cover.jpeg", "../../../public/top-artists-playlist-cover.jpeg").then(dataUri => {
-            console.log(dataUri);
-            this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, dataUri)
-                .then((response) => {
-                    console.log(response);
-                })
-                .catch((err) => {
-                    console.error(err);
-                });
-        });
+        this.fileToBase64("top-artists-playlist-cover.jpeg", "../../../public/top-artists-playlist-cover.jpeg")
+            .then((base64) => {
+                console.log(base64);
+               /* this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, base64)
+                    .then((response) => {
+                        console.log(response);
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });*/
+            });
     }
 
-    // Convert file to base64 string TODO --> MOVE TO HELPER FILE
-     fileToBase64 = (filename, filepath) => {
+    //Convert file to base64 string
+    fileToBase64 = (filename, filepath) => {
         return new Promise(resolve => {
-            var file = new File([filename], filepath, {type: "image/jpeg"});
+            var file = new File([filename], filepath, { type: 'image/jpeg' });
             var reader = new FileReader();
             reader.onload = function (event) {
                 resolve(event.target.result);
             };
-            
+
+            //Convert data to base64 
             reader.readAsDataURL(file);
         });
     };
 
-    
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
