@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
 
 /**
- * Responsible for telling the user the number of songs within a given timframe.
+ * Responsible for telling the user the number of songs within a given timeframe.
  * Also responsible for creating a playlist of the songs.
  * */
 class TopTracksHeader extends Component {

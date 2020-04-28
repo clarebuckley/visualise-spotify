@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import TopTracksTimeframe from './TopTracksTimeframe.js';
 import TopTracksNumberOfSongs from './TopTracksNumberOfSongs.js';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
-import { getCurrentDate } from '../../helpers/DateHelper.js';
 import { Pie } from 'react-chartjs-2';
 import {Spring} from 'react-spring/renderprops';
 
 /**
- * Responsible for displaying the list of the user's top tracks.
+ * Responsible for displaying an individual track that the user selected.
+ * Also gets the popularity of that track and displays it as a pie chart over the album art.
  * */
 class TopTracksIndividualSong extends Component {
     render() {

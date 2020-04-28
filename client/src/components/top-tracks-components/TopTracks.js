@@ -3,10 +3,6 @@ import './TopTracks.css';
 import TopTracksHeader from './TopTracksHeader.js';
 import TopTracksSongList from './TopTracksSongList.js';
 import TopTracksIndividualSong from './TopTracksIndividualSong.js';
-import {Spring} from 'react-spring/renderprops';
-import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
-import { getCurrentDate } from '../../helpers/DateHelper.js';
-import { Pie } from 'react-chartjs-2';
 
 class TopTracks extends Component {
   constructor(){
