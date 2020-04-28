@@ -194,13 +194,13 @@ class TopArtists extends Component {
         this.fileToBase64("top-artists-playlist-cover.jpeg", "../../../public/top-artists-playlist-cover.jpeg")
             .then((base64) => {
                 console.log(base64);
-               /* this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, base64)
-                    .then((response) => {
-                        console.log(response);
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    });*/
+                /* this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, base64)
+                     .then((response) => {
+                         console.log(response);
+                     })
+                     .catch((err) => {
+                         console.error(err);
+                     });*/
             });
     }
 
@@ -215,8 +215,11 @@ class TopArtists extends Component {
 
             //Convert data to base64 
             reader.readAsDataURL(file);
+
         });
     };
+
+
 
 
     render() {
@@ -239,7 +242,12 @@ class TopArtists extends Component {
 
                 <div className="header">
                     <p>Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</p>
-                    <button type="button" className="btn btn-success" onClick={() => { this.createNewPlaylist(); }} data-toggle="modal" data-target="#successModal">
+                    <button
+                        type="button"
+                        className="btn btn-success"
+                        onClick={() => { this.createNewPlaylist(); }}
+                        data-toggle="modal"
+                        data-target="#successModal">
                         Make A Playlist Of These Artists
                     </button>
                 </div>
