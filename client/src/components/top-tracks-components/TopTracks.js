@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import './TopTracks.css';
-import {Spring} from 'react-spring/renderprops';
-import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
-import { getCurrentDate } from '../../helpers/DateHelper.js';
-import { Pie } from 'react-chartjs-2';
+import TopTracksHeader from './TopTracksHeader.js';
+import TopTracksSongList from './TopTracksSongList.js';
+import TopTracksIndividualSong from './TopTracksIndividualSong.js';
 
 class TopTracks extends Component {
   constructor(){
     super();
     this.state = {
       topTracks: [],
-      songsForNewPlaylist: [],
       focusedSong: 0,
       numberOfSongs: 10,
       timeframe: 'medium_term',
@@ -31,9 +29,11 @@ class TopTracks extends Component {
   }
 
 
-  //Grabs the 10 most popular songs and pushes them into an array.
-  //The 'tracks' state is then updated to add this new array.
-  getTopTracks(spotifyWebApi){
+  /**
+   * Grabs the most popular songs of the user (depending on the timeframe) and pushes them into an array.
+   * The 'topTracks' state is then updated to add this new array.
+   */
+  getTopTracks = (spotifyWebApi) =>{
     var tracks = []
     spotifyWebApi.getMyTopTracks({limit : this.state.numberOfSongs, time_range: this.state.timeframe}).then((response) => {
       tracks = response.items;
@@ -46,18 +46,26 @@ class TopTracks extends Component {
             },
           ],
         },
-        songsForNewPlaylist: response,
       })
     })
   }
 
-  selectSong(track_index) {
+  /**
+   * This function is used to select the song to view.
+   */
+  selectSong = (track) =>{
     this.setState({
-        focusedSong: track_index,
-    })
+        focusedSong: this.state.topTracks.indexOf(track),
+    },
+    () => {
+      this.getSongPopularity(track.popularity);
+    });
   }
 
-  selectNumberOfSongs(numberOfSongs){
+  /**
+   * Sets the number of songs that the user wishes to see.
+   */
+  selectNumberOfSongs = (numberOfSongs) => {
     this.setState({
         numberOfSongs: numberOfSongs,
     },
@@ -66,7 +74,10 @@ class TopTracks extends Component {
     });
   }
 
-  getSongPopularity(popularity){
+  /**
+   * Get the popuilarity of a specific song and update the 'popularityChart' state.
+   */
+  getSongPopularity = (popularity) =>{
     this.setState({
       popularityChart:{
         datasets:[
@@ -78,17 +89,13 @@ class TopTracks extends Component {
     });
   }
 
-  createNewPlaylist(spotifyWebApi){
-    var songUriList = []
-    spotifyWebApi.createPlaylist(this.props.userId, {name:`Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe}`, description:`These are your Top ${this.state.numberOfSongs} Songs of ${this.state.titleTimeframe} as of ${getCurrentDate()}`}).then((response)=>{
-      for (var i = 0; i < this.state.numberOfSongs; i++) {
-        songUriList.push(this.state.songsForNewPlaylist.items[i].uri)
-      }
-      spotifyWebApi.addTracksToPlaylist(response.id, songUriList)
-    })
-  }
-
-  selectTimeframe(timeframe){
+  /**
+   * Select the timeframe for the user's top tracks.
+   * 'short_term' = Top Tracks of The Last 1 Month.
+   * 'medium_term' = Top Tracks of The Last 6 Months.
+   * 'long_term' = Top Tracks of All Time.
+   */
+  selectTimeframe = (timeframe) => {
     this.setState({
       timeframe: timeframe,
     })
@@ -127,117 +134,30 @@ class TopTracks extends Component {
   render(){
     return (
       <div className="App">
-        <div className="header">
-          <p>Your Top {this.state.numberOfSongs} Songs of {this.state.titleTimeframe}</p>
-          <button type="button" className="btn btn-success" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi);}} data-toggle="modal" data-target="#myModal">
-            Add These Songs To Playlist
-          </button>
-          <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <p class="popup-text">A playlist with your Top {this.state.numberOfSongs} songs of {this.state.titleTimeframe} has been created! Check your Spotify!</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <TopTracksHeader
+          numberOfSongs={this.state.numberOfSongs}
+          titleTimeframe={this.state.titleTimeframe}
+          spotifyWebApi={this.props.spotifyWebApi}
+          topTracks={this.state.topTracks}
+          userId={this.props.userId}
+        >
+        </TopTracksHeader>
         <div className="row reverse-for-mobile margin-bottom">
-          <div className="list-group col-lg-4 top-song-list margin-top">
-            {this.state.topTracks.map((track) => (
-              <button onClick={() => {this.getSongPopularity(track.popularity); this.selectSong(this.state.topTracks.indexOf(track));}} className="song-card" key={track.id}>
-                {<img className="img-responsive float-left" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
-                <p className="song-card-text vertical-center">{track.name}</p>
-              </button>
-            ))}
-          </div>
-          <div className="col-sm-8 margin-top">
-            {this.state.topTracks.slice(this.state.focusedSong,this.state.focusedSong+1).map((track) => (
-              <div key={track.id} className="row">
-                <Spring
-                  from={{ opacity:0, marginTop: -500 }}
-                  to={{ opacity:1, marginTop: 0 }}
-                >
-                  { props => (
-                    <div style={props} className="col-lg-4">
-                      <img className="img-responsive album-art" src={track.album.images[0].url} alt=""/>
-                      <div className="overlay">
-                      <Pie
-                      data={this.state.popularityChart}
-                      options={{
-                        title:{
-                          display:true,
-                          text:'Song Popularity',
-                          fontSize:16,
-                          fontColor:'#ffffff'
-                        },
-                        legend:{
-                          display:false,
-                          position:'right',
-                          labels:{
-                            fontColor:'#ffffff'
-                          }
-                        },
-                        tooltips: {
-                          callbacks: {
-                            label: function(tooltipItem) {
-                              return tooltipItem.yLabel;
-                            }
-                          }
-                        }
-                      }}
-                      />
-                      </div>
-                    </div>
-                  )}
-
-                </Spring>
-                <Spring
-                  from={{ opacity:0 }}
-                  to={{ opacity:1 }}
-                >
-                  { props => (
-                    <div style={props} className="col-md-8">
-                      <div className="song-text-container">
-                        <h3>{track.name}</h3>
-                        <h5>By: {track.artists[0].name}</h5>
-                        <h5>Album: {track.album.name}</h5>
-                        <audio id="song-preview">
-                          <source src={track.preview_url} type="audio/ogg"/>
-                        </audio>
-                        <button onClick={() => playOrPausePreview('song-preview')}>
-                          Play/Pause
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </Spring>
-                <div className="col-lg-12">
-                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('short_term'); }}>1 Month</button>
-                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('medium_term'); }}>6 Months</button>
-                  <button className="btn btn-secondary margin-right margin-bottom" onClick={() => { this.selectTimeframe('long_term'); }}>All Time</button>
-                </div>
-                <div className="col-lg-12">
-                  <div className="dropdown">
-                    <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                      {this.state.numberOfSongs} Songs
-                    </button>
-                    <div className="dropdown-menu">
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(5); }}>5</a>
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(10); }}>10</a>
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(20); }}>20</a>
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(30); }}>30</a>
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(40); }} >40</a>
-                      <a className="dropdown-item" href="#" onClick={() => { this.selectNumberOfSongs(50); }}>50</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <TopTracksSongList
+            topTracks={this.state.topTracks}
+            selectSong={this.selectSong}
+          >
+          </TopTracksSongList>
+          <TopTracksIndividualSong
+            topTracks={this.state.topTracks}
+            focusedSong={this.state.focusedSong}
+            popularityChart={this.state.popularityChart}
+            selectTimeframe={this.selectTimeframe}
+            titleTimeframe={this.state.titleTimeframe}
+            numberOfSongs={this.state.numberOfSongs}
+            selectNumberOfSongs={this.selectNumberOfSongs}
+          >
+          </TopTracksIndividualSong>
         </div>
       </div>
     );
