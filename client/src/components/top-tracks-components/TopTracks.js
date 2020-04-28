@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './TopTracks.css';
-import TopTracksTimeframe from './TopTracksTimeframe';
-import TopTracksNumberOfSongs from './TopTracksNumberOfSongs';
-import TopTracksHeader from './TopTracksHeader';
+import TopTracksHeader from './TopTracksHeader.js';
+import TopTracksSongList from './TopTracksSongList.js';
+import TopTracksIndividualSong from './TopTracksIndividualSong.js';
 import {Spring} from 'react-spring/renderprops';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
@@ -52,7 +52,7 @@ class TopTracks extends Component {
     })
   }
 
-  selectSong(track){
+  selectSong = (track) =>{
     this.setState({
         focusedSong: this.state.topTracks.indexOf(track),
     },
@@ -130,89 +130,21 @@ class TopTracks extends Component {
         >
         </TopTracksHeader>
         <div className="row reverse-for-mobile margin-bottom">
-          <div className="list-group col-lg-4 top-song-list margin-top">
-            {this.state.topTracks.map((track) => (
-              <button onClick={() => {this.selectSong(track);}} className="song-card" key={track.id}>
-                {<img className="img-responsive float-left" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
-                <p className="song-card-text vertical-center">{track.name}</p>
-              </button>
-            ))}
-          </div>
-          <div className="col-sm-8 margin-top">
-            {this.state.topTracks.slice(this.state.focusedSong,this.state.focusedSong+1).map((track) => (
-              <div key={track.id} className="row">
-                <Spring
-                  from={{ opacity:0, marginTop: -500 }}
-                  to={{ opacity:1, marginTop: 0 }}
-                >
-                  { props => (
-                    <div style={props} className="col-lg-4">
-                      <img className="img-responsive album-art" src={track.album.images[0].url} alt=""/>
-                      <div className="overlay">
-                      <Pie
-                      data={this.state.popularityChart}
-                      options={{
-                        title:{
-                          display:true,
-                          text:'Song Popularity',
-                          fontSize:16,
-                          fontColor:'#ffffff'
-                        },
-                        legend:{
-                          display:false,
-                          position:'right',
-                          labels:{
-                            fontColor:'#ffffff'
-                          }
-                        },
-                        tooltips: {
-                          callbacks: {
-                            label: function(tooltipItem) {
-                              return tooltipItem.yLabel;
-                            }
-                          }
-                        }
-                      }}
-                      />
-                      </div>
-                    </div>
-                  )}
-                </Spring>
-                <Spring
-                  from={{ opacity:0 }}
-                  to={{ opacity:1 }}
-                >
-                  { props => (
-                    <div style={props} className="col-md-8">
-                      <div className="song-text-container">
-                        <h3>{track.name}</h3>
-                        <h5>By: {track.artists[0].name}</h5>
-                        <h5>Album: {track.album.name}</h5>
-                        <audio id="song-preview">
-                          <source src={track.preview_url} type="audio/ogg"/>
-                        </audio>
-                        <button onClick={() => playOrPausePreview('song-preview')}>
-                          Play/Pause
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </Spring>
-                <div className="col-lg-12">
-                  <TopTracksTimeframe
-                    selectTimeframe={this.selectTimeframe}
-                    titleTimeframe={this.state.titleTimeframe}
-                  >
-                  </TopTracksTimeframe>
-                  <TopTracksNumberOfSongs
-                    numberOfSongs={this.state.numberOfSongs}
-                    selectNumberOfSongs={this.selectNumberOfSongs}
-                  >
-                  </TopTracksNumberOfSongs>
-                </div>
-              </div>
-            ))}
-          </div>
+          <TopTracksSongList
+            topTracks={this.state.topTracks}
+            selectSong={this.selectSong}
+          >
+          </TopTracksSongList>
+          <TopTracksIndividualSong
+            topTracks={this.state.topTracks}
+            focusedSong={this.state.focusedSong}
+            popularityChart={this.state.popularityChart}
+            selectTimeframe={this.selectTimeframe}
+            titleTimeframe={this.state.titleTimeframe}
+            numberOfSongs={this.state.numberOfSongs}
+            selectNumberOfSongs={this.selectNumberOfSongs}
+          >
+          </TopTracksIndividualSong>
         </div>
       </div>
     );
