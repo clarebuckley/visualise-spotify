@@ -189,14 +189,32 @@ class TopArtists extends Component {
     }
 
     uploadPlaylistImage = (playlistId) => {
-        this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, "../../../public/top-artists-playlist-cover.jpeg")
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+        this.fileToBase64("top-artists-playlist-cover.jpeg", "../../../public/top-artists-playlist-cover.jpeg").then(dataUri => {
+            console.log(dataUri);
+            this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, dataUri)
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        });
     }
+
+    // Convert file to base64 string TODO --> MOVE TO HELPER FILE
+     fileToBase64 = (filename, filepath) => {
+        return new Promise(resolve => {
+            var file = new File([filename], filepath, {type: "image/jpeg"});
+            var reader = new FileReader();
+            reader.onload = function (event) {
+                resolve(event.target.result);
+            };
+            
+            reader.readAsDataURL(file);
+        });
+    };
+
+    
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
