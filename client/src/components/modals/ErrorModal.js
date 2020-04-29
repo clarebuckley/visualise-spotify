@@ -7,15 +7,15 @@ import './ErrorModal.css';
 class ErrorModal extends Component {
     render() {
         return (
-            <div id="errorModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
+            <div id="errorModal" className="modal fade" role="dialog">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
                             <p>Error!</p>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <button type="button" className="close" data-dismiss="modal">&times;</button>
                         </div>
-                        <div class="modal-body">
-                            <p class="popup-text">{this.props.descriptionText}</p>
+                        <div className="modal-body">
+                            <p className="popup-text">{this.props.descriptionText}</p>
                         </div>
                     </div>
                 </div>
