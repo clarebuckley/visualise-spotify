@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './SuccessModal.css';
+import './ErrorModal.css';
 
 /** Responsible for rendering an error message modal dialog
  *  Requires a 'descriptionText' input from parent component

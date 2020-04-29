@@ -3,7 +3,9 @@ import TopArtistsList from './TopArtistsList'
 import TopArtistDetails from './TopArtistDetails';
 import TopArtistsTimeRange from './TopArtistsTimeRange';
 import TopArtistsResultLimit from './TopArtistsResultLimit';
+import SelectNumSongsModal from './SelectNumSongsModal';
 import SuccessModal from '../modals/SuccessModal.js';
+import ErrorModal from '../modals/ErrorModal.js';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
 import { fileToBase64 } from '../../helpers/Base64ImageHelper.js';
 import './TopArtists.css';
@@ -13,13 +15,15 @@ const similarArtistsReturnLimit = 9;
 
 /**
  * Responsible for getting data for TopArtistDetails and TopArtistsLists
- * TODO: add better error handling, tests and general tidy-up
+ * TODO: add better error handling, tests and general tidy-up, use success/error modals after promises are returned
  * */
 class TopArtists extends Component {
     constructor() {
         super();
         this.state = {
+            //List of top artists, used in TopArtistsList
             topArtists: [],
+            //One song from each top artist, used for song preview in TopArtistDetails
             topArtistsTracks: [],
             timeRange: "medium_term",
             selectedArtist: 0,
@@ -64,7 +68,7 @@ class TopArtists extends Component {
         })
     }
 
-    //Get the state to show top tracks for all top artists
+    //Get data to be able to play top track of each artist in the list
     getTopTracksForAllArtists = (artists) => {
         return new Promise(resolve => {
             var promises = [];
@@ -120,6 +124,47 @@ class TopArtists extends Component {
             })
     }
 
+    //Creates a new playlist for top artist songs
+    createNewPlaylist = (numOfSongs) => {
+        var playlistName = `Songs by my Top ${this.state.resultLimit} Artists ${this.getTimeRangeInString()}`;
+        var playlistDescription = `My ${this.state.resultLimit} Top Artists ${this.getTimeRangeInString()} as of ${getCurrentDate()}`
+
+        this.props.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
+            .then((response) => {
+                this.populatePlaylist(response.id, numOfSongs);
+                this.uploadPlaylistImage(response.id);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+
+    //Populates the given playlist with songs by top artists >>>>>TODO: USE NUM OF SONGS SELECTION
+    populatePlaylist = (playlistId, numOfSongs) => {
+        var songUriList = [];
+        for (let artistTrack of this.state.topArtistsTracks) {
+            songUriList.push(artistTrack.uri)
+        }
+        this.props.spotifyWebApi.addTracksToPlaylist(playlistId, songUriList)
+    }
+
+    //Uploads a custom cover image to the given playlist
+    uploadPlaylistImage = (playlistId) => {
+        fileToBase64("top-artists-playlist-cover.jpeg", "./top-artists-playlist-cover.jpeg")
+            .then((base64) => {
+                this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, base64)
+                    .then((response) => {
+                        console.log(response);
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }
+
     //Helper function to set whether the data has been loaded
     setDataHasLoaded = (hasLoaded) => {
         this.setState({
@@ -167,65 +212,34 @@ class TopArtists extends Component {
         })
     }
 
-    //Creates a new playlist for top artist songs
-    createNewPlaylist = () => {
-        var playlistName = `Songs by my Top ${this.state.resultLimit} Artists ${this.getTimeRangeInString()}`;
-        var playlistDescription = `My ${this.state.resultLimit} Top Artists ${this.getTimeRangeInString()} as of ${getCurrentDate()}`
-
-        this.props.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
-            .then((response) => {
-                this.populatePlaylist(response.id);
-                this.uploadPlaylistImage(response.id);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    }
-
-    //Populates the given playlist with songs by top artists
-    populatePlaylist = (playlistId) => {
-        var songUriList = [];
-        for (let artistTrack of this.state.topArtistsTracks) {
-            songUriList.push(artistTrack.uri)
-        }
-        this.props.spotifyWebApi.addTracksToPlaylist(playlistId, songUriList)
-    }
-
-    //Uploads a custom cover image to the given playlist
-    uploadPlaylistImage = (playlistId) => {
-        fileToBase64("top-artists-playlist-cover.jpeg", "../../../public/top-artists-playlist-cover.jpeg")
-            .then((base64) => {
-                console.log(base64);
-                this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, base64)
-                    .then((response) => {
-                        console.log(response);
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    });
-            });
-    }
-
     getSuccessDescription = () => {
         return `A playlist with songs by your top ${this.state.resultLimit} artists ${this.getTimeRangeInString()} has been created! Check your Spotify!`
     }
 
+    getErrorDescription = () => {
+        return `There was an error making your playlist, please try again! If this error continues, please contact Clare or Thavi for help :)`;
+    }
+
+    getInputDescription = () => {
+        return `How many songs by each artist should be included in the playlist?`;
+    }
 
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
         return (
             <div className="TopArtists">
-                <SuccessModal id="successModal" descriptionText={this.getSuccessDescription()} />
+                <SuccessModal descriptionText={this.getSuccessDescription()} />
+                <ErrorModal descriptionText={this.getErrorDescription()} />
+                <SelectNumSongsModal descriptionText={this.getInputDescription()} createNewPlaylist={this.createNewPlaylist} />
 
                 <div className="header">
                     <p>Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</p>
                     <button
                         type="button"
                         className="btn btn-success"
-                        onClick={() => { this.createNewPlaylist(); }}
                         data-toggle="modal"
-                        data-target="#successModal">
+                        data-target="#selectNumSongsModal">
                         Make A Playlist Of These Artists
                     </button>
                 </div>
