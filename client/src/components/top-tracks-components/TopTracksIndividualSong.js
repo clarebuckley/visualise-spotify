@@ -22,7 +22,7 @@ class TopTracksIndividualSong extends Component {
                 { props => (
                   <div style={props} className="col-lg-4">
                     <img className="img-responsive album-art center-image" src={track.album.images[0].url} alt=""/>
-                    <div className="overlay">
+                    <div className="overlay center-image">
                     <Pie
                     data={this.props.popularityChart}
                     options={{
