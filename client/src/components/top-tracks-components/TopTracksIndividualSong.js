@@ -12,7 +12,7 @@ import {Spring} from 'react-spring/renderprops';
 class TopTracksIndividualSong extends Component {
     render() {
         return (
-          <div className="col-sm-8 margin-top">
+          <div className="col-sm-8">
           {this.props.topTracks.slice(this.props.focusedSong,this.props.focusedSong+1).map((track) => (
             <div key={track.id} className="row">
               <Spring
@@ -21,7 +21,7 @@ class TopTracksIndividualSong extends Component {
               >
                 { props => (
                   <div style={props} className="col-lg-4">
-                    <img className="img-responsive album-art" src={track.album.images[0].url} alt=""/>
+                    <img className="img-responsive album-art center-image" src={track.album.images[0].url} alt=""/>
                     <div className="overlay">
                     <Pie
                     data={this.props.popularityChart}
@@ -72,18 +72,6 @@ class TopTracksIndividualSong extends Component {
                   </div>
                 )}
               </Spring>
-              <div className="col-lg-12">
-                <TopTracksTimeframe
-                  selectTimeframe={this.props.selectTimeframe}
-                  titleTimeframe={this.props.titleTimeframe}
-                >
-                </TopTracksTimeframe>
-                <TopTracksNumberOfSongs
-                  numberOfSongs={this.props.numberOfSongs}
-                  selectNumberOfSongs={this.props.selectNumberOfSongs}
-                >
-                </TopTracksNumberOfSongs>
-              </div>
             </div>
           ))}
           </div>

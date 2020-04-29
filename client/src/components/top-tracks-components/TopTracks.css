@@ -135,6 +135,12 @@
   .reverse-for-mobile {
     flex-direction: column-reverse;
   }
+
+  .center-image{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 @media only screen and (min-width: 960px) {
