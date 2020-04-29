@@ -3,6 +3,7 @@ import TopArtistsList from './TopArtistsList'
 import TopArtistDetails from './TopArtistDetails';
 import TopArtistsTimeRange from './TopArtistsTimeRange';
 import TopArtistsResultLimit from './TopArtistsResultLimit';
+import SuccessModal from '../modals/SuccessModal.js';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
 import { fileToBase64 } from '../../helpers/Base64ImageHelper.js';
 import './TopArtists.css';
@@ -205,25 +206,17 @@ class TopArtists extends Component {
             });
     }
 
+    getSuccessDescription = () => {
+        return `A playlist with songs by your top ${this.state.resultLimit} artists ${this.getTimeRangeInString()} has been created! Check your Spotify!`
+    }
+
 
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
         return (
             <div className="TopArtists">
-                <div id="successModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <p>Successfully created playlist!</p>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="popup-text">A playlist with songs by your top {this.state.resultLimit} artists {this.getTimeRangeInString()} has been created! Check your Spotify!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <SuccessModal id="successModal" descriptionText={this.getSuccessDescription()} />
 
                 <div className="header">
                     <p>Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</p>
