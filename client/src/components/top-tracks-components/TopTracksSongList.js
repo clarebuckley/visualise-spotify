@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 class TopTracksSongList extends Component {
     render() {
         return (
-          <div className="list-group col-lg-4 top-song-list margin-top">
+          <div className="list-group col-lg-4 top-song-list">
             {this.props.topTracks.map((track) => (
               <button onClick={() => {this.props.selectSong(track);}} className="song-card" key={track.id}>
                 {<img className="img-responsive float-left" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}

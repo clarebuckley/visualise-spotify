@@ -3,6 +3,8 @@ import './TopTracks.css';
 import TopTracksHeader from './TopTracksHeader.js';
 import TopTracksSongList from './TopTracksSongList.js';
 import TopTracksIndividualSong from './TopTracksIndividualSong.js';
+import TopTracksTimeframe from './TopTracksTimeframe.js';
+import TopTracksNumberOfSongs from './TopTracksNumberOfSongs.js';
 import { toDataURL } from '../../helpers/Base64ImageHelper.js';
 
 class TopTracks extends Component {
@@ -69,6 +71,7 @@ class TopTracks extends Component {
   selectNumberOfSongs = (numberOfSongs) => {
     this.setState({
         numberOfSongs: numberOfSongs,
+        focusedSong: 0,
     },
     () => {
         this.getTopTracks(this.props.spotifyWebApi);
@@ -97,13 +100,11 @@ class TopTracks extends Component {
    * 'long_term' = Top Tracks of All Time.
    */
   selectTimeframe = (timeframe) => {
-    this.setState({
-      timeframe: timeframe,
-    })
     switch (timeframe) {
       case 'short_term':
         this.setState({
           titleTimeframe: 'The Last Month',
+          timeframe: timeframe,
         },
         () => {
             this.getTopTracks(this.props.spotifyWebApi);
@@ -113,6 +114,7 @@ class TopTracks extends Component {
       case 'medium_term':
         this.setState({
           titleTimeframe: 'The Last 6 Months',
+          timeframe: timeframe,
         },
         () => {
             this.getTopTracks(this.props.spotifyWebApi);
@@ -122,6 +124,7 @@ class TopTracks extends Component {
       case 'long_term':
         this.setState({
           titleTimeframe: 'All Time',
+          timeframe: timeframe,
         },
         () => {
             this.getTopTracks(this.props.spotifyWebApi);
@@ -143,6 +146,22 @@ class TopTracks extends Component {
           userId={this.props.userId}
         >
         </TopTracksHeader>
+        <div className="row justify-content-center align-items-center">
+          <div className="margin-right margin-left">
+            <TopTracksTimeframe
+              selectTimeframe={this.selectTimeframe}
+              titleTimeframe={this.state.titleTimeframe}
+            >
+            </TopTracksTimeframe>
+          </div>
+          <div className="margin-right margin-left">
+            <TopTracksNumberOfSongs
+              numberOfSongs={this.state.numberOfSongs}
+              selectNumberOfSongs={this.selectNumberOfSongs}
+            >
+            </TopTracksNumberOfSongs>
+          </div>
+        </div>
         <div className="row reverse-for-mobile margin-bottom">
           <TopTracksSongList
             topTracks={this.state.topTracks}
