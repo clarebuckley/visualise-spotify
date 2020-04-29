@@ -7,13 +7,20 @@ class SelectNumSongsModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            numOfSongs: 1
+            numOfSongs: 1,
+            numOfArtists: 3
         }
     }
 
-    handleChange = (event) => {
+    handleChangeNumSongs = (event) => {
         this.setState({
             numOfSongs: event.target.value
+        })
+    }
+
+    handleChangeNumArtists = (event) => {
+        this.setState({
+            numOfArtists: event.target.value
         })
     }
 
@@ -41,7 +48,7 @@ class SelectNumSongsModal extends Component {
                             }
                             <div>
                                 <p>How many songs by each artist should be included in the playlist?</p>
-                                <select value={this.state.numOfSongs} onChange={this.handleChange}>
+                                <select value={this.state.numOfSongs} onChange={this.handleChangeNumSongs}>
                                     <option value="1">1</option>
                                     <option value="3">3</option>
                                     <option value="5">5</option>
@@ -51,8 +58,13 @@ class SelectNumSongsModal extends Component {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" className="btn btn-success" data-dismiss="modal" onClick={() => this.props.createNewPlaylist(this.state.numOfSongs)}>Create playlist</button>
-                        </div>
+                            {this.props.type === "similarArtists" &&
+                                <button type="button" className="btn btn-success" data-dismiss="modal" onClick={() => this.props.createNewPlaylist(this.state.numOfSongs, this.state.numOfArtists)}>Create playlist</button>
+                            }
+                            {this.props.type === "topArtists" &&
+                                <button type="button" className="btn btn-success" data-dismiss="modal" onClick={() => this.props.createNewPlaylist(this.state.numOfSongs)}>Create playlist</button>
+                            }
+                             </div>
                     </div>
                 </div>
             </div>

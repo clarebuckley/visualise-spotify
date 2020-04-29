@@ -12,7 +12,7 @@ import { uploadPlaylistImage, meet100TrackLimit } from '../../helpers/PlaylistHe
 import './TopArtists.css';
 
 //Set the amount of similar artists to be displayed (MAX=20)
-const similarArtistsReturnLimit = 9;
+const similarArtistsReturnLimit = 20;
 
 /**
  * Responsible for getting data for TopArtistDetails and TopArtistsLists
@@ -110,6 +110,7 @@ class TopArtists extends Component {
     getSimilarArtists = (limit, artistId) => {
         this.props.spotifyWebApi.getArtistRelatedArtists(artistId)
             .then((response) => {
+                console.log(response);
                 var similarArtists = response.artists.slice(0, limit);
                 this.setState({
                     similarToSelectedArtist: similarArtists,

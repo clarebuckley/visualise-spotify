@@ -7,6 +7,7 @@ import { getCurrentDate } from '../../helpers/DateHelper.js';
  * */
 class TopArtistSimilarArtists extends Component {
 
+
     //Creates a new playlist for top artist songs
     createNewPlaylist = (numOfArtists, numOfSongs) => {
         var playlistName = `Songs I might like`;
@@ -14,7 +15,7 @@ class TopArtistSimilarArtists extends Component {
 
         this.props.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
             .then((response) => {
-         //       this.populatePlaylist(response.id, numOfSongs);
+                this.populatePlaylist(response.id, numOfSongs);
          //       uploadPlaylistImage(this.props.spotifyWebApi, response.id, "top-artists-playlist-cover.jpeg");
                 //TODO >>> SUCCESS DIALOG AFTER EVERYTHING'S LOADED
             })
@@ -36,10 +37,8 @@ class TopArtistSimilarArtists extends Component {
 
                 <div className="row justify-content-md-center">
                     <button
-                        disabled
                         type="button"
                         className="btn btn-success"
-                        onClick={() => { this.createNewPlaylist(); }}
                         data-toggle="modal"
                         data-target="#selectNumSongsModal">
                         Make Playlist From Similar Artists
@@ -48,7 +47,12 @@ class TopArtistSimilarArtists extends Component {
                 <div className="similarArtists">
                     {this.props.similarArtists.map((similarArtist) => (
                         <div key={similarArtist.id} className="similarArtistAlbumArt">
-                            <img src={similarArtist.images[0].url} alt="album art" />
+                            {similarArtist.images.length > 0 &&
+                                <img src={similarArtist.images[0].url} alt="album art" />
+                            }
+                            {similarArtist.images.length === 0 &&
+                                <img src="./missing-artwork.jpg" alt="album art" />
+                            }
                             <p><a href={similarArtist.external_urls.spotify}>{similarArtist.name}</a></p>
                         </div>
                     ))}

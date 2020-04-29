@@ -50,6 +50,10 @@ class TopArtistDetails extends Component {
     }
 
     render() {
+        if (!this.props) {
+            return "Loading...";
+
+            }
         return (
             <div className="artistDetails">
                 <div className="mainAlbumContainer">
