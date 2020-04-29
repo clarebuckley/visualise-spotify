@@ -8,6 +8,13 @@ import { uploadPlaylistImage } from '../../helpers/PlaylistHelper.js';
  * */
 class TopTracksHeader extends Component {
 
+  constructor(){
+    super();
+    this.state = {
+      playlistCreatedText: "",
+    }
+  }
+
   /**
    * Creates a new Spotify playlist of top tracks for the user given their parameters
    */
@@ -21,7 +28,17 @@ class TopTracksHeader extends Component {
       }
       spotifyWebApi.addTracksToPlaylist(response.id, songUriList)
       uploadPlaylistImage(spotifyWebApi, response.id, "/top-tracks-playlist-cover.jpg")
-    })
+      if(spotifyWebApi.getPlaylist(response.id)){
+        this.setState({
+          playlistCreatedText: `A playlist with your Top ${this.props.numberOfSongs} songs of ${this.props.titleTimeframe} has been created! Check your Spotify!`,
+        });
+      }else{
+        this.setState({
+          playlistCreatedText: `There has been an error when creating the playlist. Please try again.`,
+        });
+      }
+    });
+
   }
 
   render() {
@@ -38,7 +55,7 @@ class TopTracksHeader extends Component {
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
               <div className="modal-body">
-                <p className="popup-text">A playlist with your Top {this.props.numberOfSongs} songs of {this.props.titleTimeframe} has been created! Check your Spotify!</p>
+                <p className="popup-text">{this.state.playlistCreatedText}</p>
               </div>
             </div>
           </div>
