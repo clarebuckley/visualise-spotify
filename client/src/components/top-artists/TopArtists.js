@@ -7,7 +7,7 @@ import SelectNumSongsModal from './SelectNumSongsModal';
 import SuccessModal from '../modals/SuccessModal.js';
 import ErrorModal from '../modals/ErrorModal.js';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
-import { uploadPlaylistImage } from '../../helpers/PlaylistHelper.js';
+import { uploadPlaylistImage, meet100TrackLimit } from '../../helpers/PlaylistHelper.js';
 import './TopArtists.css';
 
 //Set the amount of similar artists to be displayed (MAX=20)
@@ -155,8 +155,7 @@ class TopArtists extends Component {
                     trackUris.push(track.uri);
                 }
                 if (trackUris.length > 100) {
-                    var fullPlaylists = this.meet100TrackLimit(trackUris);
-                    console.log(fullPlaylists);
+                    var fullPlaylists = meet100TrackLimit(trackUris);
                     for (let fullPlaylist of fullPlaylists) {
                         this.props.spotifyWebApi.addTracksToPlaylist(playlistId, fullPlaylist)
                             .catch((err) => {
@@ -175,22 +174,7 @@ class TopArtists extends Component {
             })
     }
 
-    //The spotify API only allows 100 songs to be added in each request
-    //This splits arrays with over 100 items into separate arrays of 100
-    meet100TrackLimit = (overLimit) => {
-        var result = overLimit.reduce((resultArray, item, index) => {
-            const chunkIndex = Math.floor(index / 100)
 
-            if (!resultArray[chunkIndex]) {
-                resultArray[chunkIndex] = [] // start a new chunk
-            }
-
-            resultArray[chunkIndex].push(item)
-
-            return resultArray
-        }, [])
-        return result;
-    }
 
     //Helper function to set whether the data has been loaded
     setDataHasLoaded = (hasLoaded) => {
