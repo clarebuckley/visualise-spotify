@@ -4,6 +4,7 @@ import TopArtistDetails from './TopArtistDetails';
 import TopArtistsTimeRange from './TopArtistsTimeRange';
 import TopArtistsResultLimit from './TopArtistsResultLimit';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
+import { fileToBase64 } from '../../helpers/Base64ImageHelper.js';
 import './TopArtists.css';
 
 //Set the amount of similar artists to be displayed (MAX=20)
@@ -191,34 +192,18 @@ class TopArtists extends Component {
 
     //Uploads a custom cover image to the given playlist
     uploadPlaylistImage = (playlistId) => {
-        this.fileToBase64("top-artists-playlist-cover.jpeg", "../../../public/top-artists-playlist-cover.jpeg")
+        fileToBase64("top-artists-playlist-cover.jpeg", "../../../public/top-artists-playlist-cover.jpeg")
             .then((base64) => {
                 console.log(base64);
-                /* this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, base64)
-                     .then((response) => {
-                         console.log(response);
-                     })
-                     .catch((err) => {
-                         console.error(err);
-                     });*/
+                this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, base64)
+                    .then((response) => {
+                        console.log(response);
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
             });
     }
-
-    //Convert file to base64 string
-    fileToBase64 = (filename, filepath) => {
-        return new Promise(resolve => {
-            var file = new File([filename], filepath, { type: 'image/jpeg' });
-            var reader = new FileReader();
-            reader.onload = function (event) {
-                resolve(event.target.result);
-            };
-
-            //Convert data to base64 
-            reader.readAsDataURL(file);
-
-        });
-    };
-
 
 
 
