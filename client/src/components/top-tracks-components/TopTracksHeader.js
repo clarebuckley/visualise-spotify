@@ -28,6 +28,9 @@ class TopTracksHeader extends Component {
       }
       spotifyWebApi.addTracksToPlaylist(response.id, songUriList)
       uploadPlaylistImage(spotifyWebApi, response.id, "/top-tracks-playlist-cover.jpg")
+      this.setState({
+        playlistCreatedText: `Creating Playlist...`,
+      });
       if(spotifyWebApi.getPlaylist(response.id)){
         this.setState({
           playlistCreatedText: `A playlist with your Top ${this.props.numberOfSongs} songs of ${this.props.titleTimeframe} has been created! Check your Spotify!`,
