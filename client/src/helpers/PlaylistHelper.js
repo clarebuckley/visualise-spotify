@@ -30,3 +30,36 @@ export function meet100TrackLimit(overLimit) {
     }, [])
     return result;
 }
+
+
+//Get x number of top tracks for a given array of artists
+export function getTopTracksForArtists(artists, numOfTracks, spotifyWebApi) {
+    return new Promise(resolve => {
+        var promises = [];
+        for (let artist of artists) {
+            promises.push(getArtistTracks(artist.id, numOfTracks, spotifyWebApi))
+        }
+        Promise.all(promises).then((topTracks) => {
+            return resolve(topTracks);
+        })
+    })
+
+}
+
+//Get the top tracks for a single artist
+async function getArtistTracks (artistId, numOfTracks, spotifyWebApi) {
+    return new Promise(resolve => {
+        //TODO: need to get rid of "GB" string
+        spotifyWebApi.getArtistTopTracks(artistId, "GB")
+            .then((response) => {
+                if (numOfTracks === 1) {
+                    return resolve(response.tracks[0]);
+                } else {
+                    return resolve(response.tracks.slice(0, numOfTracks));
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+    })
+}
