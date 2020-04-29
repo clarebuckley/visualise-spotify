@@ -97,13 +97,11 @@ class TopTracks extends Component {
    * 'long_term' = Top Tracks of All Time.
    */
   selectTimeframe = (timeframe) => {
-    this.setState({
-      timeframe: timeframe,
-    })
     switch (timeframe) {
       case 'short_term':
         this.setState({
           titleTimeframe: 'The Last Month',
+          timeframe: timeframe,
         },
         () => {
             this.getTopTracks(this.props.spotifyWebApi);
@@ -113,6 +111,7 @@ class TopTracks extends Component {
       case 'medium_term':
         this.setState({
           titleTimeframe: 'The Last 6 Months',
+          timeframe: timeframe,
         },
         () => {
             this.getTopTracks(this.props.spotifyWebApi);
@@ -122,6 +121,7 @@ class TopTracks extends Component {
       case 'long_term':
         this.setState({
           titleTimeframe: 'All Time',
+          timeframe: timeframe,
         },
         () => {
             this.getTopTracks(this.props.spotifyWebApi);
