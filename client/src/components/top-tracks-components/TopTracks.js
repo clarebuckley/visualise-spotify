@@ -3,6 +3,7 @@ import './TopTracks.css';
 import TopTracksHeader from './TopTracksHeader.js';
 import TopTracksSongList from './TopTracksSongList.js';
 import TopTracksIndividualSong from './TopTracksIndividualSong.js';
+import { fileToBase64, toDataURL } from '../../helpers/Base64ImageHelper.js';
 
 class TopTracks extends Component {
   constructor(){
@@ -75,7 +76,7 @@ class TopTracks extends Component {
   }
 
   /**
-   * Get the popuilarity of a specific song and update the 'popularityChart' state.
+   * Get the popularity of a specific song and update the 'popularityChart' state.
    */
   getSongPopularity = (popularity) =>{
     this.setState({
