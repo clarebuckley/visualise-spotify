@@ -152,18 +152,44 @@ class TopArtists extends Component {
                 tracks = tracks.flat(1);
                 var trackUris = [];
                 for (let track of tracks) {
-                    console.log(track);
                     trackUris.push(track.uri);
                 }
-                console.log(trackUris);
-                this.props.spotifyWebApi.addTracksToPlaylist(playlistId, trackUris)
-                    .then((response) => {
-                        console.log(response);
-                    })
+                if (trackUris.length > 100) {
+                    var fullPlaylists = this.meet100TrackLimit(trackUris);
+                    console.log(fullPlaylists);
+                    for (let fullPlaylist of fullPlaylists) {
+                        this.props.spotifyWebApi.addTracksToPlaylist(playlistId, fullPlaylist)
+                            .catch((err) => {
+                                console.error(err);
+                            })
+                    }
+                } else {
+                    this.props.spotifyWebApi.addTracksToPlaylist(playlistId, trackUris)
+                        .catch((err) => {
+                            console.error(err);
+                        })
+                }
             })
             .catch((err) => {
                 console.error(err);
             })
+    }
+
+    //The spotify API only allows 100 songs to be added in each request
+    //This splits arrays with over 100 items into separate arrays of 100
+    meet100TrackLimit = (overLimit) => {
+        var result = overLimit.reduce((resultArray, item, index) => {
+            const chunkIndex = Math.floor(index / 100)
+
+            if (!resultArray[chunkIndex]) {
+                resultArray[chunkIndex] = [] // start a new chunk
+            }
+
+            resultArray[chunkIndex].push(item)
+
+            return resultArray
+        }, [])
+        return result;
     }
 
     //Uploads a custom cover image to the given playlist
