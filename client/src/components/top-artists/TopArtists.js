@@ -7,7 +7,7 @@ import SelectNumSongsModal from './SelectNumSongsModal';
 import SuccessModal from '../modals/SuccessModal.js';
 import ErrorModal from '../modals/ErrorModal.js';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
-import { toDataURL } from '../../helpers/Base64ImageHelper.js';
+import { uploadPlaylistImage } from '../../helpers/PlaylistHelper.js';
 import './TopArtists.css';
 
 //Set the amount of similar artists to be displayed (MAX=20)
@@ -137,7 +137,7 @@ class TopArtists extends Component {
         this.props.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
             .then((response) => {
                 this.populatePlaylist(response.id, numOfSongs);
-                this.uploadPlaylistImage(response.id);
+                uploadPlaylistImage(this.props.spotifyWebApi, response.id, "top-artists-playlist-cover.jpeg");
                 //TODO >>> SUCCESS DIALOG AFTER EVERYTHING'S LOADED
             })
             .catch((err) => {
@@ -190,16 +190,6 @@ class TopArtists extends Component {
             return resultArray
         }, [])
         return result;
-    }
-
-    //Uploads a custom cover image to the given playlist
-    uploadPlaylistImage = (playlistId) => {
-        toDataURL("/top-artists-playlist-cover.jpeg").then((dataURL) => {
-            this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, dataURL)
-                .catch((err) => {
-                    console.error(err);
-                });
-        });
     }
 
     //Helper function to set whether the data has been loaded
