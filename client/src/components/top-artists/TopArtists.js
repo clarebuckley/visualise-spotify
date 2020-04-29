@@ -44,27 +44,21 @@ class TopArtists extends Component {
         this.getTopArtists(this.state.resultLimit).then((topArtists) => {
             this.getTopTracksForAllArtists(topArtists, 1)
                 .then((topTracks) => {
-                    if (!this.topArtists) {
-                        this.setState({
-                            dataHasLoaded: false
-                        })
-                    } else {
-                        this.setState({
-                            topArtists: topArtists,
-                            topArtistsTracks: topTracks,
-                            dataHasLoaded: true
-                        }, () => {
-                            //Get additional data with an artistId for the first artist in the list
-                            this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[0].id);
-                        });
+                    this.setState({
+                        topArtists: topArtists,
+                        topArtistsTracks: topTracks,
+                        dataHasLoaded: true
+                    }, () => {
+                        //Get additional data with an artistId for the first artist in the list
+                        this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[0].id);
+                    });
 
-                    }
                 })
                 .catch((err) => {
                     console.error(err);
                 })
         })
-           
+
     }
 
     //Get x top artists for this user
