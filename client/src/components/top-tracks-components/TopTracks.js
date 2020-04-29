@@ -3,7 +3,7 @@ import './TopTracks.css';
 import TopTracksHeader from './TopTracksHeader.js';
 import TopTracksSongList from './TopTracksSongList.js';
 import TopTracksIndividualSong from './TopTracksIndividualSong.js';
-import { fileToBase64, toDataURL } from '../../helpers/Base64ImageHelper.js';
+import { toDataURL } from '../../helpers/Base64ImageHelper.js';
 
 class TopTracks extends Component {
   constructor(){

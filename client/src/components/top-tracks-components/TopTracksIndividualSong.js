@@ -65,8 +65,8 @@ class TopTracksIndividualSong extends Component {
                       <audio id="song-preview">
                         <source src={track.preview_url} type="audio/ogg"/>
                       </audio>
-                      <button onClick={() => playOrPausePreview('song-preview')}>
-                        Play/Pause
+                      <button className="play-btn" onClick={() => playOrPausePreview('song-preview')}>
+                        <img alt="start/stop icon" className="play-pause" src="/pause-play-button.png" />
                       </button>
                     </div>
                   </div>

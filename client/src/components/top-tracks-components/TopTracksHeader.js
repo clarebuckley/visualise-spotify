@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
+import { uploadPlaylistImage } from '../../helpers/PlaylistHelper.js';
 
 /**
  * Responsible for telling the user the number of songs within a given timeframe.
@@ -19,6 +20,7 @@ class TopTracksHeader extends Component {
         songUriList.push(this.props.topTracks[i].uri)
       }
       spotifyWebApi.addTracksToPlaylist(response.id, songUriList)
+      uploadPlaylistImage(spotifyWebApi, response.id, "/top-tracks-playlist-cover.jpg")
     })
   }
 
