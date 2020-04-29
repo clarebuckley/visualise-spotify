@@ -27,17 +27,31 @@ class SelectNumSongsModal extends Component {
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <p>{this.props.descriptionText}</p>
-                            <select value={this.state.numOfSongs} onChange={this.handleChange}>
-                                <option value="1">1</option>
-                                <option value="3">3</option>
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                            </select>
+                            {this.props.type === "similarArtists" &&
+                                <div>
+                                    <p>How many similar artists should be included in the playlist?</p>
+                                    <select value={this.state.numOfSongs} onChange={this.handleChange}>
+                                        <option value="3">3</option>
+                                        <option value="6">6</option>
+                                        <option value="9">9</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                    </select>
+                                </div>
+                            }
+                            <div>
+                                <p>How many songs by each artist should be included in the playlist?</p>
+                                <select value={this.state.numOfSongs} onChange={this.handleChange}>
+                                    <option value="1">1</option>
+                                    <option value="3">3</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" className="btn btn-success" data-dismiss="modal" onClick={() => this.props.createNewPlaylist(this.state.numOfSongs) }>Create playlist</button>
+                            <button type="button" className="btn btn-success" data-dismiss="modal" onClick={() => this.props.createNewPlaylist(this.state.numOfSongs)}>Create playlist</button>
                         </div>
                     </div>
                 </div>

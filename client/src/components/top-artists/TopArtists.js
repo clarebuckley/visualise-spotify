@@ -230,11 +230,7 @@ class TopArtists extends Component {
     getErrorDescription = () => {
         return `There was an error making your playlist, please try again! If this error continues, please contact Clare or Thavi for help :)`;
     }
-
-    getInputDescription = () => {
-        return `How many songs by each artist should be included in the playlist?`;
-    }
-
+    
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
@@ -242,7 +238,7 @@ class TopArtists extends Component {
             <div className="TopArtists">
                 <SuccessModal descriptionText={this.getSuccessDescription()} />
                 <ErrorModal descriptionText={this.getErrorDescription()} />
-                <SelectNumSongsModal descriptionText={this.getInputDescription()} createNewPlaylist={this.createNewPlaylist} />
+                <SelectNumSongsModal type="topArtists" createNewPlaylist={this.createNewPlaylist} />
 
                 <div className="header">
                     <p>Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</p>
@@ -278,6 +274,7 @@ class TopArtists extends Component {
                         checkFollowingArtist={this.isFollowingArtist}
                         previewUrl={this.state.topArtistsTracks[this.state.selectedArtist].preview_url}
                         popularity={this.state.topArtists[this.state.selectedArtist].popularity}
+                        getTimeRangeInString={this.getTimeRangeInString}
                     >
                     </TopArtistDetails>
                 </div>

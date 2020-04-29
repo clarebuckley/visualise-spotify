@@ -1,26 +1,50 @@
 import React, { Component } from 'react';
+import SelectNumSongsModal from './SelectNumSongsModal';
+import { getCurrentDate } from '../../helpers/DateHelper.js';
 
 /**
  * Responsible for displaying the similar artists of the selected artist
  * */
 class TopArtistSimilarArtists extends Component {
 
-    createNewPlaylist = () => {
-        console.log("HIT");
+    //Creates a new playlist for top artist songs
+    createNewPlaylist = (numOfArtists, numOfSongs) => {
+        var playlistName = `Songs I might like`;
+        var playlistDescription = `Songs I might like, based on similar artists to my top  ${this.state.resultLimit} artists ${this.props.getTimeRangeInString()} as of ${getCurrentDate()}`
+
+        this.props.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
+            .then((response) => {
+         //       this.populatePlaylist(response.id, numOfSongs);
+         //       uploadPlaylistImage(this.props.spotifyWebApi, response.id, "top-artists-playlist-cover.jpeg");
+                //TODO >>> SUCCESS DIALOG AFTER EVERYTHING'S LOADED
+            })
+            .catch((err) => {
+                console.error(err);
+            });
     }
+
+    //Populates the given playlist with songs by top artists
+    populatePlaylist = (playlistId, numOfSongs) => {
+        
+    }
+
 
     render() {
         return (
             <div>
-                <button
-                    disabled
-                    type="button"
-                    className="btn btn-success"
-                    onClick={() => { this.createNewPlaylist(); }}
-                    data-toggle="modal"
-                    data-target="#successModalTopArtists">
-                    Make Playlist From Similar Artists
-                </button>
+                <SelectNumSongsModal type="similarArtists" createNewPlaylist={this.createNewPlaylist} />
+
+                <div className="row justify-content-md-center">
+                    <button
+                        disabled
+                        type="button"
+                        className="btn btn-success"
+                        onClick={() => { this.createNewPlaylist(); }}
+                        data-toggle="modal"
+                        data-target="#selectNumSongsModal">
+                        Make Playlist From Similar Artists
+                    </button>
+                </div>
                 <div className="similarArtists">
                     {this.props.similarArtists.map((similarArtist) => (
                         <div key={similarArtist.id} className="similarArtistAlbumArt">
