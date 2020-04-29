@@ -80,7 +80,12 @@ class TopArtistDetails extends Component {
                 </div>
                 <Tabs defaultActiveKey="similarArtists" id="arist-details-tabs" className="aristDetailsTabs">
                     <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent">
-                        <TopArtistSimilarArtists getTimeRangeInString={this.props.getTimeRangeInString} similarArtists={this.props.similarArtists} />
+                        <TopArtistSimilarArtists
+                            userId={this.props.userId}
+                            spotifyWebApi={this.props.spotifyWebApi}
+                            mainArtist={this.props.artistName} g
+                            etTimeRangeInString={this.props.getTimeRangeInString}
+                            similarArtists={this.props.similarArtists} />
                     </Tab>
                     <Tab eventKey="genres" title="Genres" className="artistTabContent">
                         {this.props.genres.map((genre, index) => (

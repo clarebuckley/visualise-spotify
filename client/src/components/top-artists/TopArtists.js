@@ -3,12 +3,12 @@ import TopArtistsList from './TopArtistsList'
 import TopArtistDetails from './TopArtistDetails';
 import TopArtistsTimeRange from './TopArtistsTimeRange';
 import TopArtistsResultLimit from './TopArtistsResultLimit';
-import SelectNumSongsModal from './SelectNumSongsModal';
+import TopArtistsModal from './TopArtistsModal';
 import SuccessModal from '../modals/SuccessModal.js';
 import ErrorModal from '../modals/ErrorModal.js';
 import ErrorPage from '../../ErrorPage';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
-import { uploadPlaylistImage, meet100TrackLimit } from '../../helpers/PlaylistHelper.js';
+import { uploadPlaylistImage, meet100TrackLimit, getTopTracksForArtists } from '../../helpers/PlaylistHelper.js';
 import './TopArtists.css';
 
 //Set the amount of similar artists to be displayed (MAX=20)
@@ -42,7 +42,7 @@ class TopArtists extends Component {
     getAllData = () => {
         //Need to get top artists before finding the top track for each artist
         this.getTopArtists(this.state.resultLimit).then((topArtists) => {
-            this.getTopTracksForAllArtists(topArtists, 1)
+            getTopTracksForArtists(topArtists, 1, this.props.spotifyWebApi)
                 .then((topTracks) => {
                     this.setState({
                         topArtists: topArtists,
@@ -74,43 +74,10 @@ class TopArtists extends Component {
         })
     }
 
-    //Get data to be able to play top track of each artist in the list
-    getTopTracksForAllArtists = (artists, numOfTracks) => {
-        return new Promise(resolve => {
-            var promises = [];
-            for (let artist of artists) {
-                promises.push(this.getArtistTracks(artist.id, numOfTracks))
-            }
-            Promise.all(promises).then((topTracks) => {
-                return resolve(topTracks);
-            })
-        })
-
-    }
-
-    //Get the top tracks for a single artist
-    getArtistTracks = async (artistId, numOfTracks) => {
-        return new Promise(resolve => {
-            //TODO: need to get rid of "GB" string
-            this.props.spotifyWebApi.getArtistTopTracks(artistId, "GB")
-                .then((response) => {
-                    if (numOfTracks === 1) {
-                        return resolve(response.tracks[0]);
-                    } else {
-                        return resolve(response.tracks.slice(0, numOfTracks));
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
-        })
-    }
-
     //Get similar artists to the currently selected artist
     getSimilarArtists = (limit, artistId) => {
         this.props.spotifyWebApi.getArtistRelatedArtists(artistId)
             .then((response) => {
-                console.log(response);
                 var similarArtists = response.artists.slice(0, limit);
                 this.setState({
                     similarToSelectedArtist: similarArtists,
@@ -139,7 +106,7 @@ class TopArtists extends Component {
     //Creates a new playlist for top artist songs
     createNewPlaylist = (numOfSongs) => {
         var playlistName = `Songs by my Top ${this.state.resultLimit} Artists ${this.getTimeRangeInString()}`;
-        var playlistDescription = `Top ${numOfSongs} songs by my ${this.state.resultLimit} top artists ${this.getTimeRangeInString()} as of ${getCurrentDate()}`
+        var playlistDescription = `Top ${numOfSongs} song(s) by my ${this.state.resultLimit} top artists ${this.getTimeRangeInString()} as of ${getCurrentDate()}`
 
         this.props.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
             .then((response) => {
@@ -154,7 +121,7 @@ class TopArtists extends Component {
 
     //Populates the given playlist with songs by top artists
     populatePlaylist = (playlistId, numOfSongs) => {
-        this.getTopTracksForAllArtists(this.state.topArtists, numOfSongs)
+        getTopTracksForArtists(this.state.topArtists, numOfSongs, this.props.spotifyWebApi)
             .then((tracks) => {
                 tracks = tracks.flat(1);
                 var trackUris = [];
@@ -206,9 +173,9 @@ class TopArtists extends Component {
             case "long_term":
                 return "of All Time"
             case "medium_term":
-                return "for the Past 6 Months"
+                return "of the Past 6 Months"
             case "short_term":
-                return "for the Past Month"
+                return "of the Past Month"
             default:
                 return "INVALID TIME RANGE"
         }
@@ -250,7 +217,7 @@ class TopArtists extends Component {
                 <div className="TopArtists">
                     <SuccessModal descriptionText={this.getSuccessDescription()} />
                     <ErrorModal descriptionText={this.getErrorDescription()} />
-                    <SelectNumSongsModal type="topArtists" createNewPlaylist={this.createNewPlaylist} />
+                    <TopArtistsModal createNewPlaylist={this.createNewPlaylist} />
 
                     <div className="header">
                         <p>Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</p>
@@ -258,7 +225,7 @@ class TopArtists extends Component {
                             type="button"
                             className="btn btn-success"
                             data-toggle="modal"
-                            data-target="#selectNumSongsModal">
+                            data-target="#topArtistsModal">
                             Make A Playlist Of These Artists
                     </button>
                     </div>
@@ -287,6 +254,7 @@ class TopArtists extends Component {
                             previewUrl={this.state.topArtistsTracks[this.state.selectedArtist].preview_url}
                             popularity={this.state.topArtists[this.state.selectedArtist].popularity}
                             getTimeRangeInString={this.getTimeRangeInString}
+                            userId={this.props.userId}
                         >
                         </TopArtistDetails>
                     </div>
