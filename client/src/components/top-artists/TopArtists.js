@@ -6,6 +6,7 @@ import TopArtistsResultLimit from './TopArtistsResultLimit';
 import SelectNumSongsModal from './SelectNumSongsModal';
 import SuccessModal from '../modals/SuccessModal.js';
 import ErrorModal from '../modals/ErrorModal.js';
+import ErrorPage from '../../ErrorPage';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
 import { uploadPlaylistImage, meet100TrackLimit } from '../../helpers/PlaylistHelper.js';
 import './TopArtists.css';
@@ -244,7 +245,11 @@ class TopArtists extends Component {
 
 
     render() {
-        if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
+        if (!this.state.dataHasLoaded) {
+            return (
+                <ErrorPage logOut={this.props.logOut} />
+            )
+        }
         else {
             return (
                 <div className="TopArtists">
