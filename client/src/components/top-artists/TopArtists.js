@@ -41,18 +41,29 @@ class TopArtists extends Component {
     getAllData = () => {
         //Need to get top artists before finding the top track for each artist
         this.getTopArtists(this.state.resultLimit).then((topArtists) => {
-            this.getTopTracksForAllArtists(topArtists, 1).then((topTracks) => {
-                this.setState({
-                    topArtists: topArtists,
-                    topArtistsTracks: topTracks,
-                    dataHasLoaded: true
-                }, () => {
-                    //Get additional data with an artistId for the first artist in the list
-                    this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[0].id);
-                });
+            this.getTopTracksForAllArtists(topArtists, 1)
+                .then((topTracks) => {
+                    if (!this.topArtists) {
+                        this.setState({
+                            dataHasLoaded: false
+                        })
+                    } else {
+                        this.setState({
+                            topArtists: topArtists,
+                            topArtistsTracks: topTracks,
+                            dataHasLoaded: true
+                        }, () => {
+                            //Get additional data with an artistId for the first artist in the list
+                            this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[0].id);
+                        });
 
-            })
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
         })
+           
     }
 
     //Get x top artists for this user
@@ -230,56 +241,58 @@ class TopArtists extends Component {
     getErrorDescription = () => {
         return `There was an error making your playlist, please try again! If this error continues, please contact Clare or Thavi for help :)`;
     }
-    
+
 
     render() {
         if (!this.state.dataHasLoaded) { return <p>Loading data...</p> }
-        return (
-            <div className="TopArtists">
-                <SuccessModal descriptionText={this.getSuccessDescription()} />
-                <ErrorModal descriptionText={this.getErrorDescription()} />
-                <SelectNumSongsModal type="topArtists" createNewPlaylist={this.createNewPlaylist} />
+        else {
+            return (
+                <div className="TopArtists">
+                    <SuccessModal descriptionText={this.getSuccessDescription()} />
+                    <ErrorModal descriptionText={this.getErrorDescription()} />
+                    <SelectNumSongsModal type="topArtists" createNewPlaylist={this.createNewPlaylist} />
 
-                <div className="header">
-                    <p>Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</p>
-                    <button
-                        type="button"
-                        className="btn btn-success"
-                        data-toggle="modal"
-                        data-target="#selectNumSongsModal">
-                        Make A Playlist Of These Artists
+                    <div className="header">
+                        <p>Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</p>
+                        <button
+                            type="button"
+                            className="btn btn-success"
+                            data-toggle="modal"
+                            data-target="#selectNumSongsModal">
+                            Make A Playlist Of These Artists
                     </button>
+                    </div>
+                    <div className="row justify-content-md-center">
+                        <TopArtistsTimeRange setTimeRange={this.setTimeRange}></TopArtistsTimeRange>
+                        <TopArtistsResultLimit setResultLimit={this.setResultLimit}></TopArtistsResultLimit>
+                    </div>
+                    <div className="mainContent row justify-content-around">
+                        <TopArtistsList
+                            className="col-sm-4"
+                            selectedArtist={this.state.selectedArtist}
+                            topArtists={this.state.topArtists}
+                            handleListClickEvent={this.handleListClickEvent}>
+                        </TopArtistsList>
+                        <TopArtistDetails
+                            className="col-sm-8"
+                            spotifyWebApi={this.props.spotifyWebApi}
+                            artistImage={this.state.topArtists[this.state.selectedArtist].images[0].url}
+                            artistName={this.state.topArtists[this.state.selectedArtist].name}
+                            artistId={this.state.topArtists[this.state.selectedArtist].id}
+                            followers={this.state.topArtists[this.state.selectedArtist].followers.total}
+                            genres={this.state.topArtists[this.state.selectedArtist].genres}
+                            similarArtists={this.state.similarToSelectedArtist}
+                            isFollowingArtist={this.state.isFollowingArtist}
+                            checkFollowingArtist={this.isFollowingArtist}
+                            previewUrl={this.state.topArtistsTracks[this.state.selectedArtist].preview_url}
+                            popularity={this.state.topArtists[this.state.selectedArtist].popularity}
+                            getTimeRangeInString={this.getTimeRangeInString}
+                        >
+                        </TopArtistDetails>
+                    </div>
                 </div>
-                <div className="row justify-content-md-center">
-                    <TopArtistsTimeRange setTimeRange={this.setTimeRange}></TopArtistsTimeRange>
-                    <TopArtistsResultLimit setResultLimit={this.setResultLimit}></TopArtistsResultLimit>
-                </div>
-                <div className="mainContent row justify-content-around">
-                    <TopArtistsList
-                        className="col-sm-4"
-                        selectedArtist={this.state.selectedArtist}
-                        topArtists={this.state.topArtists}
-                        handleListClickEvent={this.handleListClickEvent}>
-                    </TopArtistsList>
-                    <TopArtistDetails
-                        className="col-sm-8"
-                        spotifyWebApi={this.props.spotifyWebApi}
-                        artistImage={this.state.topArtists[this.state.selectedArtist].images[0].url}
-                        artistName={this.state.topArtists[this.state.selectedArtist].name}
-                        artistId={this.state.topArtists[this.state.selectedArtist].id}
-                        followers={this.state.topArtists[this.state.selectedArtist].followers.total}
-                        genres={this.state.topArtists[this.state.selectedArtist].genres}
-                        similarArtists={this.state.similarToSelectedArtist}
-                        isFollowingArtist={this.state.isFollowingArtist}
-                        checkFollowingArtist={this.isFollowingArtist}
-                        previewUrl={this.state.topArtistsTracks[this.state.selectedArtist].preview_url}
-                        popularity={this.state.topArtists[this.state.selectedArtist].popularity}
-                        getTimeRangeInString={this.getTimeRangeInString}
-                    >
-                    </TopArtistDetails>
-                </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
