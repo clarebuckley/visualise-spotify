@@ -7,7 +7,7 @@ import SelectNumSongsModal from './SelectNumSongsModal';
 import SuccessModal from '../modals/SuccessModal.js';
 import ErrorModal from '../modals/ErrorModal.js';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
-import { toDataURL } from '../../helpers/Base64ImageHelper.js';
+import { uploadPlaylistImage, meet100TrackLimit } from '../../helpers/PlaylistHelper.js';
 import './TopArtists.css';
 
 //Set the amount of similar artists to be displayed (MAX=20)
@@ -41,7 +41,7 @@ class TopArtists extends Component {
     getAllData = () => {
         //Need to get top artists before finding the top track for each artist
         this.getTopArtists(this.state.resultLimit).then((topArtists) => {
-            this.getTopTracksForAllArtists(topArtists).then((topTracks) => {
+            this.getTopTracksForAllArtists(topArtists, 1).then((topTracks) => {
                 this.setState({
                     topArtists: topArtists,
                     topArtistsTracks: topTracks,
@@ -69,11 +69,11 @@ class TopArtists extends Component {
     }
 
     //Get data to be able to play top track of each artist in the list
-    getTopTracksForAllArtists = (artists) => {
+    getTopTracksForAllArtists = (artists, numOfTracks) => {
         return new Promise(resolve => {
             var promises = [];
             for (let artist of artists) {
-                promises.push(this.getSingleArtistTopTrack(artist.id))
+                promises.push(this.getArtistTracks(artist.id, numOfTracks))
             }
             Promise.all(promises).then((topTracks) => {
                 return resolve(topTracks);
@@ -82,14 +82,19 @@ class TopArtists extends Component {
 
     }
 
-    //Get the top track for a single artist
-    getSingleArtistTopTrack = async (artistId) => {
+    //Get the top tracks for a single artist
+    getArtistTracks = async (artistId, numOfTracks) => {
         return new Promise(resolve => {
             //TODO: need to get rid of "GB" string
-            this.props.spotifyWebApi.getArtistTopTracks(artistId, "GB", { limit: 1 })
+            this.props.spotifyWebApi.getArtistTopTracks(artistId, "GB")
                 .then((response) => {
-                    return resolve(response.tracks[0]);
-                }).catch((err) => {
+                    if (numOfTracks === 1) {
+                        return resolve(response.tracks[0]);
+                    } else {
+                        return resolve(response.tracks.slice(0, numOfTracks));
+                    }
+                })
+                .catch((err) => {
                     console.error(err);
                 })
         })
@@ -127,12 +132,12 @@ class TopArtists extends Component {
     //Creates a new playlist for top artist songs
     createNewPlaylist = (numOfSongs) => {
         var playlistName = `Songs by my Top ${this.state.resultLimit} Artists ${this.getTimeRangeInString()}`;
-        var playlistDescription = `My ${this.state.resultLimit} Top Artists ${this.getTimeRangeInString()} as of ${getCurrentDate()}`
+        var playlistDescription = `Top ${numOfSongs} songs by my ${this.state.resultLimit} top artists ${this.getTimeRangeInString()} as of ${getCurrentDate()}`
 
         this.props.spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription })
             .then((response) => {
                 this.populatePlaylist(response.id, numOfSongs);
-                this.uploadPlaylistImage(response.id);
+                uploadPlaylistImage(this.props.spotifyWebApi, response.id, "top-artists-playlist-cover.jpeg");
                 //TODO >>> SUCCESS DIALOG AFTER EVERYTHING'S LOADED
             })
             .catch((err) => {
@@ -140,24 +145,36 @@ class TopArtists extends Component {
             });
     }
 
-    //Populates the given playlist with songs by top artists >>>>>TODO: USE NUM OF SONGS SELECTION
+    //Populates the given playlist with songs by top artists
     populatePlaylist = (playlistId, numOfSongs) => {
-        var songUriList = [];
-        for (let artistTrack of this.state.topArtistsTracks) {
-            songUriList.push(artistTrack.uri)
-        }
-        this.props.spotifyWebApi.addTracksToPlaylist(playlistId, songUriList)
+        this.getTopTracksForAllArtists(this.state.topArtists, numOfSongs)
+            .then((tracks) => {
+                tracks = tracks.flat(1);
+                var trackUris = [];
+                for (let track of tracks) {
+                    trackUris.push(track.uri);
+                }
+                if (trackUris.length > 100) {
+                    var fullPlaylists = meet100TrackLimit(trackUris);
+                    for (let fullPlaylist of fullPlaylists) {
+                        this.props.spotifyWebApi.addTracksToPlaylist(playlistId, fullPlaylist)
+                            .catch((err) => {
+                                console.error(err);
+                            })
+                    }
+                } else {
+                    this.props.spotifyWebApi.addTracksToPlaylist(playlistId, trackUris)
+                        .catch((err) => {
+                            console.error(err);
+                        })
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            })
     }
 
-    //Uploads a custom cover image to the given playlist
-    uploadPlaylistImage = (playlistId) => {
-        toDataURL("/top-artists-playlist-cover.jpeg").then((dataURL) => {
-            this.props.spotifyWebApi.uploadCustomPlaylistCoverImage(playlistId, dataURL)
-                .catch((err) => {
-                    console.error(err);
-                });
-        });
-    }
+
 
     //Helper function to set whether the data has been loaded
     setDataHasLoaded = (hasLoaded) => {
