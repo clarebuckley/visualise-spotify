@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import TopTracksTimeframe from './TopTracksTimeframe.js';
 import TopTracksNumberOfSongs from './TopTracksNumberOfSongs.js';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
-import { Pie } from 'react-chartjs-2';
+import { Pie, Bar } from 'react-chartjs-2';
 import {Spring} from 'react-spring/renderprops';
 
 /**
@@ -22,33 +22,6 @@ class TopTracksIndividualSong extends Component {
                 { props => (
                   <div style={props} className="col-lg-4">
                     <img className="img-responsive album-art center-image" src={track.album.images[0].url} alt=""/>
-                    <div className="overlay center-image">
-                    <Pie
-                    data={this.props.popularityChart}
-                    options={{
-                      title:{
-                        display:true,
-                        text:'Song Popularity',
-                        fontSize:16,
-                        fontColor:'#ffffff'
-                      },
-                      legend:{
-                        display:false,
-                        position:'right',
-                        labels:{
-                          fontColor:'#ffffff'
-                        }
-                      },
-                      tooltips: {
-                        callbacks: {
-                          label: function(tooltipItem) {
-                            return tooltipItem.yLabel;
-                          }
-                        }
-                      }
-                    }}
-                    />
-                    </div>
                   </div>
                 )}
               </Spring>
@@ -74,6 +47,33 @@ class TopTracksIndividualSong extends Component {
               </Spring>
             </div>
           ))}
+          <div className="margin-bottom">
+            <Pie
+            data={this.props.popularityChart}
+            options={{
+              title:{
+                display:true,
+                text:'Song Popularity',
+                fontSize:16,
+                fontColor:'#ffffff'
+              },
+              legend:{
+                display:false,
+                position:'right',
+                labels:{
+                  fontColor:'#ffffff'
+                }
+              },
+              tooltips: {
+                callbacks: {
+                  label: function(tooltipItem) {
+                    return tooltipItem.yLabel;
+                  }
+                }
+              }
+            }}
+            />
+          </div>
           </div>
         );
     }
