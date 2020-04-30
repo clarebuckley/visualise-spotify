@@ -5,7 +5,6 @@ import TopTracksSongList from './TopTracksSongList.js';
 import TopTracksIndividualSong from './TopTracksIndividualSong.js';
 import TopTracksTimeframe from './TopTracksTimeframe.js';
 import TopTracksNumberOfSongs from './TopTracksNumberOfSongs.js';
-import { toDataURL } from '../../helpers/Base64ImageHelper.js';
 
 class TopTracks extends Component {
   constructor(){

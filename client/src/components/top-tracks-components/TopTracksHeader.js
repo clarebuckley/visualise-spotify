@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
 import { uploadPlaylistImage } from '../../helpers/PlaylistHelper.js';
-import SuccessModal from '../modals/SuccessModal.js';
-import ErrorModal from '../modals/ErrorModal.js';
 
 /**
  * Responsible for telling the user the number of songs within a given timeframe.
