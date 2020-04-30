@@ -18,6 +18,7 @@ class Welcome extends Component {
                     <li>See the genre of your top artists</li>
                     <li>Find similar artists to your top artists</li>
                     <li>Make playlists from your top artists</li>
+                    <li>Make playlists of similar artists to one of your top artists</li>
                 </ul>
             </div>
         );

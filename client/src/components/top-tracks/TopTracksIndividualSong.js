@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import TopTracksTimeframe from './TopTracksTimeframe.js';
-import TopTracksNumberOfSongs from './TopTracksNumberOfSongs.js';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
 import { Pie } from 'react-chartjs-2';
 import {Spring} from 'react-spring/renderprops';
@@ -12,7 +10,7 @@ import {Spring} from 'react-spring/renderprops';
 class TopTracksIndividualSong extends Component {
     render() {
         return (
-          <div className="col-sm-8">
+          <div className="col-lg-8">
           {this.props.topTracks.slice(this.props.focusedSong,this.props.focusedSong+1).map((track) => (
             <div key={track.id} className="row">
               <Spring
@@ -22,33 +20,6 @@ class TopTracksIndividualSong extends Component {
                 { props => (
                   <div style={props} className="col-lg-4">
                     <img className="img-responsive album-art center-image" src={track.album.images[0].url} alt=""/>
-                    <div className="overlay">
-                    <Pie
-                    data={this.props.popularityChart}
-                    options={{
-                      title:{
-                        display:true,
-                        text:'Song Popularity',
-                        fontSize:16,
-                        fontColor:'#ffffff'
-                      },
-                      legend:{
-                        display:false,
-                        position:'right',
-                        labels:{
-                          fontColor:'#ffffff'
-                        }
-                      },
-                      tooltips: {
-                        callbacks: {
-                          label: function(tooltipItem) {
-                            return tooltipItem.yLabel;
-                          }
-                        }
-                      }
-                    }}
-                    />
-                    </div>
                   </div>
                 )}
               </Spring>
@@ -60,8 +31,12 @@ class TopTracksIndividualSong extends Component {
                   <div style={props} className="col-md-8">
                     <div className="song-text-container">
                       <h3>{track.name}</h3>
-                      <h5>By: {track.artists[0].name}</h5>
-                      <h5>Album: {track.album.name}</h5>
+                      <div>
+                        {track.artists.map((artist) => (
+                          <h6 key={artist.id}><a href={artist.external_urls.spotify} className="top-tracks-artist"> {`${artist.name}`}</a></h6>
+                        ))}
+                      </div>
+                      <h6>{track.album.name}</h6>
                       <audio id="song-preview">
                         <source src={track.preview_url} type="audio/ogg"/>
                       </audio>
@@ -74,6 +49,33 @@ class TopTracksIndividualSong extends Component {
               </Spring>
             </div>
           ))}
+          <div className="margin-bottom">
+            <Pie
+            data={this.props.popularityChart}
+            options={{
+              title:{
+                display:true,
+                text:'Song Popularity',
+                fontSize:16,
+                fontColor:'#ffffff'
+              },
+              legend:{
+                display:false,
+                position:'right',
+                labels:{
+                  fontColor:'#ffffff'
+                }
+              },
+              tooltips: {
+                callbacks: {
+                  label: function(tooltipItem) {
+                    return tooltipItem.yLabel;
+                  }
+                }
+              }
+            }}
+            />
+          </div>
           </div>
         );
     }

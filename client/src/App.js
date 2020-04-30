@@ -6,10 +6,11 @@ import Tab from 'react-bootstrap/Tab';
 import './App.css';
 import Login from './components/login/Login';
 import ErrorPage from './ErrorPage';
-import TopTracks from './components/top-tracks-components/TopTracks';
+import TopTracks from './components/top-tracks/TopTracks';
 import NowPlaying from './components/now-playing/NowPlaying';
 import TopArtists from './components/top-artists/TopArtists';
 import Welcome from './components/welcome/Welcome';
+import FrequentlyAskedQuestions from './components/faq/FrequentlyAskedQuestions';
 import getHashParams from "./hash.js";
 
 const spotifyWebApi = new Spotify();
@@ -78,10 +79,13 @@ class App extends Component {
                             <Welcome userDetails={this.state.userDetails} spotifyWebApi={spotifyWebApi} />
                         </Tab>
                         <Tab eventKey="topArtists" title="Top Artists">
-                            <TopArtists userId={this.state.userDetails.id} spotifyWebApi={spotifyWebApi} />
+                            <TopArtists userId={this.state.userDetails.id} logOut={this.logOut} spotifyWebApi={spotifyWebApi} />
                         </Tab>
                         <Tab eventKey="topTracks" title="Top Tracks">
                             <TopTracks userId={this.state.userDetails.id} spotifyWebApi={spotifyWebApi} />
+                        </Tab>
+                        <Tab eventKey="faq" title="FAQ">
+                            <FrequentlyAskedQuestions/>
                         </Tab>
                         <Tab className="logOut" eventKey="logOut" title="Log out" onClick={this.logOut}>
                         </Tab>
