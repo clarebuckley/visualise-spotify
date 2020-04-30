@@ -78,7 +78,7 @@ class App extends Component {
                             <Welcome userDetails={this.state.userDetails} spotifyWebApi={spotifyWebApi} />
                         </Tab>
                         <Tab eventKey="topArtists" title="Top Artists">
-                            <TopArtists userId={this.state.userDetails.id} spotifyWebApi={spotifyWebApi} />
+                            <TopArtists userId={this.state.userDetails.id} logOut={this.logOut} spotifyWebApi={spotifyWebApi} />
                         </Tab>
                         <Tab eventKey="topTracks" title="Top Tracks">
                             <TopTracks userId={this.state.userDetails.id} spotifyWebApi={spotifyWebApi} />
