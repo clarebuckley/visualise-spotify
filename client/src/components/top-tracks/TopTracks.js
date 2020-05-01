@@ -151,6 +151,7 @@ class TopTracks extends Component {
           <TopTracksSongList
             topTracks={this.state.topTracks}
             selectSong={this.selectSong}
+            focusedSong={this.state.focusedSong}
           >
           </TopTracksSongList>
           <TopTracksIndividualSong
