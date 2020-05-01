@@ -10,7 +10,7 @@ class TopTracksSongList extends Component {
             {this.props.topTracks.map((track, index) => (
               <button key={track.id} id={index} onClick={() => {this.props.selectSong(track);}} className={this.props.focusedSong === index ? 'song-card-selected' : 'song-card'}>
                 {<img className="img-responsive float-left margin-right" src={track.album.images[0].url} style={{ width: 50 }} alt=""/>}
-                <p className="song-card-text vertical-center float-left col-sm-9">{`${this.props.topTracks.indexOf(track)+1}. ${track.name}`}</p>
+                <p className="song-card-text">{`${this.props.topTracks.indexOf(track)+1}. ${track.name}`}</p>
               </button>
             ))}
           </div>
