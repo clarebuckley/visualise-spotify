@@ -105,6 +105,14 @@
   min-height: 250px;
 }
 
+.popularity-text-container{
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: WHITE;
+  margin-bottom: 15px;
+  margin-left: 10px;
+}
+
 .btn-custom{
   background-color: rgba(144, 91, 109, 0.8);
   border: none;
