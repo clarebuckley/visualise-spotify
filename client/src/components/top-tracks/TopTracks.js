@@ -18,7 +18,7 @@ class TopTracks extends Component {
       popularityChart:{
         datasets:[
           {
-            data: [0, 0],
+            data: [],
             backgroundColor: ["#0074D9"],
           },
         ],
@@ -30,6 +30,13 @@ class TopTracks extends Component {
     this.getTopTracks(this.props.spotifyWebApi);
   }
 
+  chartColours = () =>{
+    var colours = []
+    for (var i = 0; i < 50; i++) {
+      colours.push('rgba(253, 126, 20, 0.8)')
+    }
+    return colours
+  }
 
   /**
    * Grabs the most popular songs of the user (depending on the timeframe) and pushes them into an array.
@@ -37,14 +44,22 @@ class TopTracks extends Component {
    */
   getTopTracks = (spotifyWebApi) =>{
     var tracks = []
+    var popularity = [];
+    var labels = [];
     spotifyWebApi.getMyTopTracks({limit : this.state.numberOfSongs, time_range: this.state.timeframe}).then((response) => {
       tracks = response.items;
+      tracks.forEach((track) => {
+        popularity.push(track.popularity)
+        labels.push(track.name)
+      });
       this.setState({
         topTracks: tracks,
         popularityChart:{
+          labels:labels,
           datasets:[
             {
-              data: [tracks[this.state.focusedSong].popularity, 100-tracks[this.state.focusedSong].popularity],
+              data: popularity,
+              backgroundColor: this.chartColours()
             },
           ],
         },
@@ -58,9 +73,6 @@ class TopTracks extends Component {
   selectSong = (track) =>{
     this.setState({
         focusedSong: this.state.topTracks.indexOf(track),
-    },
-    () => {
-      this.getSongPopularity(track.popularity);
     });
   }
 
