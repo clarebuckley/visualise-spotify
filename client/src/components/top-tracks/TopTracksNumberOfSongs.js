@@ -7,9 +7,8 @@ import Dropdown from 'react-bootstrap/Dropdown';
  * */
 class TopTracksNumberOfSongs extends Component {
     render() {
-      var numberOfSongs = `${this.props.numberOfSongs} Songs`
         return (
-            <DropdownButton className="dropdown" title={numberOfSongs} id="action-button">
+            <DropdownButton className="dropdown" title={this.props.numberOfSongs} id="action-button">
                 <Dropdown.Item onClick={() => { this.props.selectNumberOfSongs(5); }}>5</Dropdown.Item>
                 <Dropdown.Item onClick={() => { this.props.selectNumberOfSongs(10); }}>10</Dropdown.Item>
                 <Dropdown.Item onClick={() => { this.props.selectNumberOfSongs(20); }}>20</Dropdown.Item>

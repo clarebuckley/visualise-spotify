@@ -138,30 +138,16 @@ class TopTracks extends Component {
     return (
       <div className="App">
         <TopTracksHeader
-          numberOfSongs={this.state.numberOfSongs}
-          titleTimeframe={this.state.titleTimeframe}
           spotifyWebApi={this.props.spotifyWebApi}
           topTracks={this.state.topTracks}
           userId={this.props.userId}
+          selectTimeframe={this.selectTimeframe}
+          titleTimeframe={this.state.titleTimeframe}
+          numberOfSongs={this.state.numberOfSongs}
+          selectNumberOfSongs={this.selectNumberOfSongs}
         >
         </TopTracksHeader>
-        <div className="row justify-content-center align-items-center">
-          <div className="margin-right margin-left">
-            <TopTracksTimeframe
-              selectTimeframe={this.selectTimeframe}
-              titleTimeframe={this.state.titleTimeframe}
-            >
-            </TopTracksTimeframe>
-          </div>
-          <div className="margin-right margin-left">
-            <TopTracksNumberOfSongs
-              numberOfSongs={this.state.numberOfSongs}
-              selectNumberOfSongs={this.selectNumberOfSongs}
-            >
-            </TopTracksNumberOfSongs>
-          </div>
-        </div>
-        <div className="row reverse-for-mobile margin-bottom">
+        <div className="row reverse-for-mobile margin-bottom margin-top">
           <TopTracksSongList
             topTracks={this.state.topTracks}
             selectSong={this.selectSong}

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
 import { uploadPlaylistImage } from '../../helpers/PlaylistHelper.js';
+import TopTracksTimeframe from './TopTracksTimeframe.js';
+import TopTracksNumberOfSongs from './TopTracksNumberOfSongs.js';
 
 /**
  * Responsible for telling the user the number of songs within a given timeframe.
@@ -37,7 +39,24 @@ class TopTracksHeader extends Component {
   render() {
     return (
       <div className="header">
-        <p>Your Top {this.props.numberOfSongs} Songs of {this.props.titleTimeframe}</p>
+        <div className="row col-lg-12 offset-lg-4">
+          <p>Your Top</p>
+          <div className="margin-right margin-left">
+            <TopTracksNumberOfSongs
+              numberOfSongs={this.props.numberOfSongs}
+              selectNumberOfSongs={this.props.selectNumberOfSongs}
+            >
+            </TopTracksNumberOfSongs>
+          </div>
+          <p>Songs of</p>
+          <div className="margin-right margin-left">
+            <TopTracksTimeframe
+              selectTimeframe={this.props.selectTimeframe}
+              titleTimeframe={this.props.titleTimeframe}
+            >
+            </TopTracksTimeframe>
+          </div>
+        </div>
         <button type="button" className="btn btn-success" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi);}} data-toggle="modal" data-target="#myModal">
           Add These Songs To Playlist
         </button>
