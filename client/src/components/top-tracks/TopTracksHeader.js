@@ -53,6 +53,7 @@ class TopTracksHeader extends Component {
             <TopTracksTimeframe
               selectTimeframe={this.props.selectTimeframe}
               titleTimeframe={this.props.titleTimeframe}
+              isLoaded={this.props.isLoaded}
             >
             </TopTracksTimeframe>
           </div>

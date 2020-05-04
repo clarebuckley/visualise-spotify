@@ -23,6 +23,7 @@ class TopTracks extends Component {
           },
         ],
       },
+      isLoaded: true,
     }
   }
 
@@ -63,6 +64,7 @@ class TopTracks extends Component {
             },
           ],
         },
+        isLoaded: true,
       })
     })
   }
@@ -114,6 +116,7 @@ class TopTracks extends Component {
     switch (timeframe) {
       case 'short_term':
         this.setState({
+          isLoaded: false,
           titleTimeframe: 'The Last Month',
           timeframe: timeframe,
         },
@@ -124,6 +127,7 @@ class TopTracks extends Component {
         break;
       case 'medium_term':
         this.setState({
+          isLoaded: false,
           titleTimeframe: 'The Last 6 Months',
           timeframe: timeframe,
         },
@@ -134,6 +138,7 @@ class TopTracks extends Component {
         break;
       case 'long_term':
         this.setState({
+          isLoaded: false,
           titleTimeframe: 'All Time',
           timeframe: timeframe,
         },
@@ -157,6 +162,7 @@ class TopTracks extends Component {
           titleTimeframe={this.state.titleTimeframe}
           numberOfSongs={this.state.numberOfSongs}
           selectNumberOfSongs={this.selectNumberOfSongs}
+          isLoaded={this.state.isLoaded}
         >
         </TopTracksHeader>
         <div className="row reverse-for-mobile margin-bottom margin-top">
