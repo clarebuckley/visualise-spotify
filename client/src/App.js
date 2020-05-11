@@ -68,7 +68,7 @@ class App extends Component {
         }
         else if (!this.state.dataLoaded) {
             return (
-                <ErrorPage logOut={this.props.logOut} />
+                <ErrorPage logOut={this.logOut} />
                 )
         }
         else{

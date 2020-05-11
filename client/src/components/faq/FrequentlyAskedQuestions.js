@@ -4,7 +4,7 @@ import './FrequentlyAskedQuestions.css';
 class FrequentlyAskedQuestions extends Component {
     render() {
         return (
-            <div className="App">
+            <div className="FAQ">
                 <br />
                 <div>
                     <h2>What does Artist/Song Popularity mean?</h2>

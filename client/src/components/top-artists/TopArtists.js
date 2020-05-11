@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import TopArtistsList from './TopArtistsList'
 import TopArtistDetails from './TopArtistDetails';
-import TopArtistsTimeRange from './TopArtistsTimeRange';
-import TopArtistsResultLimit from './TopArtistsResultLimit';
-import TopArtistsModal from './TopArtistsModal';
+import TopArtistsHeader from './TopArtistsHeader';
 import SuccessModal from '../modals/SuccessModal.js';
 import ErrorModal from '../modals/ErrorModal.js';
 import ErrorPage from '../../ErrorPage';
@@ -171,11 +169,11 @@ class TopArtists extends Component {
     getTimeRangeInString = () => {
         switch (this.state.timeRange) {
             case "long_term":
-                return "of All Time"
+                return "All Time"
             case "medium_term":
-                return "of the Past 6 Months"
+                return "The Last 6 Months"
             case "short_term":
-                return "of the Past Month"
+                return "The Past Month"
             default:
                 return "INVALID TIME RANGE"
         }
@@ -217,22 +215,16 @@ class TopArtists extends Component {
                 <div className="TopArtists">
                     <SuccessModal descriptionText={this.getSuccessDescription()} />
                     <ErrorModal descriptionText={this.getErrorDescription()} />
-                    <TopArtistsModal createNewPlaylist={this.createNewPlaylist} />
 
-                    <div className="header">
-                        <p>Your Top {this.state.resultLimit} Artists {this.getTimeRangeInString()}</p>
-                        <button
-                            type="button"
-                            className="btn btn-success"
-                            data-toggle="modal"
-                            data-target="#topArtistsModal">
-                            Make A Playlist Of These Artists
-                    </button>
-                    </div>
-                    <div className="row justify-content-md-center">
-                        <TopArtistsTimeRange setTimeRange={this.setTimeRange}></TopArtistsTimeRange>
-                        <TopArtistsResultLimit setResultLimit={this.setResultLimit}></TopArtistsResultLimit>
-                    </div>
+                    <TopArtistsHeader
+                        setTimeRange={this.setTimeRange}
+                        titleTimeframe={this.getTimeRangeInString()}
+                        resultLimit={this.state.resultLimit}
+                        setResultLimit={this.setResultLimit}
+                        isLoaded={this.state.dataHasLoaded}
+                        createNewPlaylist={this.createNewPlaylist}
+                    />
+
                     <div className="mainContent row justify-content-around">
                         <TopArtistsList
                             className="col-sm-4"

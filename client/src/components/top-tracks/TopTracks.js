@@ -3,8 +3,6 @@ import './TopTracks.css';
 import TopTracksHeader from './TopTracksHeader.js';
 import TopTracksSongList from './TopTracksSongList.js';
 import TopTracksIndividualSong from './TopTracksIndividualSong.js';
-import TopTracksTimeframe from './TopTracksTimeframe.js';
-import TopTracksNumberOfSongs from './TopTracksNumberOfSongs.js';
 
 class TopTracks extends Component {
   constructor(){

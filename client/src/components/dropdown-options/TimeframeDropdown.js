@@ -3,9 +3,9 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 /**
- * Responsible for changing the timeframe for the displayed top tracks data
+ * Responsible for changing the timeframe for the displayed data
  * */
-class TopTracksTimeframe extends Component {
+class TimeframeDropdown extends Component {
   render() {
     if (this.props.isLoaded == true) {
       return (
@@ -22,4 +22,4 @@ class TopTracksTimeframe extends Component {
   }
 }
 
-export default TopTracksTimeframe;
+export default TimeframeDropdown;
