@@ -20,14 +20,14 @@ class TopArtistsModal extends Component {
     render() {
         return (
             <div>
-                <div id="topArtistsModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
+                <div id="topArtistsModal" className="modal fade" role="dialog">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
                                 <p>Please select</p>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <button type="button" className="close" data-dismiss="modal">&times;</button>
                             </div>
-                            <div class="modal-body">
+                            <div className="modal-body">
                                 <div>
                                     <p>How many songs by each artist should be included in the playlist?</p>
                                     <select value={this.state.numOfSongs} onChange={this.handleChangeNumSongs}>
@@ -39,7 +39,7 @@ class TopArtistsModal extends Component {
                                     </select>
                                 </div>
                             </div>
-                            <div class="modal-footer">
+                            <div className="modal-footer">
                                     <button type="button" className="btn btn-success" data-dismiss="modal" onClick={() => this.props.createNewPlaylist(this.state.numOfSongs)}>Create playlist</button>                  
                             </div>
                         </div>

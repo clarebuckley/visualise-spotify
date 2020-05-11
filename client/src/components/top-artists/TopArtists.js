@@ -6,6 +6,7 @@ import SuccessModal from '../modals/SuccessModal.js';
 import ErrorModal from '../modals/ErrorModal.js';
 import ErrorPage from '../../ErrorPage';
 import { getCurrentDate } from '../../helpers/DateHelper.js';
+import { chartColours } from '../../helpers/PopularityChartHelper.js';
 import { uploadPlaylistImage, meet100TrackLimit, getTopTracksForArtists } from '../../helpers/PlaylistHelper.js';
 import './TopArtists.css';
 
@@ -29,7 +30,17 @@ class TopArtists extends Component {
             similarToSelectedArtist: [],
             dataHasLoaded: false,
             isFollowingArtist: false,
-            resultLimit: 20
+            resultLimit: 20,
+            //Full set of popularit data for all artists
+            popularityChartData: {
+                labels: [],
+                datasets: [
+                    {
+                        data: [],
+                        backgroundColor: ["#0074D9"],
+                    },
+                ],
+            }
         }
     }
 
@@ -40,11 +51,26 @@ class TopArtists extends Component {
     getAllData = () => {
         //Need to get top artists before finding the top track for each artist
         this.getTopArtists(this.state.resultLimit).then((topArtists) => {
+            let popularity = [];
+            let labels = [];
+            topArtists.forEach((artist) => {
+                popularity.push(artist.popularity)
+                labels.push(artist.name)
+            });
+
             getTopTracksForArtists(topArtists, 1, this.props.spotifyWebApi)
                 .then((topTracks) => {
                     this.setState({
                         topArtists: topArtists,
                         topArtistsTracks: topTracks,
+                        popularityChartData: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    data: popularity,
+                                    backgroundColor: chartColours()
+                                }]
+                        },
                         dataHasLoaded: true
                     }, () => {
                         //Get additional data with an artistId for the first artist in the list
@@ -244,9 +270,12 @@ class TopArtists extends Component {
                             isFollowingArtist={this.state.isFollowingArtist}
                             checkFollowingArtist={this.isFollowingArtist}
                             previewUrl={this.state.topArtistsTracks[this.state.selectedArtist].preview_url}
-                            popularity={this.state.topArtists[this.state.selectedArtist].popularity}
+                            artistPopularity={this.state.topArtists[this.state.selectedArtist].popularity}
+                            artistsPopularity={this.state.artistsPopularity}
                             getTimeRangeInString={this.getTimeRangeInString}
                             userId={this.props.userId}
+                            numOfArtists={this.state.resultLimit}
+                            popularityChartData={this.state.popularityChartData}
                         >
                         </TopArtistDetails>
                     </div>

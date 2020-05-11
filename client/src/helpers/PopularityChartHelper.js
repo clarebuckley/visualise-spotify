@@ -33,3 +33,11 @@ export function generateTextForAveragePopularity(averagePopularity) {
     }
     return averagePopularityText
 }
+
+export function chartColours() {
+    var colours = []
+    for (var i = 0; i < 50; i++) {
+        colours.push('rgba(253, 126, 20, 0.8)')
+    }
+    return colours
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { playOrPausePreview } from '../../helpers/TrackPreviewHelper.js';
 import { calculateAveragePopularity, generateTextForAveragePopularity } from '../../helpers/PopularityChartHelper.js';
-import { Pie, Bar } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import { Spring } from 'react-spring/renderprops';
 
 /**

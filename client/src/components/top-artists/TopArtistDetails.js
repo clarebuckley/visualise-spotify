@@ -93,7 +93,11 @@ class TopArtistDetails extends Component {
                         ))}
                     </Tab>
                     <Tab eventKey="popularity" title="Artist Popularity" className="artistTabContent">
-                        <TopArtistPopularity popularity={this.props.popularity} />
+                        <TopArtistPopularity
+                            popularity={this.props.popularity}
+                            popularityChartData={this.props.popularityChartData}
+                            numOfArtists={this.props.numOfArtists}
+                        />
                     </Tab>
                 </Tabs>
 

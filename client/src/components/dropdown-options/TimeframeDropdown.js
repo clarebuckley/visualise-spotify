@@ -7,7 +7,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
  * */
 class TimeframeDropdown extends Component {
   render() {
-    if (this.props.isLoaded == true) {
+    if (this.props.isLoaded === true) {
       return (
         <DropdownButton className="dropdown" title={this.props.titleTimeframe} id="action-button">
         <Dropdown.Item onClick={() => { this.props.selectTimeframe("long_term") }}>All Time</Dropdown.Item>

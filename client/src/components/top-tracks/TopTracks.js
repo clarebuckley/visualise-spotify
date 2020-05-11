@@ -3,6 +3,7 @@ import './TopTracks.css';
 import TopTracksHeader from './TopTracksHeader.js';
 import TopTracksSongList from './TopTracksSongList.js';
 import TopTracksIndividualSong from './TopTracksIndividualSong.js';
+import { chartColours } from '../../helpers/PopularityChartHelper.js';
 
 class TopTracks extends Component {
   constructor(){
@@ -29,13 +30,7 @@ class TopTracks extends Component {
     this.getTopTracks(this.props.spotifyWebApi);
   }
 
-  chartColours = () =>{
-    var colours = []
-    for (var i = 0; i < 50; i++) {
-      colours.push('rgba(253, 126, 20, 0.8)')
-    }
-    return colours
-  }
+
 
   /**
    * Grabs the most popular songs of the user (depending on the timeframe) and pushes them into an array.
@@ -58,7 +53,7 @@ class TopTracks extends Component {
           datasets:[
             {
               data: popularity,
-              backgroundColor: this.chartColours()
+              backgroundColor: chartColours()
             },
           ],
         },
