@@ -49,7 +49,6 @@
     .topArtistList > .selected {
         font-weight: bold;
         display: flex;
-        font-style: italic;
         border: 1.5px solid white;
     }
 
