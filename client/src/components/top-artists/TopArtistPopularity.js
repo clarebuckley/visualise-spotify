@@ -9,10 +9,7 @@ class TopArtistPopularity extends Component {
     constructor() {
         super();
     }
-
-
     
-
     render() {
         if (!this.props) { return "Loading..." } else {
             return (
@@ -37,7 +34,7 @@ class TopArtistPopularity extends Component {
                                 },
                                 title: {
                                     display: true,
-                                    text: 'Popularity of these Artists',
+                                    text: 'Popularity of Your Top Artists',
                                     fontSize: 16,
                                     fontColor: '#ffffff'
                                 },
@@ -61,7 +58,7 @@ class TopArtistPopularity extends Component {
                     <div className="col-lg-12 popularity-text-container">
                         <div>
                             The average popularity score for these artists is {calculateAveragePopularity(this.props.popularityChartData.datasets[0].data, this.props.numOfArtists)}/100!
-                </div>
+                        </div>
                         <div>
                             {generateTextForAveragePopularity(calculateAveragePopularity(this.props.popularityChartData.datasets[0].data, this.props.numOfArtists))}
                         </div>

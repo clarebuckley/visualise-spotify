@@ -68,7 +68,7 @@ class TopArtists extends Component {
                             datasets: [
                                 {
                                     data: popularity,
-                                    backgroundColor: chartColours()
+                                    backgroundColor: chartColours(this.state.selectedArtist)
                                 }]
                         },
                         dataHasLoaded: true
@@ -172,8 +172,6 @@ class TopArtists extends Component {
             })
     }
 
-
-
     //Helper function to set whether the data has been loaded
     setDataHasLoaded = (hasLoaded) => {
         this.setState({
@@ -185,6 +183,14 @@ class TopArtists extends Component {
     handleListClickEvent = (index) => {
         this.setState({
             selectedArtist: index,
+            popularityChartData: {
+                labels: this.state.popularityChartData.labels,
+                datasets: [
+                    {
+                        data: this.state.popularityChartData.datasets[0].data,
+                        backgroundColor: chartColours(index)
+                    }]
+            },
             dataHasLoaded: false
         })
         this.getSimilarArtists(similarArtistsReturnLimit, this.state.topArtists[index].id);

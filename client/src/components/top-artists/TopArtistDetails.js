@@ -83,21 +83,20 @@ class TopArtistDetails extends Component {
                         <TopArtistSimilarArtists
                             userId={this.props.userId}
                             spotifyWebApi={this.props.spotifyWebApi}
-                            mainArtist={this.props.artistName} g
-                            etTimeRangeInString={this.props.getTimeRangeInString}
+                            mainArtist={this.props.artistName} 
+                            getTimeRangeInString={this.props.getTimeRangeInString}
                             similarArtists={this.props.similarArtists} />
+                    </Tab>
+                    <Tab eventKey="popularity" title="Artist Popularity" className="artistTabContent">
+                        <TopArtistPopularity
+                            popularityChartData={this.props.popularityChartData}
+                            numOfArtists={this.props.numOfArtists}
+                        />
                     </Tab>
                     <Tab eventKey="genres" title="Genres" className="artistTabContent">
                         {this.props.genres.map((genre, index) => (
                             <li key={index} className="artistGenre">{genre}</li>
                         ))}
-                    </Tab>
-                    <Tab eventKey="popularity" title="Artist Popularity" className="artistTabContent">
-                        <TopArtistPopularity
-                            popularity={this.props.popularity}
-                            popularityChartData={this.props.popularityChartData}
-                            numOfArtists={this.props.numOfArtists}
-                        />
                     </Tab>
                 </Tabs>
 

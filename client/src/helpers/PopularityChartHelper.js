@@ -34,10 +34,20 @@ export function generateTextForAveragePopularity(averagePopularity) {
     return averagePopularityText
 }
 
-export function chartColours() {
+/**
+ * Sets colours of bars on the bar chart
+ * @param {any} selectedItemIndex - index of the currently selected list item, will be highlighted in a different colour
+ */
+export function chartColours(selectedItemIndex) {
     var colours = []
     for (var i = 0; i < 50; i++) {
-        colours.push('rgba(253, 126, 20, 0.8)')
+        console.log(selectedItemIndex + ", " + i);
+        if (i == selectedItemIndex) {
+            console.log("!!")
+            colours.push("#ffaf24");
+        } else {
+            colours.push('rgba(253, 126, 20, 0.8)')
+        } 
     }
     return colours
 }
