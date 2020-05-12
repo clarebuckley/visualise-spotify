@@ -9,10 +9,12 @@ class TopArtistPopularity extends Component {
 
     // Clicking on a bar will take the user to view that artist
     handleClick = (mouseEvent, chartElement) => {
-       let element = chartElement[0];
+      let element = chartElement[0];
+      if(element){
         this.props.handleListClickEvent(element._index);
+      }
     }
-    
+
     render() {
         if (!this.props) { return "Loading..." } else {
             return (
