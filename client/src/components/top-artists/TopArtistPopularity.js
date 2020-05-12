@@ -57,7 +57,6 @@ class TopArtistPopularity extends Component {
                                         }
                                     }
                                 },
-                                events: ['click'],
                                 onClick: this.handleClick
                             }}
                         />
