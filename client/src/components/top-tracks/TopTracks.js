@@ -53,13 +53,20 @@ class TopTracks extends Component {
           datasets:[
             {
               data: popularity,
-              backgroundColor: chartColours()
+              backgroundColor: chartColours(this.state.focusedSong)
             },
           ],
         },
         isLoaded: true,
       })
     })
+  }
+
+  handleListClickEvent = (index) => {
+      this.setState({
+        focusedSong: index,
+      })
+      this.getTopTracks(this.props.spotifyWebApi)
   }
 
   /**
@@ -173,6 +180,7 @@ class TopTracks extends Component {
             titleTimeframe={this.state.titleTimeframe}
             numberOfSongs={this.state.numberOfSongs}
             selectNumberOfSongs={this.selectNumberOfSongs}
+            handleListClickEvent={this.handleListClickEvent}
           >
           </TopTracksIndividualSong>
         </div>
