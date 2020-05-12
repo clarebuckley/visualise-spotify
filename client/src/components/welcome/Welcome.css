@@ -1,3 +1,5 @@
-.Welcome{
-    padding: 20px;
+.Welcome {
+    background-color: rgba(144, 91, 109, 0.6);
+    padding: 10px 70px 50px 70px;
+    color: white;
 }
