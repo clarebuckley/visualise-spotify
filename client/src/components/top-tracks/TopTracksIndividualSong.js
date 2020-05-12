@@ -35,7 +35,7 @@ class TopTracksIndividualSong extends Component {
                         >
                             {props => (
                                 <div style={props} className="col-lg-4">
-                                    <img className="img-responsive album-art center-image" src={track.album.images[0].url} alt="" />
+                                    <a href={track.album.external_urls.spotify} target="_blank"><img className="img-responsive album-art center-image" src={track.album.images[0].url} alt="" /></a>
                                 </div>
                             )}
                         </Spring>
@@ -46,14 +46,14 @@ class TopTracksIndividualSong extends Component {
                             {props => (
                                 <div style={props} className="col-md-8">
                                     <div className="song-text-container">
-                                        <h3>{track.name}</h3>
+                                        <h3><a href={track.external_urls.spotify} className="top-tracks-song-info" target="_blank">{track.name}</a></h3>
                                         <div>
                                             {track.artists.map((artist) => (
-                                                <h6 key={artist.id}><a href={artist.external_urls.spotify} className="top-tracks-artist"> {`${artist.name}`}</a></h6>
+                                                <h6 key={artist.id}><a href={artist.external_urls.spotify} className="top-tracks-song-info" target="_blank">{`${artist.name}`}</a></h6>
                                             ))}
                                         </div>
                                         <i class="fas fa-compact-disc"></i>
-                                        <h6><a href={track.album.external_urls.spotify} className="top-tracks-artist"><b>{track.album.name}</b></a></h6>
+                                        <h6><a href={track.album.external_urls.spotify} className="top-tracks-song-info" target="_blank"><b>{track.album.name}</b></a></h6>
                                         <audio id="song-preview">
                                             <source src={track.preview_url} type="audio/ogg" />
                                         </audio>
