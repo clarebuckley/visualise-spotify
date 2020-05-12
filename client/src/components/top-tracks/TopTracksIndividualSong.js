@@ -52,7 +52,8 @@ class TopTracksIndividualSong extends Component {
                                                 <h6 key={artist.id}><a href={artist.external_urls.spotify} className="top-tracks-artist"> {`${artist.name}`}</a></h6>
                                             ))}
                                         </div>
-                                        <h6>{track.album.name}</h6>
+                                        <i class="fas fa-compact-disc"></i>
+                                        <h6><a href={track.album.external_urls.spotify} className="top-tracks-artist"><b>{track.album.name}</b></a></h6>
                                         <audio id="song-preview">
                                             <source src={track.preview_url} type="audio/ogg" />
                                         </audio>
