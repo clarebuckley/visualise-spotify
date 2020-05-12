@@ -239,7 +239,11 @@ class TopArtists extends Component {
     render() {
         if (!this.state.dataHasLoaded) {
             return (
-                <ErrorPage logOut={this.props.logOut} />
+                <div>
+                    <p>Loading data...</p>
+                    <ErrorPage logOut={this.props.logOut} />
+                    </div>
+                
             )
         }
         else {

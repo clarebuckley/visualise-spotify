@@ -6,7 +6,6 @@ class ErrorPage extends Component {
     render() {
         return (
             <div id="ErrorPage">
-                <p>Loading data...</p>
                 <p>If data hasn't loaded after a minute or so, please refresh the page, or try logging out and in again.</p><br/>
                 <div>
                 <a className="logoutLink" onClick={this.props.logOut} >
