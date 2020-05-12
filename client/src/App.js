@@ -21,7 +21,7 @@ class App extends Component {
         const params = getHashParams();
         this.state = {
             loggedIn: params.access_token ? true : false,
-            dataLoaded: false
+            dataLoaded: false,
         }
         if (params.access_token) {
             spotifyWebApi.setAccessToken(params.access_token);
