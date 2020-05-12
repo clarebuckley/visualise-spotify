@@ -282,6 +282,7 @@ class TopArtists extends Component {
                             userId={this.props.userId}
                             numOfArtists={this.state.resultLimit}
                             popularityChartData={this.state.popularityChartData}
+                            handleListClickEvent={this.handleListClickEvent}
                         >
                         </TopArtistDetails>
                     </div>

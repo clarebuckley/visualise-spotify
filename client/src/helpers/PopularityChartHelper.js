@@ -41,9 +41,7 @@ export function generateTextForAveragePopularity(averagePopularity) {
 export function chartColours(selectedItemIndex) {
     var colours = []
     for (var i = 0; i < 50; i++) {
-        console.log(selectedItemIndex + ", " + i);
-        if (i == selectedItemIndex) {
-            console.log("!!")
+        if (i === selectedItemIndex) {
             colours.push("#ffaf24");
         } else {
             colours.push('rgba(253, 126, 20, 0.8)')

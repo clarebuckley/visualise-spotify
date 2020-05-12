@@ -78,7 +78,7 @@ class TopArtistDetails extends Component {
                         </div>
                     }
                 </div>
-                <Tabs defaultActiveKey="similarArtists" id="arist-details-tabs" className="aristDetailsTabs">
+                <Tabs defaultActiveKey="popularity" id="arist-details-tabs" className="aristDetailsTabs">
                     <Tab eventKey="similarArtists" title="Similar Artists" className="artistTabContent">
                         <TopArtistSimilarArtists
                             userId={this.props.userId}
@@ -91,6 +91,7 @@ class TopArtistDetails extends Component {
                         <TopArtistPopularity
                             popularityChartData={this.props.popularityChartData}
                             numOfArtists={this.props.numOfArtists}
+                            handleListClickEvent={this.props.handleListClickEvent}
                         />
                     </Tab>
                     <Tab eventKey="genres" title="Genres" className="artistTabContent">

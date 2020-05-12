@@ -6,8 +6,11 @@ import { calculateAveragePopularity, generateTextForAveragePopularity } from '..
  * Responsible for displaying the popularity of the selected artist
  * */
 class TopArtistPopularity extends Component {
-    constructor() {
-        super();
+
+    // Clicking on a bar will take the user to view that artist
+    handleClick = (mouseEvent, chartElement) => {
+       let element = chartElement[0];
+        this.props.handleListClickEvent(element._index);
     }
     
     render() {
@@ -51,7 +54,9 @@ class TopArtistPopularity extends Component {
                                             return tooltipItem.yLabel;
                                         }
                                     }
-                                }
+                                },
+                                events: ['click'],
+                                onClick: this.handleClick
                             }}
                         />
                     </div>
