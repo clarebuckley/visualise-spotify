@@ -54,6 +54,7 @@ class App extends Component {
                     userDetails: response,
                     dataLoaded: true
                 })
+                console.log(response);
             })
     }
 
@@ -76,7 +77,7 @@ class App extends Component {
                 <div className="App col">
                     <Tabs defaultActiveKey="home" id="main-app-tabs" className="tabs" onSelect={(k) => this.handleTabClick(k)}>
                         <Tab eventKey="home" title="Welcome!">
-                            <Welcome userDetails={this.state.userDetails} spotifyWebApi={spotifyWebApi} />
+                            <Welcome userDetails={this.state.userDetails}/>
                         </Tab>
                         <Tab eventKey="topArtists" title="Top Artists">
                             <TopArtists userId={this.state.userDetails.id} logOut={this.logOut} spotifyWebApi={spotifyWebApi} />

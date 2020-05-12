@@ -1,0 +1,38 @@
+import React from "react";
+import { render, unmountComponentAtNode } from "react-dom";
+import { act } from "react-dom/test-utils";
+
+import Welcome from "../components/welcome/Welcome";
+
+let container = null;
+beforeEach(() => {
+    // setup a DOM element as a render target
+    container = document.createElement("div");
+    document.body.appendChild(container);
+});
+
+afterEach(() => {
+    // cleanup on exiting
+    unmountComponentAtNode(container);
+    container.remove();
+    container = null;
+});
+
+describe('Welcome page', () => {
+    it('should display a welcome message with the correct name', () => {
+        const userDetails = {
+            display_name: "Dolly Parton"
+        }
+        const name = "Dolly"
+
+        act(() => {
+            render(<Welcome userDetails={userDetails} />, container);
+        });
+        expect(container.textContent).toContain("Hi " + name + "!");
+
+
+
+
+      
+    });
+})
