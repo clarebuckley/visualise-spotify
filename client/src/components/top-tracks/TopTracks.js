@@ -76,6 +76,7 @@ class TopTracks extends Component {
     this.setState({
         focusedSong: this.state.topTracks.indexOf(track),
     });
+    this.getTopTracks(this.props.spotifyWebApi)
   }
 
   /**
