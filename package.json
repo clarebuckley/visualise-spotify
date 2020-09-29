@@ -21,6 +21,6 @@
         "react-scripts": "3.4.1",
         "react-spring": "^8.0.27",
         "spotify-web-api-js": "^1.2.0",
-        "serve": "^9.4.0"
+        "serve": "^10.1.2"
     }
 }
