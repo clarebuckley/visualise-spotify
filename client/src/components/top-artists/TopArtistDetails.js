@@ -55,7 +55,7 @@ class TopArtistDetails extends Component {
 
             }
         return (
-            <div className="artistDetails">
+            <div className="artistDetails col-lg-8">
                 <div className="mainAlbumContainer">
                     <img className="mainAlbumArt" src={this.props.artistImage} alt="album art" />
                     <div className="startStopContainer">
