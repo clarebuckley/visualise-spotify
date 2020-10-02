@@ -18,7 +18,7 @@
 .topArtistList {
     color: white;
     font-size: 16px;
-    padding: 0 !important;
+    padding-top: 0 !important;
     overflow: auto;
     padding: 10px;
     max-height: 650px;
