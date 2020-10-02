@@ -19,7 +19,7 @@ class TopArtistPopularity extends Component {
         if (!this.props) { return "Loading..." } else {
             return (
                 <div className="artistPopularity">
-                    <div className="margin-bottom col-lg-10 offset-lg-1">
+                    <div className="col-lg-10 offset-lg-1">
                         <Bar
                             data={this.props.popularityChartData}
                             options={{

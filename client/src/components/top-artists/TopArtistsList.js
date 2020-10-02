@@ -20,10 +20,10 @@ class TopArtistsList extends Component {
                         onClick={() => { this.handleListClickEvent(index) }} 
                         className={this.props.selectedArtist === index ? 'selected' : 'result'}
                     >
-                        <div className="albumArtContainer">
                             <img className="albumArt" src={result.images[0].url} alt="album art" />
+                        <div className="textContainer">
+                            <p className="top-artist-text">{index + 1}. {result.name}</p>
                         </div>
-                        <p className="top-artist-text">{index + 1}. {result.name}</p>
                     </li>
                 ))}
             </ol>

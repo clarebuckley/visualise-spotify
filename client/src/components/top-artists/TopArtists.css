@@ -66,11 +66,7 @@
 
 
 .albumArtContainer {
-    height: 60px;
-    position: relative;
-    left: 0;
-    top: 0;
-    width: 100px;
+    width: 50px;
 }
 
 .albumArt {
@@ -79,7 +75,14 @@
     position: absolute;
     transition: .5s ease;
     backface-visibility: hidden;
-    width: 50px
+    width: 50px;
+    height: 50px;
+}
+
+.textContainer {
+    height: 50px;
+    text-align: center;
+    margin: auto;
 }
 
 
