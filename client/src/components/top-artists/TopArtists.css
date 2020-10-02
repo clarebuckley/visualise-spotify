@@ -35,21 +35,36 @@
     }
 
         .topArtistList li:nth-child(even) {
-            background-color: rgba(238, 153, 132, 0.5);
+            background-color: rgba(184, 107, 88, 0.5);
         }
 
         .topArtistList li:nth-child(odd) {
             background-color: rgba(184, 107, 88, 0.5);
         }
-
+    
     .topArtistList > .result {
         display: flex;
+        background-color: rgba(184, 107, 88, 0.5);
+        border: 1px solid rgba(144, 91, 109, 0.8);
+        color: white;
+        margin-bottom: 2px;
+        margin-left: 15px;
     }
 
     .topArtistList > .selected {
-        font-weight: bold;
         display: flex;
-        border: 1.5px solid white;
+        background-color: rgba(184, 107, 88, 1.0);
+        border: 1px solid rgba(144, 91, 109, 0.8);
+        color: white;
+        margin-bottom: 2px;
+        margin-left: 15px;
+    }
+
+    .top-artist-text {
+        margin-left: 5px;
+        padding-top: 10px;
+        color: white;
+        font-size: 16px;
     }
 
 
@@ -67,6 +82,7 @@
     position: absolute;
     transition: .5s ease;
     backface-visibility: hidden;
+    width: 50px
 }
 
 

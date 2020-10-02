@@ -171,8 +171,7 @@ class TopTracks extends Component {
             topTracks={this.state.topTracks}
             selectSong={this.selectSong}
             focusedSong={this.state.focusedSong}
-          >
-          </TopTracksSongList>
+          />
           <TopTracksIndividualSong
             topTracks={this.state.topTracks}
             focusedSong={this.state.focusedSong}
@@ -182,8 +181,7 @@ class TopTracks extends Component {
             numberOfSongs={this.state.numberOfSongs}
             selectNumberOfSongs={this.selectNumberOfSongs}
             handleListClickEvent={this.handleListClickEvent}
-          >
-          </TopTracksIndividualSong>
+          />
         </div>
       </div>
     );

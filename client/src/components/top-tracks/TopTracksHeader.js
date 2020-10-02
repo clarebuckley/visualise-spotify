@@ -60,7 +60,7 @@ class TopTracksHeader extends Component {
                 </div>
                 <button type="button" className="btn btn-success" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi); }} data-toggle="modal" data-target="#myModal">
                     Add These Songs To Playlist
-        </button>
+                </button>
                 <div id="myModal" className="modal fade" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
