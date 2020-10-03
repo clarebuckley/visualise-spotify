@@ -12,17 +12,21 @@ class TopArtistsList extends Component {
 
     render() {
         return (
-            <div className="topArtistList">
+            <ol className="list-group col-lg-4 topArtistList">
                 {this.props.topArtists.map((result, index) => (
-                    <li id={index} key={result.id} onClick={() => { this.handleListClickEvent(index) }} className={this.props.selectedArtist === index ? 'selected' : 'result'}>
-                        <p>{index + 1}.</p>
-                        <div className="albumArtContainer">
+                    <li 
+                        id={index} 
+                        key={result.id} 
+                        onClick={() => { this.handleListClickEvent(index) }} 
+                        className={this.props.selectedArtist === index ? 'selected' : 'result'}
+                    >
                             <img className="albumArt" src={result.images[0].url} alt="album art" />
+                        <div className="textContainer">
+                            <p className="top-artist-text">{index + 1}. {result.name}</p>
                         </div>
-                        <p>{result.name}</p>
                     </li>
                 ))}
-            </div>
+            </ol>
         );
     }
 }

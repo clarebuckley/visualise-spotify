@@ -4,12 +4,6 @@
   border-color: #5bc2c2
 }
 
-.top-song-list{
-  overflow: scroll;
-  overflow-x: hidden;
-  max-height: 650px;
-}
-
 .header {
     background-color: rgba(144, 91, 109, 0.8);
     text-align: center;
@@ -32,6 +26,14 @@
 
 .margin-bottom{
   margin-bottom: 20px;
+}
+
+/* LIST OF TOP TRACKS ----------------*/ 
+
+.top-song-list{
+  overflow: scroll;
+  overflow-x: hidden;
+  max-height: 650px;
 }
 
 .song-card{
@@ -63,6 +65,8 @@
 .song-card-text {
     margin-left: 5px;
     padding-top: 10px;
+    color: white;
+    font-size: 16px;
 }
 
 .album-art{

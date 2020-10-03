@@ -261,7 +261,7 @@ class TopArtists extends Component {
                         createNewPlaylist={this.createNewPlaylist}
                     />
 
-                    <div className="mainContent row justify-content-around">
+                    <div className="mainContent row justify-content-around margin-top ">
                         <TopArtistsList
                             className="col-sm-4"
                             selectedArtist={this.state.selectedArtist}
