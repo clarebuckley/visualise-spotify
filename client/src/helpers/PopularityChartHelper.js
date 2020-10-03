@@ -21,17 +21,20 @@ export function calculateAveragePopularity(popularityData, numberOfSongs) {
 }
 
 export function generateTextForAveragePopularity(averagePopularity) {
-    var averagePopularityText = "";
+    var averagePopularityText = '';
     if (averagePopularity < 25) {
-        averagePopularityText = "Hey, not all popular music is bad! Give it a try sometime."
+        averagePopularityText =
+            'Hey, not all popular music is bad! Give it a try sometime.';
     } else if (averagePopularity >= 25 && averagePopularity < 50) {
-        averagePopularityText = "You mainly listen to less popular songs, you indiehead."
+        averagePopularityText =
+            'You mainly listen to less popular songs, you indiehead.';
     } else if (averagePopularity >= 50 && averagePopularity < 75) {
-        averagePopularityText = "This means you like to listen to well known tracks but you also like some underground tunes."
+        averagePopularityText =
+            'This means you like to listen to well known tracks but you also like some underground tunes.';
     } else if (averagePopularity >= 75) {
-        averagePopularityText = "You have no individual taste."
+        averagePopularityText = 'You have no individual taste.';
     }
-    return averagePopularityText
+    return averagePopularityText;
 }
 
 /**
@@ -39,13 +42,13 @@ export function generateTextForAveragePopularity(averagePopularity) {
  * @param {any} selectedItemIndex - index of the currently selected list item, will be highlighted in a different colour
  */
 export function chartColours(selectedItemIndex) {
-    var colours = []
+    var colours = [];
     for (var i = 0; i < 50; i++) {
         if (i === selectedItemIndex) {
-            colours.push("#ffaf24");
+            colours.push('#ffaf24');
         } else {
-            colours.push('rgba(253, 126, 20, 0.8)')
-        } 
+            colours.push('rgba(253, 126, 20, 0.8)');
+        }
     }
-    return colours
+    return colours;
 }

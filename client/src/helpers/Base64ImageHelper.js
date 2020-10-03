@@ -1,6 +1,6 @@
 //Convert image to base64
 export function toDataURL(src) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         var image = new Image();
         image.crossOrigin = 'Anonymous';
 
@@ -15,6 +15,5 @@ export function toDataURL(src) {
         };
 
         image.src = src;
-    })
-  
+    });
 }

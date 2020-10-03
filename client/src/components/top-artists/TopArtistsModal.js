@@ -7,15 +7,15 @@ class TopArtistsModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            numOfSongs: 1
-        }
+            numOfSongs: 1,
+        };
     }
 
     handleChangeNumSongs = (event) => {
         this.setState({
-            numOfSongs: event.target.value
-        })
-    }
+            numOfSongs: event.target.value,
+        });
+    };
 
     render() {
         return (
@@ -25,12 +25,24 @@ class TopArtistsModal extends Component {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <p>Please select</p>
-                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                >
+                                    &times;
+                                </button>
                             </div>
                             <div className="modal-body">
                                 <div>
-                                    <p>How many songs by each artist should be included in the playlist?</p>
-                                    <select value={this.state.numOfSongs} onChange={this.handleChangeNumSongs}>
+                                    <p>
+                                        How many songs by each artist should be
+                                        included in the playlist?
+                                    </p>
+                                    <select
+                                        value={this.state.numOfSongs}
+                                        onChange={this.handleChangeNumSongs}
+                                    >
                                         <option value="1">1</option>
                                         <option value="3">3</option>
                                         <option value="5">5</option>
@@ -40,15 +52,22 @@ class TopArtistsModal extends Component {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                    <button type="button" className="btn btn-success" data-dismiss="modal" onClick={() => this.props.createNewPlaylist(this.state.numOfSongs)}>Create playlist</button>                  
+                                <button
+                                    type="button"
+                                    className="btn btn-success"
+                                    data-dismiss="modal"
+                                    onClick={() =>
+                                        this.props.createNewPlaylist(
+                                            this.state.numOfSongs
+                                        )
+                                    }
+                                >
+                                    Create playlist
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
-
             </div>
         );
     }

@@ -1,22 +1,26 @@
 import React, { Component } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { calculateAveragePopularity, generateTextForAveragePopularity } from '../../helpers/PopularityChartHelper.js';
+import {
+    calculateAveragePopularity,
+    generateTextForAveragePopularity,
+} from '../../helpers/PopularityChartHelper.js';
 
 /**
  * Responsible for displaying the popularity of the selected artist
  * */
 class TopArtistPopularity extends Component {
-
     // Clicking on a bar will take the user to view that artist
     handleClick = (mouseEvent, chartElement) => {
-      let element = chartElement[0];
-      if(element){
-        this.props.handleListClickEvent(element._index);
-      }
-    }
+        let element = chartElement[0];
+        if (element) {
+            this.props.handleListClickEvent(element._index);
+        }
+    };
 
     render() {
-        if (!this.props) { return "Loading..." } else {
+        if (!this.props) {
+            return 'Loading...';
+        } else {
             return (
                 <div className="artistPopularity">
                     <div className="col-lg-10 offset-lg-1">
@@ -24,53 +28,68 @@ class TopArtistPopularity extends Component {
                             data={this.props.popularityChartData}
                             options={{
                                 scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            beginAtZero: true,
-                                            fontColor: 'white'
+                                    yAxes: [
+                                        {
+                                            ticks: {
+                                                beginAtZero: true,
+                                                fontColor: 'white',
+                                            },
                                         },
-                                    }],
-                                    xAxes: [{
-                                        display: false,
-                                        ticks: {
-                                            fontColor: 'white'
+                                    ],
+                                    xAxes: [
+                                        {
+                                            display: false,
+                                            ticks: {
+                                                fontColor: 'white',
+                                            },
                                         },
-                                    }]
+                                    ],
                                 },
                                 title: {
                                     display: true,
                                     text: 'Popularity of Your Top Artists',
                                     fontSize: 16,
-                                    fontColor: '#ffffff'
+                                    fontColor: '#ffffff',
                                 },
                                 legend: {
                                     display: false,
                                     position: 'right',
                                     labels: {
-                                        fontColor: 'white'
-                                    }
+                                        fontColor: 'white',
+                                    },
                                 },
                                 tooltips: {
                                     callbacks: {
                                         label: function (tooltipItem) {
                                             return tooltipItem.yLabel;
-                                        }
-                                    }
+                                        },
+                                    },
                                 },
-                                onClick: this.handleClick
+                                onClick: this.handleClick,
                             }}
                         />
                     </div>
                     <div className="col-lg-12 popularity-text-container">
                         <div>
-                            The average popularity score for these artists is {calculateAveragePopularity(this.props.popularityChartData.datasets[0].data, this.props.numOfArtists)}/100!
+                            The average popularity score for these artists is{' '}
+                            {calculateAveragePopularity(
+                                this.props.popularityChartData.datasets[0].data,
+                                this.props.numOfArtists
+                            )}
+                            /100!
                         </div>
                         <div>
-                            {generateTextForAveragePopularity(calculateAveragePopularity(this.props.popularityChartData.datasets[0].data, this.props.numOfArtists))}
+                            {generateTextForAveragePopularity(
+                                calculateAveragePopularity(
+                                    this.props.popularityChartData.datasets[0]
+                                        .data,
+                                    this.props.numOfArtists
+                                )
+                            )}
                         </div>
                     </div>
                 </div>
-            )
+            );
         }
     }
 }
