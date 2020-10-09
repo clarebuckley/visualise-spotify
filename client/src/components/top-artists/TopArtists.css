@@ -139,13 +139,13 @@
     }
 
 .mainAlbumArt {
-    height: inherit;
+    width: 170px;
+    height: 100%;
     opacity: 1;
     display: block;
     transition: .5s ease;
     backface-visibility: hidden;
 }
-
 
 .startStopContainer {
     height: inherit;
