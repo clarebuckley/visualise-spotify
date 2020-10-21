@@ -64,7 +64,7 @@ class TopArtistDetails extends Component {
                 </div>
                 <div>
                     <h2>{this.props.artistName}</h2>
-                    <p>Click the album art to hear a preview.</p>
+                    <p>Click the artist image to hear a preview.</p>
                     {this.props.isFollowingArtist &&
                         <div>
                             <p>You are one of {this.props.artistName}'s {this.props.followers} followers!</p>
