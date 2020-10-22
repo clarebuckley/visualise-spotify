@@ -130,7 +130,8 @@
 }
 
 .mainAlbumArt {
-    height: inherit;
+    width: 170px;
+    height: 100%;
     opacity: 1;
     display: block;
     transition: 0.5s ease;
