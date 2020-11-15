@@ -1,6 +1,6 @@
 export function playOrPausePreview(songPreviewId) {
     var song_preview = document.getElementById(songPreviewId);
-    var audioElements = document.getElementsByTagName("audio");
+    var audioElements = document.getElementsByTagName('audio');
 
     song_preview.volume = 0.3;
     if (song_preview.paused) {
@@ -14,11 +14,9 @@ export function playOrPausePreview(songPreviewId) {
     }
 }
 
-
-
 export function autoplaySong(songPreviewId) {
     var song_preview = document.getElementById(songPreviewId);
-    var audioElements = document.getElementsByTagName("audio");
+    var audioElements = document.getElementsByTagName('audio');
     song_preview.volume = 0.3;
     for (let audio of audioElements) {
         audio.pause();
@@ -26,11 +24,11 @@ export function autoplaySong(songPreviewId) {
     song_preview.play();
 }
 
-export function muteSong(songPreviewId){
-  var song_preview = document.getElementById(songPreviewId);
-  if (song_preview.muted) {
-    song_preview.muted = false;
-  }else{
-    song_preview.muted = true;
-  }
+export function muteSong(songPreviewId) {
+    var song_preview = document.getElementById(songPreviewId);
+    if (song_preview.muted) {
+        song_preview.muted = false;
+    } else {
+        song_preview.muted = true;
+    }
 }

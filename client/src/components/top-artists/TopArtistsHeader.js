@@ -8,18 +8,19 @@ import TopArtistsModal from './TopArtistsModal';
  * Responsible for controlling the timeframe and number of results for top artists display
  * */
 class TopArtistsHeader extends Component {
-
     constructor() {
         super();
         this.state = {
-            playlistCreatedText: "",
-        }
+            playlistCreatedText: '',
+        };
     }
 
     render() {
         return (
             <div className="header">
-                <TopArtistsModal createNewPlaylist={this.props.createNewPlaylist} />
+                <TopArtistsModal
+                    createNewPlaylist={this.props.createNewPlaylist}
+                />
 
                 <div className="row col-lg-12 offset-lg-4">
                     <p>Your Top</p>
@@ -27,8 +28,7 @@ class TopArtistsHeader extends Component {
                         <NumberOfResultsDropdown
                             numberOfResults={this.props.resultLimit}
                             selectNumberOfResults={this.props.setResultLimit}
-                        >
-                        </NumberOfResultsDropdown>
+                        ></NumberOfResultsDropdown>
                     </div>
                     <p>Artists of</p>
                     <div className="margin-right margin-left">
@@ -36,18 +36,17 @@ class TopArtistsHeader extends Component {
                             selectTimeframe={this.props.setTimeRange}
                             titleTimeframe={this.props.titleTimeframe}
                             isLoaded={this.props.isLoaded}
-                        >
-                        </TimeframeDropdown>
+                        ></TimeframeDropdown>
                     </div>
                 </div>
                 <button
                     type="button"
                     className="btn btn-success"
                     data-toggle="modal"
-                    data-target="#topArtistsModal">
+                    data-target="#topArtistsModal"
+                >
                     Make A Playlist Of These Artists
-                    </button>
-                
+                </button>
             </div>
         );
     }

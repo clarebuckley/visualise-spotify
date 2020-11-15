@@ -12,7 +12,7 @@ app.use(express.static(__dirname + '/public'))
     .use(cors())
     .use(cookieParser());
 
-var getEnvironment = function () {
+var getEnvironment = function() {
     if (process.env.PORT == null || process.env.PORT == "") {
         return "http://localhost:3000";
     } else {
@@ -25,7 +25,7 @@ var getEnvironment = function () {
  * @param  {number} length The length of the string
  * @return {string} The generated string
  */
-var generateRandomString = function (length) {
+var generateRandomString = function(length) {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
@@ -35,12 +35,12 @@ var generateRandomString = function (length) {
     return text;
 };
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
     res.send("Server is working correctly");
 })
 
 
-app.get('/login', function (req, res) {
+app.get('/login', function(req, res) {
     var state = generateRandomString(16);
     res.cookie(config.state_key, state);
 
@@ -55,11 +55,11 @@ app.get('/login', function (req, res) {
         }));
 });
 
-app.get('/logout', function (req, res) {
+app.get('/logout', function(req, res) {
     res.redirect('https://accounts.spotify.com/en/logout');
 })
 
-app.get('/callback', function (req, res) {
+app.get('/callback', function(req, res) {
 
     //requests refresh and access tokens after checking the state parameter
     var code = req.query.code || null;
@@ -86,7 +86,7 @@ app.get('/callback', function (req, res) {
         };
 
         //make the request
-        request.post(authOptions, function (error, response, body) {
+        request.post(authOptions, function(error, response, body) {
             if (!error && response.statusCode === 200) {
 
                 var access_token = body.access_token,
@@ -100,11 +100,11 @@ app.get('/callback', function (req, res) {
 
 
                 //use the access token to access the Spotify Web API
-                request.get(options, function (error, response, body) {
+                request.get(options, function(error, response, body) {
                     console.log(body);
                 });
 
-           
+
                 //pass the token to the browser to make requests from there
                 res.redirect(getEnvironment() + '#' +
                     querystring.stringify({
@@ -121,7 +121,7 @@ app.get('/callback', function (req, res) {
     }
 });
 
-app.get('/refresh_token', function (req, res) {
+app.get('/refresh_token', function(req, res) {
 
     //requesting access token from refresh token
     var refresh_token = req.query.refresh_token;
@@ -135,7 +135,7 @@ app.get('/refresh_token', function (req, res) {
         json: true
     };
 
-    request.post(authOptions, function (error, response, body) {
+    request.post(authOptions, function(error, response, body) {
         if (!error && response.statusCode === 200) {
             var access_token = body.access_token;
             res.send({
@@ -151,6 +151,6 @@ if (port == null || port == "") {
     port = 8888;
 }
 console.log('Listening on ' + port);
-app.listen(process.env.PORT || 8888, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+app.listen(process.env.PORT || 8888, function() {
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });

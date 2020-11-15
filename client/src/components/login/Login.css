@@ -7,13 +7,12 @@
     max-width: 50%;
 }
 
-    .loginLink:hover {
-        background-color: rgb(111, 70, 84);
-        cursor: pointer;
-        color: white;
-        text-decoration: none;
-    }
-
+.loginLink:hover {
+    background-color: rgb(111, 70, 84);
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
 
 .Login {
     width: 100%;
@@ -22,6 +21,3 @@
     justify-content: center;
     height: 500px;
 }
-
-
-

@@ -9,12 +9,11 @@ import NumberOfResultsDropdown from '../dropdown-options/NumberOfResultsDropdown
  * Also responsible for creating a playlist of the songs.
  * */
 class TopTracksHeader extends Component {
-
     constructor() {
         super();
         this.state = {
-            playlistCreatedText: "",
-        }
+            playlistCreatedText: '',
+        };
     }
 
     /**
@@ -23,18 +22,29 @@ class TopTracksHeader extends Component {
     createNewPlaylist = (spotifyWebApi) => {
         var songUriList = [];
         var playlistName = `My Top ${this.props.numberOfSongs} Songs of ${this.props.titleTimeframe}`;
-        var playlistDescription = `These are your Top ${this.props.numberOfSongs} Songs of ${this.props.titleTimeframe} as of ${getCurrentDate()}`;
-        spotifyWebApi.createPlaylist(this.props.userId, { name: playlistName, description: playlistDescription }).then((response) => {
-            for (var i = 0; i < this.props.numberOfSongs; i++) {
-                songUriList.push(this.props.topTracks[i].uri)
-            }
-            spotifyWebApi.addTracksToPlaylist(response.id, songUriList)
-            uploadPlaylistImage(spotifyWebApi, response.id, "/top-tracks-playlist-cover.jpg")
-            this.setState({
-                playlistCreatedText: `A playlist with your Top ${this.props.numberOfSongs} songs of ${this.props.titleTimeframe} has been created! Check your Spotify!`,
+        var playlistDescription = `These are your Top ${
+            this.props.numberOfSongs
+        } Songs of ${this.props.titleTimeframe} as of ${getCurrentDate()}`;
+        spotifyWebApi
+            .createPlaylist(this.props.userId, {
+                name: playlistName,
+                description: playlistDescription,
+            })
+            .then((response) => {
+                for (var i = 0; i < this.props.numberOfSongs; i++) {
+                    songUriList.push(this.props.topTracks[i].uri);
+                }
+                spotifyWebApi.addTracksToPlaylist(response.id, songUriList);
+                uploadPlaylistImage(
+                    spotifyWebApi,
+                    response.id,
+                    '/top-tracks-playlist-cover.jpg'
+                );
+                this.setState({
+                    playlistCreatedText: `A playlist with your Top ${this.props.numberOfSongs} songs of ${this.props.titleTimeframe} has been created! Check your Spotify!`,
+                });
             });
-        });
-    }
+    };
 
     render() {
         return (
@@ -44,9 +54,10 @@ class TopTracksHeader extends Component {
                     <div className="margin-right margin-left">
                         <NumberOfResultsDropdown
                             numberOfResults={this.props.numberOfSongs}
-                            selectNumberOfResults={this.props.selectNumberOfSongs}
-                        >
-                        </NumberOfResultsDropdown>
+                            selectNumberOfResults={
+                                this.props.selectNumberOfSongs
+                            }
+                        ></NumberOfResultsDropdown>
                     </div>
                     <p>Songs of</p>
                     <div className="margin-right margin-left">
@@ -54,21 +65,36 @@ class TopTracksHeader extends Component {
                             selectTimeframe={this.props.selectTimeframe}
                             titleTimeframe={this.props.titleTimeframe}
                             isLoaded={this.props.isLoaded}
-                        >
-                        </TimeframeDropdown>
+                        ></TimeframeDropdown>
                     </div>
                 </div>
-                <button type="button" className="btn btn-success" onClick={() => { this.createNewPlaylist(this.props.spotifyWebApi); }} data-toggle="modal" data-target="#myModal">
+                <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => {
+                        this.createNewPlaylist(this.props.spotifyWebApi);
+                    }}
+                    data-toggle="modal"
+                    data-target="#myModal"
+                >
                     Add These Songs To Playlist
                 </button>
                 <div id="myModal" className="modal fade" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                >
+                                    &times;
+                                </button>
                             </div>
                             <div className="modal-body">
-                                <p className="popup-text">{this.state.playlistCreatedText}</p>
+                                <p className="popup-text">
+                                    {this.state.playlistCreatedText}
+                                </p>
                             </div>
                         </div>
                     </div>

@@ -26,12 +26,12 @@ h1 {
     text-align: center;
 }
 
-    .logoutLink:hover {
-        background-color: rgb(111, 70, 84);
-        cursor: pointer;
-        color: white;
-        text-decoration: none;
-    }
+.logoutLink:hover {
+    background-color: rgb(111, 70, 84);
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
 
 .genericButton {
     background-color: rgb(144, 91, 109);
@@ -43,27 +43,26 @@ h1 {
     margin: 10px;
 }
 
-    .genericButton:hover {
-        cursor: pointer;
-    }
+.genericButton:hover {
+    cursor: pointer;
+}
 
 .tabs {
     background-color: rgba(144, 91, 109, 0.8);
     color: white;
 }
 
-    .tabs a {
-        color: white;
-    }
+.tabs a {
+    color: white;
+}
 
-        .tabs a:hover {
-            color: white;
-        }
+.tabs a:hover {
+    color: white;
+}
 
-    .tabs > #main-app-tabs-tab-logOut {
-        background-color: rgba(140, 140, 140, 0.5);
-    }
-
+.tabs > #main-app-tabs-tab-logOut {
+    background-color: rgba(140, 140, 140, 0.5);
+}
 
 /* width */
 ::-webkit-scrollbar {
@@ -80,7 +79,7 @@ h1 {
     background: rgb(144, 91, 109);
 }
 
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #7d4f5e;
-    }
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #7d4f5e;
+}

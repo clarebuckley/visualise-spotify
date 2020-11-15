@@ -12,10 +12,18 @@ class ErrorModal extends Component {
                     <div className="modal-content">
                         <div className="modal-header">
                             <p>Error!</p>
-                            <button type="button" className="close" data-dismiss="modal">&times;</button>
+                            <button
+                                type="button"
+                                className="close"
+                                data-dismiss="modal"
+                            >
+                                &times;
+                            </button>
                         </div>
                         <div className="modal-body">
-                            <p className="popup-text">{this.props.descriptionText}</p>
+                            <p className="popup-text">
+                                {this.props.descriptionText}
+                            </p>
                         </div>
                     </div>
                 </div>
